@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/settings.css">
+    <title>shishkin</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="header">
+        <div class="container">
+            <div class="cap">
+                <div class="cap__logo"></div>
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li>
+                            <a href="" class="menu__link">Каталог</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a href="" class="sub-menu__link">Все</a>
+                                </li>
+                                <li>
+                                    <a href="" class="sub-menu__link">Обложки</a>
+                                </li>
+                                <li>
+                                    <a href="" class="sub-menu__link">Клатчи</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Кожа</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Философия бренда</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="item-row">
+            <div class="container">
+                <div class="item">
+                    <div class="item__img">
+                        <img th:src="@{/images/{imageId}(imageId=${slide.image.id})}" alt="alt">
+                    </div>
+                    <div class="item__info">
+                        <div th:text="${slide.title}" class="item__title"></div>
+                        <div th:text="${slide.description}" class="item__text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-item-row">
+            <div class="container">
+                <form th:action="@{/slides/{slideId}(slideId=${slide.id})}" th:method="patch" enctype="multipart/form-data" class="form">
+                    <div class="form__field">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" class="form__text-input">
+                    </div>
+                    <div class="form__field">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" class="form__text-input"></textarea>
+                    </div>
+                    <div class="form__field">
+                        <label for="image">Image:</label>
+                        <input type="file" name="image" id="image" accept="image/*">
+                    </div>
+                    <div class="form__btn">
+                        <button type="submit">Изменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-body">
+                    <div class="footer-body__conditions conditions">
+                        <div>Оферта</div>
+                        <div>Политика конфидециальности</div>
+                        <div>Возврат</div>
+                    </div>
+                    <div class="footer-body__contacts contacts">
+                        <a href="mailto:mail@mail.com" class="contacts__mail">
+                            <img src="/img/svg/email.svg" alt="">
+                        </a>
+                        <a href="https://t.me/eboy" class="contacts__tg">
+                            <img src="/img/svg/telegram.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>
+</div>
+</body>
+
+</html>

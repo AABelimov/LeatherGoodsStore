@@ -11,3 +11,14 @@ spring:
         ddl-auto: validate
   liquibase:
     change-log: db/changelog/changelog-master.xml
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+path:
+  to:
+    images:
+      for:
+        slides: /store/images/slides
+        posts: /store/images/posts
