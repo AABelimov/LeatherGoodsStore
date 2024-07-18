@@ -6,9 +6,8 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    properties:
-      hibernate:
-        ddl-auto: validate
+    hibernate:
+      ddl-auto: validate
   liquibase:
     change-log: db/changelog/changelog-master.xml
   mvc:
@@ -22,3 +21,5 @@ path:
       for:
         slides: /store/images/slides
         posts: /store/images/posts
+        leathers: /store/images/leathers
+        leathers-colors: /store/images/leathers_colors

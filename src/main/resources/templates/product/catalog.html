@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/products.css">
     <title>shishkin</title>
 </head>
 
@@ -49,38 +49,50 @@
         </div>
     </div>
     <div class="body">
-        <div class="item-row">
+        <div class="products-row">
             <div class="container">
-                <div class="item">
-                    <div class="item__img">
-                        <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
+                <div class="products-container">
+                    <div class="product-item">
+                        <a href="" class="product-item__img">
+                            <img src="img/1.jpg" alt="" class="product-item__img-first">
+                            <img src="img/2.jpg" alt="" class="product-item__img-second">
+                        </a>
+                        <div class="product-item__info">
+                            <div class="product-item__title">Item 1</div>
+                            <div class="product-item__price">3600</div>
+                        </div>
                     </div>
-                    <div class="item__info">
-                        <div th:text="${post.title}" class="item__title"></div>
-                        <div th:text="${post.text}" class="item__text"></div>
+                    <div class="product-item">
+                        <a href="" class="product-item__img">
+                            <img src="img/3.jpg" alt="" class="product-item__img-first">
+                            <img src="img/4.webp" alt="" class="product-item__img-second">
+                        </a>
+                        <div class="product-item__info">
+                            <div class="product-item__title">Item 2</div>
+                            <div class="product-item__price">1</div>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <a href="" class="product-item__img">
+                            <img src="img/5.webp" alt="" class="product-item__img-first">
+                            <img src="img/6.webp" alt="" class="product-item__img-second">
+                        </a>
+                        <div class="product-item__info">
+                            <div class="product-item__title">Item 3</div>
+                            <div class="product-item__price">200</div>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <a href="" class="product-item__img">
+                            <img src="img/7.png" alt="" class="product-item__img-first">
+                            <img src="img/1.jpg" alt="" class="product-item__img-second">
+                        </a>
+                        <div class="product-item__info">
+                            <div class="product-item__title">Item 4</div>
+                            <div class="product-item__price">56000</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="edit-item-row">
-            <div class="container">
-                <form th:action="@{/posts/{postId}(postId=${post.id})}" th:method="patch" enctype="multipart/form-data" class="form">
-                    <div class="form__field">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" class="form__text-input">
-                    </div>
-                    <div class="form__field">
-                        <label for="text">Text:</label>
-                        <textarea id="text" name="text" class="form__text-input"></textarea>
-                    </div>
-                    <div class="form__field">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" accept="image/*">
-                    </div>
-                    <div class="form__btn">
-                        <button type="submit">Изменить</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

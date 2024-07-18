@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/leather-colors.css">
+    <title>shishkin</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="header">
+        <div class="container">
+            <div class="cap">
+                <a th:href="@{/}" class="cap__logo"></a>
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li>
+                            <a href="" class="menu__link">Каталог</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a href="" class="sub-menu__link">Все</a>
+                                </li>
+                                <li>
+                                    <a href="" class="sub-menu__link">Обложки</a>
+                                </li>
+                                <li>
+                                    <a href="" class="sub-menu__link">Клатчи</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/leathers}" class="menu__link">Кожа</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Философия бренда</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="items-row">
+            <div class="container">
+                <div th:text="${leather.name}" class="items-title"></div>
+                <div class="items-container">
+                    <div th:each="leatherColor : ${leatherColors}" class="item">
+                        <div class="item__img">
+                            <img th:src="@{/images/{imageId}(imageId=${leatherColor.image.id})}" alt="alt">
+                            <form th:action="@{/leathers-colors/{leatherColorId}(leatherColorId=${leatherColor.id})}" th:method="patch" enctype="multipart/form-data" class="form image-form">
+                                <div class="form__field image-form__field">
+                                    <input type="file" name="image" accept="image/*">
+                                </div>
+                                <div class="form__btn image-form__btn">
+                                    <button type="submit">Изменить</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div th:text="${leatherColor.color.name}" class="item__title"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="new-item-row">
+            <div class="container">
+                <div class="new-item-title">Добавить кожу нового цвета:</div>
+                <form th:action="@{/leathers-colors/leather/{leatherId}(leatherId=${leather.id})}" method="get" class="form search-form">
+                    <div class="form__field search-form__field">
+                        <label for="search"></label>
+                        <input type="text" id="search" name="colorName" class="form__text-input search-form__text-input">
+                    </div>
+                    <div class="form__btn">
+                        <button type="submit">Искать</button>
+                    </div>
+                </form>
+                <form th:each="color : ${colors}" th:action="@{/leathers-colors}" method="post" enctype="multipart/form-data" class="form leather-color-form">
+                    <div class="form__hidden">
+                        <input type="hidden" name="leatherId" th:value="${leather.id}">
+                    </div>
+                    <div class="form__hidden">
+                        <input type="hidden" name="colorId" th:value="${color.id}">
+                    </div>
+                    <div class="leather-color-form__color" th:style="'background-color:' + ${color.code}"></div>
+                    <div class="leather-color-form__column">
+                        <div th:text="${color.name}" class="leather-color-form__color-name"></div>
+                        <div class="form__field leather-color-form__field">
+                            <label for="image">Image:</label>
+                            <input type="file" name="image" id="image" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form__btn">
+                        <button type="submit">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="new-item-row">
+            <div class="container">
+                <div class="new-item-title">Добавить новый цвет:</div>
+                <form th:action="@{'/colors?leatherId=' + ${leather.id}}" method="post" class="form color-form">
+                    <div class="form__field color-form__field">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form__text-input color-form__text-input">
+                    </div>
+                    <div class="form__field color-form__field">
+                        <label for="code">Code:</label>
+                        <input type="text" id="code" name="code" class="form__text-input color-form__text-input">
+                    </div>
+                    <div class="form__btn">
+                        <button type="submit">Добавить</button>
+                    </div>
+                </form>
+                <a th:href="@{/colors/settings}" class="option-btn option-btn-color">
+                    <span>Работа с цветами</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-body">
+                    <div class="footer-body__conditions conditions">
+                        <div>Оферта</div>
+                        <div>Политика конфидециальности</div>
+                        <div>Возврат</div>
+                    </div>
+                    <div class="footer-body__contacts contacts">
+                        <a href="mailto:mail@mail.com" class="contacts__mail">
+                            <img src="/img/svg/email.svg" alt="">
+                        </a>
+                        <a href="https://t.me/eboy" class="contacts__tg">
+                            <img src="/img/svg/telegram.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>
+</div>
+</body>
+
+</html>
