@@ -52,30 +52,24 @@
         <div class="item-row">
             <div class="container">
                 <div class="item">
-                    <div class="item__img">
-                        <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
-                    </div>
+                    <div class="item__icon" th:style="'background-color:' + ${color.code}"></div>
                     <div class="item__info">
-                        <div th:text="${post.title}" class="item__title"></div>
-                        <div th:text="${post.text}" class="item__text"></div>
+                        <div th:text="${color.name}" class="item__title"></div>
+                        <div th:text="${color.code}" class="item__text"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="edit-item-row">
             <div class="container">
-                <form th:action="@{/posts/{postId}(postId=${post.id})}" th:method="patch" enctype="multipart/form-data" class="form">
-                    <div class="form__field">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" class="form__text-input">
+                <form th:action="@{/colors/{colorId}(colorId=${color.id})}" th:method="patch" class="form">
+                    <div class="form__field color-form__field">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form__text-input color-form__text-input">
                     </div>
-                    <div class="form__field">
-                        <label for="text">Text:</label>
-                        <textarea id="text" name="text" class="form__text-input"></textarea>
-                    </div>
-                    <div class="form__field">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" accept="image/*">
+                    <div class="form__field color-form__field">
+                        <label for="code">Code:</label>
+                        <input type="text" id="code" name="code" class="form__text-input color-form__text-input">
                     </div>
                     <div class="form__btn">
                         <button type="submit">Изменить</button>

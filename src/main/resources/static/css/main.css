@@ -1332,6 +1332,11 @@ button.swiper-pagination-bullet {
     -webkit-box-shadow: 0px 0px 10px 1px rgba(123, 84, 0, 0.574);
     box-shadow: 0px 0px 10px 1px rgba(123, 84, 0, 0.574);
 }
+.post-item__about {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
 .post-item__title {
     font-size: 20px;
     font-weight: bold;

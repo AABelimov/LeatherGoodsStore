@@ -56,7 +56,7 @@ public class SlideServiceDefaultImpl implements SlideService {
             slide.setDescription(dto.description());
         }
         if (!image.isEmpty()) {
-            slide.setImage(imageService.updateImage(slide.getImage(), image, imageDir));
+            imageService.updateImage(slide.getImage(), image, imageDir);
         }
         slideRepository.save(slide);
     }

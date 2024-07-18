@@ -56,7 +56,7 @@ public class PostServiceDefaultImpl implements PostService {
             post.setText(dto.text());
         }
         if (!image.isEmpty()) {
-            post.setImage(imageService.updateImage(post.getImage(), image, imageDir));
+            imageService.updateImage(post.getImage(), image, imageDir);
         }
         postRepository.save(post);
     }

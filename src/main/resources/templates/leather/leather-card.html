@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/leather.css">
     <title>shishkin</title>
 </head>
 
@@ -49,38 +49,22 @@
         </div>
     </div>
     <div class="body">
-        <div class="item-row">
+        <div class="leather-row">
             <div class="container">
-                <div class="item">
-                    <div class="item__img">
-                        <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
+                <div class="leather">
+                    <div class="leather__switcher">
+                        <div class="leather__img leather-img">
+                            <img th:each="leatherColor, iterStat : ${leatherColors}" th:src="@{/images/{imageId}(imageId=${leatherColor.image.id})}" alt="" class="leather-img__item" th:data-order="${iterStat.index}">
+                        </div>
+                        <div class="leather__radio leather-radio">
+                            <div th:each="leatherColor, iterStat : ${leatherColors}" class="leather-radio__item" th:data-order="${iterStat.index}">
+                                <div th:style="'background-color:' + ${leatherColor.color.code}" class="leather-radio__color"></div>
+                                <div th:text="${leatherColor.color.name}" class="leather-radio__title"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item__info">
-                        <div th:text="${post.title}" class="item__title"></div>
-                        <div th:text="${post.text}" class="item__text"></div>
-                    </div>
+                    <div th:text="${leather.description}" class="leather__description"></div>
                 </div>
-            </div>
-        </div>
-        <div class="edit-item-row">
-            <div class="container">
-                <form th:action="@{/posts/{postId}(postId=${post.id})}" th:method="patch" enctype="multipart/form-data" class="form">
-                    <div class="form__field">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" class="form__text-input">
-                    </div>
-                    <div class="form__field">
-                        <label for="text">Text:</label>
-                        <textarea id="text" name="text" class="form__text-input"></textarea>
-                    </div>
-                    <div class="form__field">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" accept="image/*">
-                    </div>
-                    <div class="form__btn">
-                        <button type="submit">Изменить</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
