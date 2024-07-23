@@ -11,7 +11,7 @@ public interface ImageService {
 
     Image getImage(Long id);
 
-    Image updateImage(Image image, MultipartFile file, String imageDir) throws IOException;
+    void updateImage(Image image, MultipartFile file, String imageDir) throws IOException;
 
     void deleteImage(Image image) throws IOException;
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-products_leather_colors-table.1" author="AABelimov">
+        <preConditions>
+            <not>
+                <tableExists tableName="products_leather_colors"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="products_leather_colors">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leather_color_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="product_id"
+                                 constraintName="fk_products_leather_colors_product_id"
+                                 referencedTableName="products"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="leather_color_id"
+                                 constraintName="fk_products_leather_colors_leather_color_id"
+                                 referencedTableName="leathers_colors"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="image_id"
+                                 constraintName="fk_products_leather_colors_image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"/>
+        <addUniqueConstraint tableName="products_leather_colors" columnNames="product_id, leather_color_id"/>
+    </changeSet>
+</databaseChangeLog>

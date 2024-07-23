@@ -6,16 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateLeatherColorDto;
-import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateSlideDto;
 import ru.aabelimov.leathergoodsstore.entity.Color;
 import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
+import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.ColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherService;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("leathers-colors")
@@ -25,6 +24,7 @@ public class LeatherColorController {
     private final LeatherColorService leatherColorService;
     private final LeatherService leatherService;
     private final ColorService colorService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public String createLeatherColor(CreateLeatherColorDto dto,
@@ -41,6 +41,7 @@ public class LeatherColorController {
                                        Model model) {
         model.addAttribute("leather", leatherService.getLeather(leatherId));
         model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(leatherId));
+        model.addAttribute("categories", categoryService.getAllCategories());
 
         if (colorName == null) {
             model.addAttribute("colors", colorService.getAllColors());

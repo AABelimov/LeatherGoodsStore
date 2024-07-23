@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/products.css">
     <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
     <title>shishkin</title>
 </head>
@@ -47,51 +47,43 @@
         </div>
     </div>
     <div class="body">
-        <div class="items-row">
+        <div class="product-row">
             <div class="container">
-                <div class="items-container">
-                    <div th:each="post : ${posts}" class="item">
-                        <div class="item__img">
-                            <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
+                <div class="product">
+                    <div class="product__constructor">
+                        <div class="product__img">
+                            <img th:each="plc : ${product.productLeatherColors}" th:src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" alt="alt">
                         </div>
-                        <div class="item__info">
-                            <div th:text="${post.title}" class="item__title"></div>
-                            <div th:text="${post.text}" class="item__text"></div>
-                        </div>
-                        <div class="item__interaction">
-                            <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="item__btn">
-                                <span>Изменить</span>
-                            </a>
-                            <form th:action="@{/posts/{postId}(postId=${post.id})}" th:method="delete"
-                                  class="item__btn">
-                                <button type="submit">
-                                    <span>Удалить</span>
-                                </button>
-                            </form>
-                        </div>
+                        <form th:action="@{/}" method="post" class="product__form">
+                            <div class="product__title">Title</div>
+                            <div class="product__selects">
+                                <div class="product__select product-select" data-state="">
+                                    <div th:text="${'-'}" class="product-select__title"></div>
+                                    <div class="product-select__content">
+                                        <div th:each="leather, index : ${leathers}">
+                                            <input  th:id="${index.index}" th:value="${leather.id}" class="product-select__input" type="radio" name="leather"/>
+                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${index.index}" class="product-select__label"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product__select product-select" data-state="">
+                                    <div th:text="${'-'}" class="product-select__title"></div>
+                                    <div th:each="leather, indexLeather : ${leathers}" th:data-leather="${indexLeather.index}" class="product-select__content product-select-content-colors">
+                                        <div th:each="leatherColor, indexColor : ${leather.leatherColors}">
+                                            <input th:id="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:value="${leatherColor.id}" class="product-select__input" type="radio" name="leatherColor"/>
+                                            <label th:for="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather-color-image="${leatherColor.image.id}" class="product-select__label"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product__btn">
+                                <button type="submit">В корзину</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div th:text="${product.description}" class="product__description">
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="new-item-row">
-            <div class="container">
-                <form th:action="@{/posts}" method="post" enctype="multipart/form-data" class="form">
-                    <div class="form__field">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" class="form__text-input">
-                    </div>
-                    <div class="form__field">
-                        <label for="text">Text:</label>
-                        <textarea id="text" name="text" class="form__text-input"></textarea>
-                    </div>
-                    <div class="form__field">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" accept="image/*">
-                    </div>
-                    <div class="form__btn">
-                        <button type="submit">Добавить</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

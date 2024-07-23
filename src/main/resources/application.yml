@@ -23,3 +23,5 @@ path:
         posts: /store/images/posts
         leathers: /store/images/leathers
         leathers-colors: /store/images/leathers_colors
+        products: /store/images/products
+        products-leather-colors: /store/images/products_leather_colors
