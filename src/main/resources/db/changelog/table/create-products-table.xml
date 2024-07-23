@@ -21,14 +21,18 @@
             <column name="price" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="leather_color_id" type="bigint">
+            <column name="description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="products" baseColumnNames="leather_color_id"
-                                 constraintName="fk_products_leather_color_id"
-                                 referencedTableName="leathers_colors"
+        <addForeignKeyConstraint baseTableName="products" baseColumnNames="category_id"
+                                 constraintName="fk_products_category_id"
+                                 referencedTableName="categories"
                                  referencedColumnNames="id"/>
+
     </changeSet>
 </databaseChangeLog>

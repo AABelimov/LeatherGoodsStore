@@ -15,9 +15,10 @@ public class Product {
     private Long id;
     private String name;
     private Integer price;
+    private String description;
 
     @ManyToOne
-    private LeatherColor leatherColor;
+    private Category category;
 
     @ManyToMany
     @JoinTable(
@@ -26,4 +27,12 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
     private List<Image> images;
+
+    @ManyToMany
+    @JoinTable(
+            name = "products_leather_colors",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private List<ProductLeatherColor> productLeatherColors;
 }

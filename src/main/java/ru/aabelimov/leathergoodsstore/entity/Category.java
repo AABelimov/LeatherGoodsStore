@@ -5,19 +5,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "leathers_colors")
-public class LeatherColor {
+@Table(name = "categories")
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Leather leather;
-
-    @ManyToOne
-    private Color color;
-
-    @ManyToOne
-    private Image image;
+    private String name;
 }

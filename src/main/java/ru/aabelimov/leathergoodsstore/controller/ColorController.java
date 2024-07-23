@@ -5,9 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateColorDto;
+import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.ColorService;
-
-import java.io.IOException;
 
 @Controller
 @RequestMapping("colors")
@@ -15,6 +14,7 @@ import java.io.IOException;
 public class ColorController {
 
     private final ColorService colorService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public String createColor(CreateOrUpdateColorDto dto,
@@ -29,12 +29,14 @@ public class ColorController {
     @GetMapping("settings")
     public String getColorSettingsPage(Model model) {
         model.addAttribute("colors", colorService.getAllColors());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "color/color-settings";
     }
 
     @GetMapping("{id}/edit")
     public String getColorEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("color", colorService.getColor(id));
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "color/color-edit";
     }
 

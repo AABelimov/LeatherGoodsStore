@@ -50,19 +50,22 @@
         <div class="items-row">
             <div class="container">
                 <div class="items-container">
-                    <div th:each="post : ${posts}" class="item">
+                    <div th:each="product : ${products}" class="item">
                         <div class="item__img">
-                            <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
+                            <img th:each="image : ${product.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
                         </div>
                         <div class="item__info">
-                            <div th:text="${post.title}" class="item__title"></div>
-                            <div th:text="${post.text}" class="item__text"></div>
+                            <div th:text="${product.name} + ' (' + ${product.price} + ' RUB)'" class="item__title"></div>
+                            <div th:text="${product.description}" class="item__text"></div>
                         </div>
                         <div class="item__interaction">
-                            <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="item__btn">
+                            <a th:href="@{/products-leather-colors/product/{productId}(productId=${product.id})}" class="item__btn">
+                                <span>Добавить варианты</span>
+                            </a>
+                            <a th:href="@{/products/{productId}/edit(productId=${product.id})}" class="item__btn">
                                 <span>Изменить</span>
                             </a>
-                            <form th:action="@{/posts/{postId}(postId=${post.id})}" th:method="delete"
+                            <form th:action="@{/products/{productId}(productId=${product.id})}" th:method="delete"
                                   class="item__btn">
                                 <button type="submit">
                                     <span>Удалить</span>
@@ -75,18 +78,46 @@
         </div>
         <div class="new-item-row">
             <div class="container">
-                <form th:action="@{/posts}" method="post" enctype="multipart/form-data" class="form">
+                <form th:action="@{/products}" method="post" enctype="multipart/form-data" class="form">
                     <div class="form__field">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" class="form__text-input">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form__text-input">
                     </div>
                     <div class="form__field">
-                        <label for="text">Text:</label>
-                        <textarea id="text" name="text" class="form__text-input"></textarea>
+                        <label for="price">Price:</label>
+                        <input id="price" name="price" class="form__text-input"></input>
                     </div>
                     <div class="form__field">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" accept="image/*">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" class="form__text-input"></textarea>
+                    </div>
+                    <div class="form__field">
+                        <label for="category">Category:</label>
+                        <select name="categoryId" id="category">
+                            <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                        </select>
+                    </div>
+                    <div class="form__field">
+                        <label for="image1">Image1:</label>
+                        <input type="file" name="image1" id="image1" accept="image/*">
+                    </div>
+                    <div class="form__field">
+                        <label for="image2">Image2:</label>
+                        <input type="file" name="image2" id="image2" accept="image/*">
+                    </div>
+                    <div class="form__btn">
+                        <button type="submit">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="new-item-row">
+            <div class="container">
+                <div class="title">Добавить категорию:</div>
+                <form th:action="@{/categories}" method="post" class="form">
+                    <div class="form__field">
+                        <label for="categoryName">Name:</label>
+                        <input type="text" id="categoryName" name="category" class="form__text-input">
                     </div>
                     <div class="form__btn">
                         <button type="submit">Добавить</button>

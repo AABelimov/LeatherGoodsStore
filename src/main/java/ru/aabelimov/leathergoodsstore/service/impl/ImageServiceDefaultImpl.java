@@ -57,9 +57,9 @@ public class ImageServiceDefaultImpl implements ImageService {
     }
 
     @Override
-    public Image updateImage(Image image, MultipartFile file, String imageDir) throws IOException {
+    public void updateImage(Image image, MultipartFile file, String imageDir) throws IOException {
         Files.deleteIfExists(Path.of(image.getImagePath()));
-        return saveImage(image, file, imageDir);
+        saveImage(image, file, imageDir);
     }
 
     @Override

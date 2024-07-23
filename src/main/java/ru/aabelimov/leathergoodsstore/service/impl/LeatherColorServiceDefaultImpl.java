@@ -10,7 +10,6 @@ import ru.aabelimov.leathergoodsstore.entity.Color;
 import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
 import ru.aabelimov.leathergoodsstore.repository.LeatherColorRepository;
-import ru.aabelimov.leathergoodsstore.repository.LeatherRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 
@@ -28,6 +27,7 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     private String imageDir;
 
     @Override
+    @Transactional
     public void createLeatherColor(Leather leather, Color color, MultipartFile image) throws IOException {
         LeatherColor leatherColor = new LeatherColor();
         leatherColor.setLeather(leather);
@@ -80,9 +80,4 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
             }
         });
     }
-
-//    @Override
-//    public List<LeatherColor> getLeatherColorsByLeatherIdAndColorName(Long leatherId, String colorName) {
-//        return leatherColorRepository.findAllByLeatherIdAndColorName(leatherId, colorName);
-//    }
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateSlideDto;
+import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.SlideService;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class SlideController {
 
     private final SlideService slideService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public String createSlide(CreateOrUpdateSlideDto dto,
@@ -27,12 +29,14 @@ public class SlideController {
     @GetMapping("settings")
     public String getSlideSettingsPage(Model model) {
         model.addAttribute("slides", slideService.getAllSlides());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "slide/slider-settings";
     }
 
     @GetMapping("{id}/edit")
     public String getSlideEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("slide", slideService.getSlide(id));
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "slide/slider-edit";
     }
 

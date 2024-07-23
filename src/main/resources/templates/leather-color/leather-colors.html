@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/leather-colors.css">
+    <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
     <title>shishkin</title>
 </head>
 
@@ -17,17 +18,14 @@
                 <nav class="menu">
                     <ul class="menu__list">
                         <li>
-                            <a href="" class="menu__link">Каталог</a>
+                            <a th:href="@{/products}" class="menu__link">Каталог</a>
                             <span class="menu__arrow arrow"></span>
                             <ul class="sub-menu__list">
                                 <li>
-                                    <a href="" class="sub-menu__link">Все</a>
+                                    <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
-                                <li>
-                                    <a href="" class="sub-menu__link">Обложки</a>
-                                </li>
-                                <li>
-                                    <a href="" class="sub-menu__link">Клатчи</a>
+                                <li th:each="category : ${categories}">
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>

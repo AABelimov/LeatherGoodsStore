@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/products.css">
+    <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
     <title>shishkin</title>
 </head>
 
@@ -17,17 +18,14 @@
                 <nav class="menu">
                     <ul class="menu__list">
                         <li>
-                            <a href="" class="menu__link">Каталог</a>
+                            <a th:href="@{/products}" class="menu__link">Каталог</a>
                             <span class="menu__arrow arrow"></span>
                             <ul class="sub-menu__list">
                                 <li>
-                                    <a href="" class="sub-menu__link">Все</a>
+                                    <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
-                                <li>
-                                    <a href="" class="sub-menu__link">Обложки</a>
-                                </li>
-                                <li>
-                                    <a href="" class="sub-menu__link">Клатчи</a>
+                                <li th:each="category : ${categories}">
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>
@@ -51,45 +49,17 @@
     <div class="body">
         <div class="products-row">
             <div class="container">
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/products/settings}" class="option-btn option-btn-product-catalog">
+                    <span>Разобраться с каталогом</span>
+                </a>
                 <div class="products-container">
-                    <div class="product-item">
-                        <a href="" class="product-item__img">
-                            <img src="img/1.jpg" alt="" class="product-item__img-first">
-                            <img src="img/2.jpg" alt="" class="product-item__img-second">
+                    <div th:each="product : ${products}" class="product-item">
+                        <a th:href="@{/products/{productId}(productId=${product.id})}" class="product-item__img">
+                            <img th:each="image : ${product.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
                         </a>
                         <div class="product-item__info">
-                            <div class="product-item__title">Item 1</div>
-                            <div class="product-item__price">3600</div>
-                        </div>
-                    </div>
-                    <div class="product-item">
-                        <a href="" class="product-item__img">
-                            <img src="img/3.jpg" alt="" class="product-item__img-first">
-                            <img src="img/4.webp" alt="" class="product-item__img-second">
-                        </a>
-                        <div class="product-item__info">
-                            <div class="product-item__title">Item 2</div>
-                            <div class="product-item__price">1</div>
-                        </div>
-                    </div>
-                    <div class="product-item">
-                        <a href="" class="product-item__img">
-                            <img src="img/5.webp" alt="" class="product-item__img-first">
-                            <img src="img/6.webp" alt="" class="product-item__img-second">
-                        </a>
-                        <div class="product-item__info">
-                            <div class="product-item__title">Item 3</div>
-                            <div class="product-item__price">200</div>
-                        </div>
-                    </div>
-                    <div class="product-item">
-                        <a href="" class="product-item__img">
-                            <img src="img/7.png" alt="" class="product-item__img-first">
-                            <img src="img/1.jpg" alt="" class="product-item__img-second">
-                        </a>
-                        <div class="product-item__info">
-                            <div class="product-item__title">Item 4</div>
-                            <div class="product-item__price">56000</div>
+                            <div th:text="${product.name}" class="product-item__title"></div>
+                            <div th:text="${product.price}" class="product-item__price"></div>
                         </div>
                     </div>
                 </div>
