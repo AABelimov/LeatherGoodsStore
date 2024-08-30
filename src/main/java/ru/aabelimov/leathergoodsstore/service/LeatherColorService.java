@@ -22,5 +22,6 @@ public interface LeatherColorService {
 
     void deleteLeathersColorsByColorId(Long colorId);
 
-//    List<LeatherColor> getLeatherColorsByLeatherIdAndColorName(Long leatherId, String colorName);
+    void deleteLeatherColor(LeatherColor leatherColor) throws IOException;
+
 }

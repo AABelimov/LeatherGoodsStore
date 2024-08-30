@@ -14,6 +14,8 @@
     <include file="table/create-categories-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-products-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-products_leather_colors-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-orders-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-orders_products-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-leathers_images-table.xml" relativeToChangelogFile="true"/>
 <!--    <include file="table/create-leathers_colors_images-table.xml" relativeToChangelogFile="true"/>-->
     <include file="table/create-products_images-table.xml" relativeToChangelogFile="true"/>

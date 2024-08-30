@@ -14,7 +14,12 @@
     <div class="header">
         <div class="container">
             <div class="cap">
-                <a th:href="@{/}" class="cap__logo"></a>
+                <a th:href="@{/}" class="logo">
+                    <div class="logo__img">
+                        <img src="/img/svg/logo.svg" alt="">
+                    </div>
+                    <div class="logo__text">shishkin</div>
+                </a>
                 <nav class="menu">
                     <ul class="menu__list">
                         <li>
@@ -25,7 +30,8 @@
                                     <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
                                 <li th:each="category : ${categories}">
-                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
+                                       class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>
@@ -37,6 +43,9 @@
                         </li>
                         <li>
                             <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
                         </li>
                     </ul>
                 </nav>
@@ -52,13 +61,13 @@
                 <div class="product">
                     <div class="product__constructor">
                         <div class="product__img">
-                            <img th:each="plc : ${product.productLeatherColors}" th:src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" alt="alt">
+                            <img th:each="plc : ${product.productLeatherColors}" th:remove="${plc.getImage() == null} ? all : none" th:data-image-src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" th:data-product-leather-color="${plc.id}" alt="alt">
                         </div>
                         <form th:action="@{/products-leather-colors}" method="post" enctype="multipart/form-data" class="product__form form">
                             <div class="product__title">Title</div>
                             <div class="product__selects">
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${'-'}" class="product-select__title"></div>
+                                    <div th:text="${leathers[0].name}" class="product-select__title"></div>
                                     <div class="product-select__content">
                                         <div th:each="leather, index : ${leathers}">
                                             <input  th:id="${index.index}" th:value="${leather.id}" class="product-select__input" type="radio" name="leather"/>
@@ -67,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${'-'}" class="product-select__title"></div>
+                                    <div th:text="${leathers[0].leatherColors[0].color.name}" class="product-select__title"></div>
                                     <div th:each="leather, indexLeather : ${leathers}" th:data-leather="${indexLeather.index}" class="product-select__content product-select-content-colors">
                                         <div th:each="leatherColor, indexColor : ${leather.leatherColors}">
                                             <input th:id="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:value="${leatherColor.id}" class="product-select__input" type="radio" name="leatherColorId"/>
@@ -85,10 +94,8 @@
                                 <div class="product__btn form__btn">
                                     <button type="submit">Сохранить</button>
                                 </div>
-                                <div class="product__btn form__btn">
-                                    <a th:href="@{/}">
-                                        <button>Удалить</button>
-                                    </a>
+                                <div data-delete-lc class="product__btn form__btn">
+                                    <button type="button">Удалить</button>
                                 </div>
                             </div>
                         </form>

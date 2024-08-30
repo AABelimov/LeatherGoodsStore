@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/orders.css">
+    <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
+    <title>shishkin</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="header lock-padding">
+        <div class="container">
+            <div class="cap">
+                <a th:href="@{/}" class="logo">
+                    <div class="logo__img">
+                        <img src="/img/svg/logo.svg" alt="">
+                    </div>
+                    <div class="logo__text">shishkin</div>
+                </a>
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li>
+                            <a th:href="@{/products}" class="menu__link">Каталог</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/products}" class="sub-menu__link">Все</a>
+                                </li>
+                                <li th:each="category : ${categories}">
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
+                                       class="sub-menu__link"></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/leathers}" class="menu__link">Кожа</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Философия бренда</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="orders-row">
+            <div class="container">
+                <div class="orders-container">
+                    <div th:each="order : ${orders}" class="order-item">
+                        <a th:href="@{/orders/{id}(id = ${order.id})}" th:text="'Order ' + '#' + ${order.id}" class="order-item__title"></a>
+                        <div class="order-item__info">
+                            <div class="order-item__field field">
+                                <div class="field__title">Количество товаров:</div>
+                                <div th:text="${order.totalQuantity} + ' шт.'" class="field__value"></div>
+                            </div>
+                            <div class="order-item__field field">
+                                <div class="field__title">Общая сумма заказа:</div>
+                                <div th:text="${order.totalCost} + ' RUB'" class="field__value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-body">
+                    <div class="footer-body__conditions conditions">
+                        <div>Оферта</div>
+                        <div>Политика конфидециальности</div>
+                        <div>Возврат</div>
+                    </div>
+                    <div class="footer-body__contacts contacts">
+                        <a href="mailto:mail@mail.com" class="contacts__mail">
+                            <img src="/img/svg/email.svg" alt="">
+                        </a>
+                        <a href="https://t.me/eboy" class="contacts__tg">
+                            <img src="/img/svg/telegram.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>
+</div>
+</body>
+
+</html>

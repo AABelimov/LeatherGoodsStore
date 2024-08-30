@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/orders.css">
+    <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
+    <title>shishkin</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="header lock-padding">
+        <div class="container">
+            <div class="cap">
+                <a th:href="@{/}" class="logo">
+                    <div class="logo__img">
+                        <img src="/img/svg/logo.svg" alt="">
+                    </div>
+                    <div class="logo__text">shishkin</div>
+                </a>
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li>
+                            <a th:href="@{/products}" class="menu__link">Каталог</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/products}" class="sub-menu__link">Все</a>
+                                </li>
+                                <li th:each="category : ${categories}">
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
+                                       class="sub-menu__link"></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/leathers}" class="menu__link">Кожа</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Философия бренда</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="order-row">
+            <div class="container">
+                <div class="order">
+                    <div class="order__title">Order #123321</div>
+                    <div class="order__info">
+                        <div class="order__product-container product-container">
+                            <div th:each="orderProduct : ${order.orderProducts}" class="product">
+                                <div class="product__img">
+                                    <img th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="alt">
+                                </div>
+                                <div class="product__info">
+                                    <div class="product__field field product-field">
+                                        <div class="field__title product-field__title">Товар: </div>
+                                        <div th:text="${orderProduct.productLeatherColor.product.name}" class="field__value product-field__value"></div>
+                                    </div>
+                                    <div class="product__field field product-field">
+                                        <div class="field__title product-field__title">Кожа: </div>
+                                        <div th:text="${orderProduct.productLeatherColor.leatherColor.leather.name}" class="field__value product-field__value"></div>
+                                    </div>
+                                    <div class="product__field field product-field">
+                                        <div class="field__title product-field__title">Цвет: </div>
+                                        <div th:text="${orderProduct.productLeatherColor.leatherColor.color.name}" class="field__value product-field__value"></div>
+                                    </div>
+                                </div>
+                                <div class="product__field field product-field">
+                                    <div class="field__title product-field__title">Кол-во: </div>
+                                    <div th:text="${orderProduct.quantity} + ' шт.'" class="field__value product-field__value"></div>
+                                </div>
+                                <div class="product__field field product-field">
+                                    <div class="field__title product-field__title">Цена: </div>
+                                    <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="field__value product-field__value"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order__total order-total">
+                            <div class="order-total__title">ИТОГО:</div>
+                            <div th:text="${order.totalCost} + ' RUB'" class="order-total__value"></div>
+                        </div>
+                        <div class="order__about">
+                            <div class="client-info">
+                                <div class="client-info__field field">
+                                    <div class="field__title">Клиент: </div>
+                                    <div th:text="${order.user.name}" class="field__value"></div>
+                                </div>
+                                <div class="client-info__field field">
+                                    <div class="field__title">Почта: </div>
+                                    <div th:text="${order.user.username}" class="field__value"></div>
+                                </div>
+                                <div class="client-info__field field">
+                                    <div class="field__title">Номер телефона: </div>
+                                    <div th:text="${order.user.phoneNumber}" class="field__value"></div>
+                                </div>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-info__field field">
+                                    <div class="field__title">Способ связи: </div>
+                                    <div th:text="${order.communicationType.name()} + ' (' + ${order.communicationData} + ')'" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">Адрес: </div>
+                                    <div th:text="${order.address}" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">Комментарий к заказу: </div>
+                                    <div th:text="${order.comment}" class="field__value"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order__interaction">
+                        <form th:action="@{/}" class="order__btn">
+                            <button type="submit">Подтвердить оплату заказа</button>
+                        </form>
+                        <form action="" class="order__btn">
+                            <button type="submit">Отправить ссылку для оплаты</button>
+                        </form>
+                        <form th:action="@{/orders/{id}(id = ${order.id})}" th:method="delete" class="order__btn">
+                            <button type="submit">Отменить заказ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-body">
+                    <div class="footer-body__conditions conditions">
+                        <div>Оферта</div>
+                        <div>Политика конфидециальности</div>
+                        <div>Возврат</div>
+                    </div>
+                    <div class="footer-body__contacts contacts">
+                        <a href="mailto:mail@mail.com" class="contacts__mail">
+                            <img src="/img/svg/email.svg" alt="">
+                        </a>
+                        <a href="https://t.me/eboy" class="contacts__tg">
+                            <img src="/img/svg/telegram.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>
+</div>
+</body>
+
+</html>

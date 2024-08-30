@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateProductLeatherColorDto;
 import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
 import ru.aabelimov.leathergoodsstore.entity.Product;
+import ru.aabelimov.leathergoodsstore.entity.ProductLeatherColor;
 import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.io.IOException;
@@ -38,5 +39,14 @@ public class ProductLeatherColorController {
         model.addAttribute("leathers", leatherService.getAllLeathers());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "product-leather-color/product-leathers-colors";
+    }
+
+    // TODO ::
+    @PatchMapping("{id}/delete-image")
+    @ResponseBody
+    public String deleteImage(@PathVariable Long id) throws IOException {
+        ProductLeatherColor plc = productLeatherColorService.getProductLeatherColor(id);
+        productLeatherColorService.deleteImage(plc);
+        return id.toString();
     }
 }

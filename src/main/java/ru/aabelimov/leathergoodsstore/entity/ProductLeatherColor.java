@@ -2,10 +2,12 @@ package ru.aabelimov.leathergoodsstore.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "products_leather_colors")
+@EqualsAndHashCode(of = "id")
 public class ProductLeatherColor {
 
     @Id
