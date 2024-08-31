@@ -84,11 +84,11 @@
                 <form th:action="@{/colors}" method="post" class="form color-form">
                     <div class="form__field color-form__field">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form__text-input color-form__text-input">
+                        <input type="text" id="name" name="name" class="form__text-input color-form__text-input" required>
                     </div>
                     <div class="form__field color-form__field">
                         <label for="code">Code:</label>
-                        <input type="text" id="code" name="code" class="form__text-input color-form__text-input">
+                        <input type="text" id="code" name="code" class="form__text-input color-form__text-input" required>
                     </div>
                     <div class="form__btn">
                         <button type="submit">Добавить</button>

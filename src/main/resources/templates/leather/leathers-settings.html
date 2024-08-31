@@ -89,19 +89,19 @@
                 <form th:action="@{/leathers}" method="post" enctype="multipart/form-data" class="form">
                     <div class="form__field">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form__text-input">
+                        <input type="text" id="name" name="name" class="form__text-input" required>
                     </div>
                     <div class="form__field">
                         <label for="description">Description:</label>
-                        <textarea id="description" name="description" class="form__text-input"></textarea>
+                        <textarea id="description" name="description" class="form__text-input" required></textarea>
                     </div>
                     <div class="form__field">
                         <label for="image1">Image1:</label>
-                        <input type="file" name="image1" id="image1" accept="image/*">
+                        <input type="file" name="image1" id="image1" accept="image/*" required>
                     </div>
                     <div class="form__field">
                         <label for="image2">Image2:</label>
-                        <input type="file" name="image2" id="image2" accept="image/*">
+                        <input type="file" name="image2" id="image2" accept="image/*" required>
                     </div>
                     <div  class="form__btn">
                         <button type="submit">Добавить</button>
