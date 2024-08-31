@@ -58,4 +58,11 @@ public class LeatherColorController {
         leatherColorService.updateLeatherColor(id, image);
         return "redirect:/leathers-colors/leather/%d".formatted(leatherColor.getLeather().getId());
     }
+
+    @DeleteMapping("{id}")
+    public String deleteLeatherColor(@PathVariable Long id) throws IOException {
+        LeatherColor leatherColor = leatherColorService.getLeatherColor(id);
+        leatherColorService.deleteLeatherColor(leatherColor);
+        return "redirect:/leathers-colors/leather/%d".formatted(leatherColor.getLeather().getId());
+    }
 }

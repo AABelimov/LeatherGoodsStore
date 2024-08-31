@@ -12,6 +12,7 @@ import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
 import ru.aabelimov.leathergoodsstore.repository.LeatherColorRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
+import ru.aabelimov.leathergoodsstore.service.ProductLeatherColorService;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +23,7 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
 
     private final LeatherColorRepository leatherColorRepository;
     private final ImageService imageService;
+    private final ProductLeatherColorService productLeatherColorService;
 
     @Value("${path.to.images.for.leathers-colors}")
     private String imageDir;
@@ -70,14 +72,22 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
         deleteLeathersColors(leatherColors);
     }
 
-    private void deleteLeathersColors(List<LeatherColor> leatherColors) {
+    @Transactional
+    protected void deleteLeathersColors(List<LeatherColor> leatherColors) {
         leatherColors.forEach(leatherColor -> {
-            leatherColorRepository.delete(leatherColor);
             try {
-                imageService.deleteImage(leatherColor.getImage());
+                deleteLeatherColor(leatherColor);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(e); // TODO :: handle
             }
         });
+    }
+
+    @Override
+    @Transactional
+    public void deleteLeatherColor(LeatherColor leatherColor) throws IOException {
+        productLeatherColorService.deleteProductLeatherColorsByLeatherColorId(leatherColor.getId());
+        leatherColorRepository.delete(leatherColor);
+        imageService.deleteImage(leatherColor.getImage());
     }
 }

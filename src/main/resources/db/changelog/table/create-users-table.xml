@@ -19,10 +19,13 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="password" type="VARCHAR">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="true"/>
             </column>
             <column name="name" type="VARCHAR">
                 <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR">
+                <constraints nullable="true"/>
             </column>
             <column name="role" type="TINYINT">
                 <constraints nullable="false"/>

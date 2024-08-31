@@ -20,7 +20,7 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER) // TODO :: possible differently? without eager
     @JoinTable(
             name = "products_images",
             joinColumns = @JoinColumn(name = "product_id"),

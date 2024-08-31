@@ -14,7 +14,12 @@
     <div class="header">
         <div class="container">
             <div class="cap">
-                <a th:href="@{/}" class="cap__logo"></a>
+                <a th:href="@{/}" class="logo">
+                    <div class="logo__img">
+                        <img src="/img/svg/logo.svg" alt="">
+                    </div>
+                    <div class="logo__text">shishkin</div>
+                </a>
                 <nav class="menu">
                     <ul class="menu__list">
                         <li>
@@ -25,7 +30,8 @@
                                     <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
                                 <li th:each="category : ${categories}">
-                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
+                                       class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>
@@ -37,6 +43,9 @@
                         </li>
                         <li>
                             <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
                         </li>
                     </ul>
                 </nav>
@@ -81,15 +90,15 @@
                 <form th:action="@{/products}" method="post" enctype="multipart/form-data" class="form">
                     <div class="form__field">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form__text-input">
+                        <input type="text" id="name" name="name" class="form__text-input" required>
                     </div>
                     <div class="form__field">
                         <label for="price">Price:</label>
-                        <input id="price" name="price" class="form__text-input"></input>
+                        <input id="price" name="price" class="form__text-input" required>
                     </div>
                     <div class="form__field">
                         <label for="description">Description:</label>
-                        <textarea id="description" name="description" class="form__text-input"></textarea>
+                        <textarea id="description" name="description" class="form__text-input" required></textarea>
                     </div>
                     <div class="form__field">
                         <label for="category">Category:</label>
@@ -99,11 +108,11 @@
                     </div>
                     <div class="form__field">
                         <label for="image1">Image1:</label>
-                        <input type="file" name="image1" id="image1" accept="image/*">
+                        <input type="file" name="image1" id="image1" accept="image/*" required>
                     </div>
                     <div class="form__field">
                         <label for="image2">Image2:</label>
-                        <input type="file" name="image2" id="image2" accept="image/*">
+                        <input type="file" name="image2" id="image2" accept="image/*" required>
                     </div>
                     <div class="form__btn">
                         <button type="submit">Добавить</button>
@@ -117,7 +126,7 @@
                 <form th:action="@{/categories}" method="post" class="form">
                     <div class="form__field">
                         <label for="categoryName">Name:</label>
-                        <input type="text" id="categoryName" name="category" class="form__text-input">
+                        <input type="text" id="categoryName" name="category" class="form__text-input" required>
                     </div>
                     <div class="form__btn">
                         <button type="submit">Добавить</button>

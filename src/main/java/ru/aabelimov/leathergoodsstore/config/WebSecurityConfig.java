@@ -19,9 +19,11 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/cart/update-cart", "/products-leather-colors/*/delete-image", "/address"))
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+                        .requestMatchers("/admin/**", "/categories/**", "/colors/**", "/leathers-colors/**",
+                                "/posts/**", "/products-leather-colors/**", "/slides/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().permitAll()
                 )
                 .build();
