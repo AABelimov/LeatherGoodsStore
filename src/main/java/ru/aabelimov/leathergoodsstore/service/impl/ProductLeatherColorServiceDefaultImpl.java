@@ -79,14 +79,16 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void deleteProductLeatherColor(ProductLeatherColor plc) throws IOException {
         productLeatherColorRepository.delete(plc);
-        imageService.deleteImage(plc.getImage());
+        if (plc.getImage() != null) {
+            imageService.deleteImage(plc.getImage());
+        }
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void deleteProductLeatherColorsByLeatherColorId(Long leatherColorId) {
         List<ProductLeatherColor> productLeatherColors = productLeatherColorRepository.findAllByLeatherColorId(leatherColorId);
         productLeatherColors.forEach(plc -> {

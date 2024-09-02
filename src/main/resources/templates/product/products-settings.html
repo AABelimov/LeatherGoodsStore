@@ -68,8 +68,11 @@
                             <div th:text="${product.description}" class="item__text"></div>
                         </div>
                         <div class="item__interaction">
-                            <a th:href="@{/products-leather-colors/product/{productId}(productId=${product.id})}" class="item__btn">
+                            <a th:if="${leatherColors.size() > 0}" th:href="@{/products-leather-colors/product/{productId}(productId=${product.id})}" class="item__btn">
                                 <span>Добавить варианты</span>
+                            </a>
+                            <a th:if="${leatherColors.size() < 1}" th:href="@{/leathers/settings}" class="item__btn">
+                                <span>Сначала, добавь варианты кожи</span>
                             </a>
                             <a th:href="@{/products/{productId}/edit(productId=${product.id})}" class="item__btn">
                                 <span>Изменить</span>

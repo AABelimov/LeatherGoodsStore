@@ -32,6 +32,8 @@ public class OrderServiceDefaultImpl implements OrderService {
         User user = userService.getUserByUsername(dto.username());
         if (user == null) {
             user = userService.createUser(dto);
+        } else {
+            userService.updateUser(user, dto);
         }
         order.setUser(user);
         order.setTotalCost(cart.getTotalCost());

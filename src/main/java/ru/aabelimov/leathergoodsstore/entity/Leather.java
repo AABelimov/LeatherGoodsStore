@@ -19,7 +19,8 @@ public class Leather {
 //    @ManyToOne
 //    private Color color;
 
-    @ManyToMany
+    // TODO :: try to remove the eager
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "leathers_images",
             joinColumns = @JoinColumn(name = "leather_id"),

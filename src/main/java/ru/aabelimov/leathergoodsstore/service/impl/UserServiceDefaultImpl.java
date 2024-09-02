@@ -23,13 +23,20 @@ public class UserServiceDefaultImpl implements UserService {
     }
 
     @Override
+    public User createUser(CreateOrderDto createOrderDto) {
+        User user = userMapper.toEntity(createOrderDto);
+        return userRepository.save(user);
+    }
+
+    @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null); // TODO::
     }
 
     @Override
-    public User createUser(CreateOrderDto createOrderDto) {
-        User user = userMapper.toEntity(createOrderDto);
-        return userRepository.save(user);
+    public void updateUser(User user, CreateOrderDto dto) {
+        user.setName(dto.name());
+        user.setPhoneNumber(dto.phoneNumber());
+        userRepository.save(user);
     }
 }

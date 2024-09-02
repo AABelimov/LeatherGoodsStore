@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateProductDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
 import ru.aabelimov.leathergoodsstore.service.CategoryService;
+import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherService;
 import ru.aabelimov.leathergoodsstore.service.ProductService;
 
@@ -22,6 +23,7 @@ public class ProductController {
     private final ProductService productService;
     private final LeatherService leatherService;
     private final CategoryService categoryService;
+    private final LeatherColorService leatherColorService;
     private final Cart cart;
 
     @PostMapping
@@ -46,6 +48,7 @@ public class ProductController {
     public String getProducts(@RequestParam(required = false) Long category, Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("cart", cart);
+        model.addAttribute("leatherColors", leatherColorService.getAllLeatherColors());
         if (category == null) {
             model.addAttribute("products", productService.getAllProducts());
         } else {
@@ -59,6 +62,7 @@ public class ProductController {
     public String getProductsSettingsPage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("leatherColors", leatherColorService.getAllLeatherColors());
         return "product/products-settings";
     }
 
