@@ -13,6 +13,7 @@ import ru.aabelimov.leathergoodsstore.repository.LeatherRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherService;
+import ru.aabelimov.leathergoodsstore.service.ProductLeatherColorService;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,7 +71,7 @@ public class LeatherServiceDefaultImpl implements LeatherService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void deleteLeather(Long id) throws IOException {
         Leather leather = getLeather(id);
         List<Image> images = leather.getImages();

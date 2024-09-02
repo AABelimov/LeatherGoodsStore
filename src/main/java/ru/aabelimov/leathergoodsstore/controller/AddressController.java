@@ -25,7 +25,6 @@ public class AddressController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Token " + token);
         HttpEntity<String> request = new HttpEntity<>(query, headers);
-        System.out.println(query);
 //        restTemplate.postForObject("http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", request, String.class)
         return restTemplate.postForObject("http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", request, String.class);
     }

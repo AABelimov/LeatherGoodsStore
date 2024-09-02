@@ -48,6 +48,11 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     }
 
     @Override
+    public List<LeatherColor> getAllLeatherColors() {
+        return leatherColorRepository.findAll();
+    }
+
+    @Override
     public List<LeatherColor> getLeatherColorsByLeatherId(Long leatherId) {
         return leatherColorRepository.findAllByLeatherId(leatherId);
     }
@@ -66,13 +71,13 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void deleteLeathersColorsByColorId(Long colorId) {
         List<LeatherColor> leatherColors = leatherColorRepository.findAllByColorId(colorId);
         deleteLeathersColors(leatherColors);
     }
 
-    @Transactional
+//    @Transactional
     protected void deleteLeathersColors(List<LeatherColor> leatherColors) {
         leatherColors.forEach(leatherColor -> {
             try {
@@ -84,7 +89,7 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void deleteLeatherColor(LeatherColor leatherColor) throws IOException {
         productLeatherColorService.deleteProductLeatherColorsByLeatherColorId(leatherColor.getId());
         leatherColorRepository.delete(leatherColor);

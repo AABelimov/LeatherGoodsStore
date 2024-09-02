@@ -6,7 +6,9 @@ import ru.aabelimov.leathergoodsstore.entity.User;
 
 public interface UserService extends UserDetailsService {
 
+    User createUser(CreateOrderDto createOrderDto);
+
     User getUserByUsername(String username);
 
-    User createUser(CreateOrderDto createOrderDto);
+    void updateUser(User user, CreateOrderDto dto);
 }

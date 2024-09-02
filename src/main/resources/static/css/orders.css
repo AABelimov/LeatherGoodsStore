@@ -760,6 +760,9 @@ body.touch .sub-menu__list.open {
     font-size: 16px;
     border: 1px solid black;
 }
+.order-cart-form__text-input_invalid {
+    border-color: red;
+}
 .order-cart-form__btn {
     -ms-flex-item-align: center;
     -ms-grid-row-align: center;
@@ -780,7 +783,7 @@ body.touch .sub-menu__list.open {
     letter-spacing: 2px;
 }
 .order-cart-form__delivery {
-    margin-top: 50px;
+    margin-top: 30px;
     margin-bottom: 100px;
 }
 .order-cart-form textarea {
@@ -861,17 +864,6 @@ body.touch .sub-menu__list.open {
 
 .communication-input {
     display: none;
-}
-.communication-input label {
-    display: inline-block;
-    margin-bottom: 8px;
-}
-.communication-input input {
-    width: 100%;
-    min-height: 50px;
-    padding: 0 20px;
-    font-size: 16px;
-    border: 1px solid black;
 }
 
 .communication-input._active {

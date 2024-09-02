@@ -124,19 +124,19 @@
                     <form th:action="@{/orders}" method="post" class="order-cart-form" novalidate>
                         <div class="order-cart-form__field">
                             <label for="name">Ваше имя:</label>
-                            <input type="text" id="name" name="name" class="order-cart-form__text-input" minlength="2" required>
+                            <input type="text" id="name" name="name" class="order-cart-form__text-input" minlength="2" data-required required>
                         </div>
                         <div class="order-cart-form__field">
                             <label for="email">Ваш email:</label>
-                            <input type="email" id="email" name="username" class="order-cart-form__text-input" required>
+                            <input type="email" id="email" name="username" class="order-cart-form__text-input" data-required required>
                         </div>
                         <div class="order-cart-form__field">
                             <label for="tel">Ваш телефон:</label>
-                            <input type="tel" id="tel" name="phoneNumber" data-tel-input class="order-cart-form__text-input" required>
+                            <input type="tel" id="tel" name="phoneNumber" data-tel-input class="order-cart-form__text-input" data-required required>
                         </div>
                         <div class="order-cart-form__field">
                             <label for="comment">Комментарий к заказу:</label>
-                            <textarea id="comment" name="comment" class="order-cart-form__text-input" maxlength="250"></textarea>
+                            <textarea id="comment" name="comment" class="order-cart-form__text-input" data-required maxlength="250"></textarea>
                         </div>
                         <div class="order-cart-form__feedback feedback">
                             <div class="feedback__title">Как с вами связаться для подтверждения заказа?</div>
@@ -183,21 +183,21 @@
                                 </label>
                             </div>
                             <div class="feedback__communication-input-container">
-                                <div class="communication-input">
+                                <div class="communication-input order-cart-form__field">
                                     <label for="telegram_nickname">Ваш никнейм в Telegram:</label>
-                                    <input type="text" id="telegram_nickname" name="">
+                                    <input type="text" id="telegram_nickname" name="" class="order-cart-form__text-input">
                                 </div>
-                                <div class="communication-input">
+                                <div class="communication-input order-cart-form__field">
                                     <label for="tel2">Ваш номер телефона привязанный к Whatsapp:</label>
-                                    <input type="text" id="tel2" name="" data-tel-input>
+                                    <input type="text" id="tel2" name="" data-tel-input class="order-cart-form__text-input">
                                 </div>
-                                <div class="communication-input">
+                                <div class="communication-input order-cart-form__field">
                                     <label for="email2">Ваша почта:</label>
-                                    <input type="email" id="email2" name="">
+                                    <input type="email" id="email2" name="" class="order-cart-form__text-input">
                                 </div>
-                                <div class="communication-input">
+                                <div class="communication-input order-cart-form__field">
                                     <label for="tel3">Ваш номер телефона:</label>
-                                    <input type="tel" id="tel3" name="" data-tel-input>
+                                    <input type="tel" id="tel3" name="" data-tel-input class="order-cart-form__text-input">
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                             <div class="delivery__title">Доставка</div>
                             <div class="order-cart-form__field delivery__address">
                                 <label for="address">Адрес:</label>
-                                <input type="text" id="address" name="address" class="order-cart-form__text-input" required>
+                                <input type="text" id="address" name="address" class="order-cart-form__text-input" data-required required>
                                 <div class="delivery__address-options-container"></div>
                             </div>
                         </div>

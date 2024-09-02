@@ -24,4 +24,5 @@ public interface ProductLeatherColorService {
     void deleteProductLeatherColor(ProductLeatherColor plc) throws IOException;
 
     void deleteProductLeatherColorsByLeatherColorId(Long leatherColorId);
+
 }
