@@ -80,7 +80,6 @@
           <div th:each="leather : ${leathers}" class="leather-item">
             <a th:href="@{/leathers/{leatherId}(leatherId=${leather.id})}" class="leather-item__img">
               <img th:each="image : ${leather.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
-<!--              <img th:src="@{/images/{imageId}(imageId=${leather.images[1].id})}" alt="alt">-->
             </a>
             <div th:text="${leather.name}" class="leather-item__text"></div>
           </div>

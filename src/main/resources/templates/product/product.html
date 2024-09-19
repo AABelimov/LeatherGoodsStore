@@ -76,7 +76,6 @@
                 <div class="product">
                     <div class="product__constructor">
                         <div class="product__img">
-<!--                            <img th:src="@{/images/{imageId}(imageId=${product.images[0].id})}" th:data-leather-color="${-1}" alt="alt">-->
                             <img th:each="plc : ${productLeatherColors}" th:remove="${plc.getImage() == null} ? all : none" th:data-image-src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" alt="alt">
                         </div>
                         <form th:action="@{/cart}" th:method="patch" class="product__form">

@@ -35,7 +35,9 @@ public class LeatherServiceDefaultImpl implements LeatherService {
     public void createLeather(CreateOrUpdateLeatherDto dto, MultipartFile image1, MultipartFile image2) throws IOException {
         Leather leather = leatherMapper.toEntity(dto);
         leather.getImages().add(imageService.createImage(image1, imageDir));
-        leather.getImages().add(imageService.createImage(image2, imageDir));
+        if (!image2.isEmpty()) {
+            leather.getImages().add(imageService.createImage(image2, imageDir));
+        }
         leatherRepository.save(leather);
     }
 
@@ -78,6 +80,8 @@ public class LeatherServiceDefaultImpl implements LeatherService {
         leatherColorService.deleteLeathersColorsByLeatherId(id);
         leatherRepository.delete(leather);
         imageService.deleteImage(images.get(0));
-        imageService.deleteImage(images.get(1));
+        if (images.size() > 1) {
+            imageService.deleteImage(images.get(1));
+        }
     }
 }

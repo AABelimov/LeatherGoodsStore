@@ -996,6 +996,7 @@ body.touch .sub-menu__list.open {
 .leather-item__img img {
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+    position: absolute;
 }
 .leather-item__img:hover img:nth-child(2) {
     opacity: 0;

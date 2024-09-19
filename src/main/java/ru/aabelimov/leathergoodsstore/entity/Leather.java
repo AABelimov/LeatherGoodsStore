@@ -23,6 +23,7 @@ public class Leather {
             joinColumns = @JoinColumn(name = "leather_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
+    @OrderBy("id DESC")
     private List<Image> images;
 
     @ManyToMany
