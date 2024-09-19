@@ -16,19 +16,24 @@ public class Order {
 
     @ManyToOne
     private User user;
-    private Integer totalCost;
+    private Double totalCost;
     private Integer totalQuantity;
     private String comment;
-    private CommunicationType communicationType;
+    private String communicationType;
     private String communicationData;
+    private String deliveryMethod;
+    private String fio;
     private String address;
+
+    @ManyToOne
+    private PromoCode promoCode;
     private OrderStatus status;
 
-    @ManyToMany
-    @JoinTable(
-            name = "orders_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    private List<OrderProduct> orderProducts;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "orders_products",
+//            joinColumns = @JoinColumn(name = "order_id"),
+//            inverseJoinColumns = @JoinColumn(name = "id")
+//    )
+//    private List<OrderProduct> orderProducts;
 }

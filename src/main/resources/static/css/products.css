@@ -280,7 +280,6 @@ body.touch .sub-menu__list.open {
 @media (max-width: 1000px) {
     .sub-menu__list {
         position: relative;
-        pointer-events: all;
         height: 0;
         min-height: unset;
         -webkit-box-align: baseline;
@@ -874,11 +873,21 @@ body.touch .sub-menu__list.open {
     font-weight: bold;
     margin-bottom: 20px;
 }
+.delivery__method-container {
+    margin-bottom: 30px;
+}
+.delivery__address {
+    position: relative;
+}
 .delivery__address-options-container {
     display: none;
     margin-top: 5px;
     border: 1px solid black;
     border-radius: 2px;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    min-height: 150px;
 }
 .delivery__address-option {
     padding: 5px;
@@ -888,6 +897,62 @@ body.touch .sub-menu__list.open {
 }
 .delivery__address-option:hover {
     background-color: #f0f0f0;
+}
+
+.delivery-method {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.delivery-method__mark {
+    margin-right: 10px;
+}
+.delivery-method input {
+    display: none;
+}
+
+.mark {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background-color: black;
+    position: relative;
+}
+.mark::after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.mark__checked {
+    display: none;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.delivery-method._checked .mark__checked {
+    display: inline-block;
 }
 
 .wrapper {

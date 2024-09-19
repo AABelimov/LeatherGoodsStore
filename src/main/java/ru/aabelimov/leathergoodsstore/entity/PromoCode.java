@@ -5,13 +5,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "promo_codes")
+public class PromoCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-    private Boolean isVisible;
+    private String code;
+    private Integer discountSize;
 }

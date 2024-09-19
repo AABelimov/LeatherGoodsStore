@@ -4,24 +4,23 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="create-leathers-table.1" author="AABelimov">
+    <changeSet id="create-promo_codes-table.1" author="AABelimov">
         <preConditions>
             <not>
-                <tableExists tableName="leathers"/>
+                <tableExists tableName="promo_codes"/>
             </not>
         </preConditions>
 
-        <createTable tableName="leathers">
+        <createTable tableName="promo_codes">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar">
-                <constraints nullable="false" unique="true"/>
+            <column name="code" type="varchar">
+                <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar">
+            <column name="discount_size" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
     </changeSet>
 </databaseChangeLog>

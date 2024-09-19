@@ -29,14 +29,14 @@ public class PostController {
     @GetMapping("settings")
     public String getPostsSettingsPage(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "post/posts-settings";
     }
 
     @GetMapping("{id}/edit")
     public String getPostEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "post/post-edit";
     }
 

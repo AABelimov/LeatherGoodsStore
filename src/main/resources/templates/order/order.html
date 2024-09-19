@@ -30,8 +30,7 @@
                                     <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
                                 <li th:each="category : ${categories}">
-                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
-                                       class="sub-menu__link"></a>
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>
@@ -44,8 +43,17 @@
                         <li>
                             <a href="" class="menu__link">Доставка и оплата</a>
                         </li>
-                        <li>
-                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="menu__link">Admin</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/orders}" class="sub-menu__link">Заказы</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/promo-codes/settings}" class="sub-menu__link">Промокоды</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -62,7 +70,7 @@
                     <div class="order__title">Order #123321</div>
                     <div class="order__info">
                         <div class="order__product-container product-container">
-                            <div th:each="orderProduct : ${order.orderProducts}" class="product">
+                            <div th:each="orderProduct : ${orderProducts}" th:data-order-product="${orderProduct.id}" class="product">
                                 <div class="product__img">
                                     <img th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="alt">
                                 </div>
@@ -82,11 +90,22 @@
                                 </div>
                                 <div class="product__field field product-field">
                                     <div class="field__title product-field__title">Кол-во: </div>
-                                    <div th:text="${orderProduct.quantity} + ' шт.'" class="field__value product-field__value"></div>
+                                    <div th:text="${orderProduct.quantity} + ' шт.'" data-order-product-quantity class="field__value product-field__value"></div>
                                 </div>
                                 <div class="product__field field product-field">
                                     <div class="field__title product-field__title">Цена: </div>
                                     <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="field__value product-field__value"></div>
+                                </div>
+                                <div class="product__interaction">
+                                    <div class="product__btn" data-order-product-minus>
+                                        <img src="/img/svg/minus.svg" alt="">
+                                    </div>
+                                    <div class="product__btn" data-order-product-plus>
+                                        <img src="/img/svg/plus.svg" alt="">
+                                    </div>
+                                    <div class="product__btn" data-order-product-remove>
+                                        <img src="/img/svg/remove.svg" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +131,15 @@
                             <div class="order-info">
                                 <div class="order-info__field field">
                                     <div class="field__title">Способ связи: </div>
-                                    <div th:text="${order.communicationType.name()} + ' (' + ${order.communicationData} + ')'" class="field__value"></div>
+                                    <div th:text="${order.communicationType} + ' (' + ${order.communicationData} + ')'" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">Способ доставки: </div>
+                                    <div th:text="${order.deliveryMethod}" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">ФИО: </div>
+                                    <div th:text="${order.fio}" class="field__value"></div>
                                 </div>
                                 <div class="order-info__field field">
                                     <div class="field__title">Адрес: </div>

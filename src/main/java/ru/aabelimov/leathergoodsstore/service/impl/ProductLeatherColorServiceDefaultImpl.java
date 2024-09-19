@@ -52,7 +52,7 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
         productLeatherColor.setProduct(product);
         productLeatherColor.setLeatherColor(leatherColor);
         productLeatherColor.setImage(null);
-        return productLeatherColorRepository.save(productLeatherColor); // TODO :: check unique leatherColor + product
+        return productLeatherColorRepository.save(productLeatherColor);
     }
 
     @Override
@@ -63,6 +63,11 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
     @Override
     public ProductLeatherColor getProductLeatherColorByProductAndLeatherColor(Product product, LeatherColor leatherColor) {
         return productLeatherColorRepository.findByProductAndLeatherColor(product, leatherColor).orElse(null);
+    }
+
+    @Override
+    public List<ProductLeatherColor> getAllByProductId(Long productId) {
+        return productLeatherColorRepository.findAllByProductId(productId);
     }
 
     @Override

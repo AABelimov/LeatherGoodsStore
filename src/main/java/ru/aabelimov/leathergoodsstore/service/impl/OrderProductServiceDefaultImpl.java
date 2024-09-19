@@ -2,13 +2,11 @@ package ru.aabelimov.leathergoodsstore.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.aabelimov.leathergoodsstore.entity.Cart;
-import ru.aabelimov.leathergoodsstore.entity.Order;
-import ru.aabelimov.leathergoodsstore.entity.OrderProduct;
-import ru.aabelimov.leathergoodsstore.entity.ProductLeatherColor;
+import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.repository.OrderProductRepository;
 import ru.aabelimov.leathergoodsstore.service.OrderProductService;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,6 +26,29 @@ public class OrderProductServiceDefaultImpl implements OrderProductService {
             orderProduct.setQuantity(products.get(plc));
             orderProductRepository.save(orderProduct);
         }
+    }
+
+    @Override
+    public OrderProduct getOrderProduct(Long id) {
+        return orderProductRepository.findById(id).orElseThrow(); // TODO ::
+    }
+
+    @Override
+    public List<OrderProduct> getAllByOrderId(Long orderId) {
+        return orderProductRepository.findAllByOrderId(orderId);
+    }
+
+    @Override
+    public void updateQuantity(OrderProduct orderProduct, String operator) {
+        switch (operator) {
+            case "plus" -> {
+                orderProduct.setQuantity(orderProduct.getQuantity() + 1);
+            }
+            case "minus" -> {
+                orderProduct.setQuantity(orderProduct.getQuantity() - 1);
+            }
+        }
+        orderProductRepository.save(orderProduct);
     }
 
     @Override

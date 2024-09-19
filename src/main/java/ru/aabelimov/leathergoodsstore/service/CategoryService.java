@@ -11,4 +11,10 @@ public interface CategoryService {
     Category getCategory(Long id);
 
     List<Category> getAllCategories();
+
+    List<Category> getAllVisibleCategories();
+
+    void updateCategory(Long id, String categoryName);
+
+    void changeVisibility(Long id);
 }

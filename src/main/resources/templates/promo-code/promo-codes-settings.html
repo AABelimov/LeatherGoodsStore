@@ -67,25 +67,16 @@
         <div class="items-row">
             <div class="container">
                 <div class="items-container">
-                    <div th:each="product : ${products}" class="item">
-                        <div class="item__img">
-                            <img th:each="image : ${product.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
-                        </div>
+                    <div th:each="promoCode : ${promoCodes}" class="item">
                         <div class="item__info">
-                            <div th:text="${product.name} + ' (' + ${product.price} + ' RUB)'" class="item__title"></div>
-                            <div th:text="${product.description}" class="item__text"></div>
+                            <div th:text="${promoCode.code}" class="item__title"></div>
+                            <div th:text="'Скидка: ' + ${promoCode.discountSize} + '%'" class="item__text"></div>
                         </div>
                         <div class="item__interaction">
-                            <a th:if="${leatherColors.size() > 0}" th:href="@{/products-leather-colors/product/{productId}(productId=${product.id})}" class="item__btn">
-                                <span>Добавить варианты</span>
-                            </a>
-                            <a th:if="${leatherColors.size() < 1}" th:href="@{/leathers/settings}" class="item__btn">
-                                <span>Сначала, добавь варианты кожи</span>
-                            </a>
-                            <a th:href="@{/products/{productId}/edit(productId=${product.id})}" class="item__btn">
+                            <a th:href="@{/promo-codes/{id}/edit(id=${promoCode.id})}" class="item__btn">
                                 <span>Изменить</span>
                             </a>
-                            <form th:action="@{/products/{productId}(productId=${product.id})}" th:method="delete"
+                            <form th:action="@{/promo-codes/{id}(id=${promoCode.id})}" th:method="delete"
                                   class="item__btn">
                                 <button type="submit">
                                     <span>Удалить</span>
@@ -98,75 +89,19 @@
         </div>
         <div class="new-item-row">
             <div class="container">
-                <form th:action="@{/products}" method="post" enctype="multipart/form-data" class="form">
+                <form th:action="@{/promo-codes}" method="post" class="form">
                     <div class="form__field">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form__text-input" required>
+                        <label for="promoCode">Code:</label>
+                        <input type="text" id="promoCode" name="code" class="form__text-input" required>
                     </div>
                     <div class="form__field">
-                        <label for="price">Price:</label>
-                        <input id="price" name="price" class="form__text-input" required>
-                    </div>
-                    <div class="form__field">
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description" class="form__text-input" required></textarea>
-                    </div>
-                    <div class="form__field">
-                        <label for="category">Category:</label>
-                        <select name="categoryId" id="category">
-                            <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
-                        </select>
-                    </div>
-                    <div class="form__field">
-                        <label for="image1">Image1:</label>
-                        <input type="file" name="image1" id="image1" accept="image/*" required>
-                    </div>
-                    <div class="form__field">
-                        <label for="image2">Image2:</label>
-                        <input type="file" name="image2" id="image2" accept="image/*" required>
+                        <label for="discountSize">Discount:</label>
+                        <input id="discountSize" name="discountSize" class="form__text-input" required>
                     </div>
                     <div class="form__btn">
                         <button type="submit">Добавить</button>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="new-item-row">
-            <div class="container">
-                <div class="title">Добавить категорию:</div>
-                <form th:action="@{/categories}" method="post" class="form">
-                    <div class="form__field">
-                        <label for="categoryName">Name:</label>
-                        <input type="text" id="categoryName" name="category" class="form__text-input" required>
-                    </div>
-                    <div class="form__btn">
-                        <button type="submit">Добавить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="items-row">
-            <div class="container">
-                <div class="items-container">
-                    <div th:each="category : ${categories}" class="item">
-                        <div class="item__info">
-                            <div th:text="${category.name}" th:style="${category.isVisible} ? '' : 'text-decoration: line-through;'" class="item__text"></div>
-                        </div>
-                        <div class="item__interaction category-interaction">
-                            <form th:action="@{/categories/{id}/update(id=${category.id})}" th:method="patch" class="item__btn category-interaction__btn">
-                                <input type="text" name="category" required>
-                                <button type="submit">
-                                    <span>Переименовать</span>
-                                </button>
-                            </form>
-                            <form th:action="@{/categories/{id}/hide(id=${category.id})}" th:method="patch" class="item__btn category-interaction__btn">
-                                <button type="submit">
-                                    <span>Изменить видимость</span>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

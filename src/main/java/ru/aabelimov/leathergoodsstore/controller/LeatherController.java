@@ -37,7 +37,7 @@ public class LeatherController {
     public String getLeather(@PathVariable Long id, Model model) {
         model.addAttribute("leather", leatherService.getLeather(id));
         model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "leather/leather-card";
     }
@@ -45,7 +45,7 @@ public class LeatherController {
     @GetMapping
     public String getLeathers(Model model) {
         model.addAttribute("leathers", leatherService.getAllLeathers());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "leather/leathers";
     }
@@ -54,7 +54,7 @@ public class LeatherController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getLeathersSettingsPage(Model model) {
         model.addAttribute("leathers", leatherService.getAllLeathers());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "leather/leathers-settings";
     }
 
@@ -62,7 +62,7 @@ public class LeatherController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getLeatherEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("leather", leatherService.getLeather(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "leather/leather-edit";
     }
 

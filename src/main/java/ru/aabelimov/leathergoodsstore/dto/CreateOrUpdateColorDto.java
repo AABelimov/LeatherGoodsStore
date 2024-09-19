@@ -1,4 +1,4 @@
 package ru.aabelimov.leathergoodsstore.dto;
 
-public record CreateOrUpdateColorDto(String name, String code) {
+public record CreateOrUpdateColorDto(String colorName, String colorCode) {
 }

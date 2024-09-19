@@ -29,14 +29,14 @@ public class ColorController {
     @GetMapping("settings")
     public String getColorSettingsPage(Model model) {
         model.addAttribute("colors", colorService.getAllColors());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "color/color-settings";
     }
 
     @GetMapping("{id}/edit")
     public String getColorEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("color", colorService.getColor(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "color/color-edit";
     }
 

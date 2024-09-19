@@ -6,6 +6,7 @@ import ru.aabelimov.leathergoodsstore.entity.Product;
 import ru.aabelimov.leathergoodsstore.entity.ProductLeatherColor;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface ProductLeatherColorService {
 
@@ -17,6 +18,8 @@ public interface ProductLeatherColorService {
 
     ProductLeatherColor getProductLeatherColorByProductAndLeatherColor(Product product, LeatherColor leatherColor);
 
+    List<ProductLeatherColor> getAllByProductId(Long productId);
+
     void updateProductLeatherColor(Long id, MultipartFile image) throws IOException;
 
     void deleteImage(ProductLeatherColor plc) throws IOException;
@@ -24,5 +27,4 @@ public interface ProductLeatherColorService {
     void deleteProductLeatherColor(ProductLeatherColor plc) throws IOException;
 
     void deleteProductLeatherColorsByLeatherColorId(Long leatherColorId);
-
 }
