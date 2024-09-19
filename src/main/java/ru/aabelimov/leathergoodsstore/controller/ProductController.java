@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateProductDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
+import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("products")
@@ -35,8 +37,10 @@ public class ProductController {
 
     @GetMapping("{id}")
     public String getProduct(@PathVariable Long id, Model model) {
+        List<Leather> leathers = leatherService.getAllLeathers();
         model.addAttribute("product", productService.getProduct(id));
-        model.addAttribute("leathers", leatherService.getAllLeathers());
+        model.addAttribute("leathers", leathers);
+        model.addAttribute("leatherColors", leatherColorService.getAllLeatherColorsByLeather(leathers.get(0)));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);

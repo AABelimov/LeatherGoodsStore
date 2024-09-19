@@ -26,11 +26,11 @@ public class Leather {
     @OrderBy("id DESC")
     private List<Image> images;
 
-    @ManyToMany
-    @JoinTable(
-            name = "leathers_colors",
-            joinColumns = @JoinColumn(name = "leather_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    private List<LeatherColor> leatherColors;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "leathers_colors",
+//            joinColumns = @JoinColumn(name = "leather_id"),
+//            inverseJoinColumns = @JoinColumn(name = "id")
+//    )
+//    private List<LeatherColor> leatherColors;
 }

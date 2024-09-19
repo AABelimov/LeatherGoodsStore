@@ -91,11 +91,11 @@
                                     </div>
                                 </div>
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${leathers[0].leatherColors[0].color.name}" class="product-select__title"></div>
-                                    <div th:each="leather, indexLeather : ${leathers}" th:data-leather="${indexLeather.index}" class="product-select__content product-select-content-colors">
-                                        <div th:each="leatherColor, indexColor : ${leather.leatherColors}">
-                                            <input th:id="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:value="${leatherColor.id}" class="product-select__input" type="radio" name="leatherColorId"/>
-                                            <label th:for="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather-color-image="${leatherColor.image.id}" class="product-select__label"></label>
+                                    <div th:text="${leatherColors[0].color.name}" class="product-select__title"></div>
+                                    <div class="product-select__content product-select-content-colors">
+                                        <div th:each="leatherColor, index : ${leatherColors}">
+                                            <input th:id="${index.index}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>
+                                            <label th:for="${index.index}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather-color-image="${leatherColor.image.id}" class="product-select__label"></label>
                                         </div>
                                     </div>
                                 </div>
