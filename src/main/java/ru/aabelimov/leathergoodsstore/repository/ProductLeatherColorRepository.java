@@ -13,4 +13,6 @@ public interface ProductLeatherColorRepository extends JpaRepository<ProductLeat
     Optional<ProductLeatherColor> findByProductAndLeatherColor(Product product, LeatherColor leatherColor);
 
     List<ProductLeatherColor> findAllByLeatherColorId(Long leatherColorId);
+
+    List<ProductLeatherColor> findAllByProductId(Long productId);
 }

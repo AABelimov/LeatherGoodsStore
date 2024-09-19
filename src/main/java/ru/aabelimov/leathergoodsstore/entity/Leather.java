@@ -16,9 +16,6 @@ public class Leather {
     private String name;
     private String description;
 
-//    @ManyToOne
-//    private Color color;
-
     // TODO :: try to remove the eager
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

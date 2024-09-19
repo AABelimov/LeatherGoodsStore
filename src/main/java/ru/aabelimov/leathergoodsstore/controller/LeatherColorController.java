@@ -41,7 +41,7 @@ public class LeatherColorController {
                                        Model model) {
         model.addAttribute("leather", leatherService.getLeather(leatherId));
         model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(leatherId));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
 
         if (colorName == null) {
             model.addAttribute("colors", colorService.getAllColors());

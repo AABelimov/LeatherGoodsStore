@@ -18,7 +18,7 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="total_cost" type="int">
+            <column name="total_cost" type="double">
                 <constraints nullable="false"/>
             </column>
             <column name="total_quantity" type="int">
@@ -27,14 +27,23 @@
             <column name="comment" type="varchar">
                 <constraints nullable="true"/>
             </column>
-            <column name="communication_type" type="TINYINT">
+            <column name="communication_type" type="varchar">
                 <constraints nullable="false"/>
             </column>
             <column name="communication_data" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="delivery_method" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fio" type="varchar">
+                <constraints nullable="true"/>
+            </column>
             <column name="address" type="varchar">
                 <constraints nullable="false"/>
+            </column>
+            <column name="promo_code_id" type="bigint">
+                <constraints nullable="true"/>
             </column>
             <column name="status" type="TINYINT">
                 <constraints nullable="false"/>
@@ -43,6 +52,10 @@
 
         <addForeignKeyConstraint baseTableName="orders" baseColumnNames="user_id" constraintName="fk_orders_user_id"
                                  referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="promo_code_id"
+                                 constraintName="fk_orders_promo_code_id"
+                                 referencedTableName="promo_codes"
                                  referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

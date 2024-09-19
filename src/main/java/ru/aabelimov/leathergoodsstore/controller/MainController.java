@@ -22,7 +22,7 @@ public class MainController {
     public String getMainPage(Model model) {
         model.addAttribute("slides", slideService.getAllSlides());
         model.addAttribute("posts", postService.getAllPosts());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "main/main";
     }

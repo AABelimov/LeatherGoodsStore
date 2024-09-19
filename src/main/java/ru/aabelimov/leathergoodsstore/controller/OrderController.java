@@ -4,24 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrderDto;
+import ru.aabelimov.leathergoodsstore.dto.UpdatedOrderProductQuantityDto;
 import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.EmailService;
+import ru.aabelimov.leathergoodsstore.service.OrderProductService;
 import ru.aabelimov.leathergoodsstore.service.OrderService;
-
-import java.math.BigDecimal;
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("orders")
@@ -29,6 +23,7 @@ import java.util.Objects;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderProductService orderProductService;
     private final CategoryService categoryService;
     private final EmailService emailService;
     private final Cart cart;
@@ -69,7 +64,8 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getOrder(@PathVariable Long id, Model model) {
         model.addAttribute("order", orderService.getOrder(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("orderProducts", orderProductService.getAllByOrderId(id));
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "order/order";
     }
 
@@ -77,8 +73,29 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getOrders(Model model) {
         model.addAttribute("orders", orderService.getOrdersByStatus(OrderStatus.NEW));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "order/orders";
+    }
+
+    @PatchMapping("order-product/{orderProductId}/minus")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<UpdatedOrderProductQuantityDto> minusOrderProduct(@PathVariable Long orderProductId) {
+        return ResponseEntity.ok(orderService.updateOrderProductQuantity(orderProductId, "minus"));
+    }
+
+    @PatchMapping("order-product/{orderProductId}/plus")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<UpdatedOrderProductQuantityDto> plusOrderProduct(@PathVariable Long orderProductId) {
+        return ResponseEntity.ok(orderService.updateOrderProductQuantity(orderProductId, "plus"));
+    }
+
+    @PatchMapping("order-product/{orderProductId}/remove")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<UpdatedOrderProductQuantityDto> removeOrderProduct(@PathVariable Long orderProductId) {
+        return ResponseEntity.ok(orderService.deleteOrderProduct(orderProductId));
     }
 
     @DeleteMapping("{id}")

@@ -30,8 +30,7 @@
                                     <a th:href="@{/products}" class="sub-menu__link">Все</a>
                                 </li>
                                 <li th:each="category : ${categories}">
-                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}"
-                                       class="sub-menu__link"></a>
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
                                 </li>
                             </ul>
                         </li>
@@ -44,8 +43,17 @@
                         <li>
                             <a href="" class="menu__link">Доставка и оплата</a>
                         </li>
-                        <li>
-                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/orders}" class="menu__link">Заказы</a>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="menu__link">Admin</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/orders}" class="sub-menu__link">Заказы</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/promo-codes/settings}" class="sub-menu__link">Промокоды</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -141,7 +149,7 @@
                         <div class="order-cart-form__feedback feedback">
                             <div class="feedback__title">Как с вами связаться для подтверждения заказа?</div>
                             <div class="feedback__communication-container">
-                                <label class="communication">
+                                <label class="communication _active">
                                     <input type="radio" name="communicationType" value="telegram" checked>
                                     <div class="communication__image">
                                         <img src="/img/svg/telegram.svg" alt="">
@@ -183,30 +191,54 @@
                                 </label>
                             </div>
                             <div class="feedback__communication-input-container">
-                                <div class="communication-input order-cart-form__field">
+                                <div class="communication-input order-cart-form__field _active">
                                     <label for="telegram_nickname">Ваш никнейм в Telegram:</label>
-                                    <input type="text" id="telegram_nickname" name="" class="order-cart-form__text-input">
+                                    <input type="text" id="telegram_nickname" name="communicationData" class="order-cart-form__text-input" required data-required>
                                 </div>
                                 <div class="communication-input order-cart-form__field">
                                     <label for="tel2">Ваш номер телефона привязанный к Whatsapp:</label>
-                                    <input type="text" id="tel2" name="" data-tel-input class="order-cart-form__text-input">
+                                    <input type="text" id="tel2" name="" data-tel-input class="order-cart-form__text-input" data-required>
                                 </div>
                                 <div class="communication-input order-cart-form__field">
                                     <label for="email2">Ваша почта:</label>
-                                    <input type="email" id="email2" name="" class="order-cart-form__text-input">
+                                    <input type="email" id="email2" name="" class="order-cart-form__text-input" data-required>
                                 </div>
                                 <div class="communication-input order-cart-form__field">
                                     <label for="tel3">Ваш номер телефона:</label>
-                                    <input type="tel" id="tel3" name="" data-tel-input class="order-cart-form__text-input">
+                                    <input type="tel" id="tel3" name="" data-tel-input class="order-cart-form__text-input" data-required>
                                 </div>
                             </div>
                         </div>
                         <div class="order-cart-form__delivery delivery">
                             <div class="delivery__title">Доставка</div>
+                            <div class="delivery__method-container">
+                                <div class="delivery-method _checked">
+                                    <input type="radio" name="deliveryMethod" value="post" checked>
+                                    <div class="delivery-method__mark mark">
+                                        <span class="mark__checked"></span>
+                                    </div>
+                                    <div class="delivery-method__text">Почтой России</div>
+                                </div>
+                                <div class="delivery-method">
+                                    <input type="radio" name="deliveryMethod" value="cdek">
+                                    <div class="delivery-method__mark mark">
+                                        <span class="mark__checked"></span>
+                                    </div>
+                                    <div class="delivery-method__text">Доставкой СДЭК</div>
+                                </div>
+                            </div>
+                            <div class="order-cart-form__field fio-field">
+                                <label for="fio">Получатель (ФИО полностью):</label>
+                                <input type="text" id="fio" name="fio" class="order-cart-form__text-input" data-required required>
+                            </div>
                             <div class="order-cart-form__field delivery__address">
                                 <label for="address">Адрес:</label>
                                 <input type="text" id="address" name="address" class="order-cart-form__text-input" data-required required>
                                 <div class="delivery__address-options-container"></div>
+                            </div>
+                            <div class="order-cart-form__field">
+                                <label for="promoCode">Промокод (если есть):</label>
+                                <input type="text" id="promoCode" name="promoCode" class="order-cart-form__text-input">
                             </div>
                         </div>
                         <div class="order-cart-form__btn">

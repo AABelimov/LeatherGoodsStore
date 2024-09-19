@@ -28,11 +28,11 @@ public class Product {
     )
     private List<Image> images;
 
-    @ManyToMany
-    @JoinTable(
-            name = "products_leather_colors",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    private List<ProductLeatherColor> productLeatherColors;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "products_leather_colors",
+//            joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "id")
+//    )
+//    private List<ProductLeatherColor> productLeatherColors;
 }

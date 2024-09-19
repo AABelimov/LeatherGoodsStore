@@ -18,6 +18,7 @@ public class CategoryServiceDefaultImpl implements CategoryService {
     public void createCategory(String categoryName) {
         Category category = new Category();
         category.setName(categoryName);
+        category.setIsVisible(true);
         categoryRepository.save(category);
     }
 
@@ -28,6 +29,25 @@ public class CategoryServiceDefaultImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAllOrderById();
+    }
+
+    @Override
+    public List<Category> getAllVisibleCategories() {
+        return categoryRepository.findAllByIsVisibleOrderById(true);
+    }
+
+    @Override
+    public void updateCategory(Long id, String categoryName) {
+        Category category = getCategory(id);
+        category.setName(categoryName);
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void changeVisibility(Long id) {
+        Category category = getCategory(id);
+        category.setIsVisible(!category.getIsVisible());
+        categoryRepository.save(category);
     }
 }

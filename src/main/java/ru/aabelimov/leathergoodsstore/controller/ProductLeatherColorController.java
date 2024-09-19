@@ -37,16 +37,15 @@ public class ProductLeatherColorController {
     public String getProductLeathersColorsPage(@PathVariable Long productId, Model model) {
         model.addAttribute("product", productService.getProduct(productId));
         model.addAttribute("leathers", leatherService.getAllLeathers());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(productId));
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "product-leather-color/product-leathers-colors";
     }
 
-    // TODO ::
     @PatchMapping("{id}/delete-image")
     @ResponseBody
-    public String deleteImage(@PathVariable Long id) throws IOException {
+    public void deleteImage(@PathVariable Long id) throws IOException {
         ProductLeatherColor plc = productLeatherColorService.getProductLeatherColor(id);
         productLeatherColorService.deleteImage(plc);
-        return id.toString();
     }
 }

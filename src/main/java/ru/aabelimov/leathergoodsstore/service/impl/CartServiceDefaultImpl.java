@@ -47,7 +47,6 @@ public class CartServiceDefaultImpl implements CartService {
         cart.setTotalQuantity(cart.getTotalQuantity() + 1);
     }
 
-    // TODO :: simplify
     @Override
     public UpdatedCartDto updateCart(UpdateCartDto dto) {
         ProductLeatherColor plc = productLeatherColorService.getProductLeatherColor(dto.productLeatherColorId());
@@ -71,6 +70,9 @@ public class CartServiceDefaultImpl implements CartService {
                 case "remove" -> {
                     totalQuantity = cart.getTotalQuantity() - cart.getProducts().get(plc);
                     cost = plc.getProduct().getPrice() * cart.getProducts().get(plc) * -1;
+                }
+                default -> {
+                    throw new RuntimeException(); // TODO :: add exception
                 }
             }
 

@@ -21,8 +21,8 @@ public class ColorServiceDefaultImpl implements ColorService {
     @Override
     public void createColor(CreateOrUpdateColorDto dto) {
         Color color = new Color();
-        color.setName(dto.name());
-        color.setCode(dto.code());
+        color.setName(dto.colorName());
+        color.setCode(dto.colorCode());
         colorRepository.save(color);
     }
 
@@ -44,11 +44,11 @@ public class ColorServiceDefaultImpl implements ColorService {
     @Override
     public void updateColor(Long id, CreateOrUpdateColorDto dto) {
         Color color = getColor(id);
-        if (!dto.name().isBlank()) {
-            color.setName(dto.name());
+        if (!dto.colorName().isBlank()) {
+            color.setName(dto.colorName());
         }
-        if (!dto.code().isBlank()) {
-            color.setCode(dto.code());
+        if (!dto.colorCode().isBlank()) {
+            color.setCode(dto.colorCode());
         }
         colorRepository.save(color);
     }

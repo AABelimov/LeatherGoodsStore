@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateProductDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
-import ru.aabelimov.leathergoodsstore.service.CategoryService;
-import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
-import ru.aabelimov.leathergoodsstore.service.LeatherService;
-import ru.aabelimov.leathergoodsstore.service.ProductService;
+import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.io.IOException;
 
@@ -22,6 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final LeatherService leatherService;
+    private final ProductLeatherColorService productLeatherColorService;
     private final CategoryService categoryService;
     private final LeatherColorService leatherColorService;
     private final Cart cart;
@@ -39,14 +37,15 @@ public class ProductController {
     public String getProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProduct(id));
         model.addAttribute("leathers", leatherService.getAllLeathers());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(id));
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "product/product";
     }
 
     @GetMapping
     public String getProducts(@RequestParam(required = false) Long category, Model model) {
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         model.addAttribute("leatherColors", leatherColorService.getAllLeatherColors());
         if (category == null) {
@@ -70,7 +69,7 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getProductEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProduct(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "product/product-edit";
     }
 

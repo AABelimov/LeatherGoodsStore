@@ -29,14 +29,14 @@ public class SlideController {
     @GetMapping("settings")
     public String getSlideSettingsPage(Model model) {
         model.addAttribute("slides", slideService.getAllSlides());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "slide/slider-settings";
     }
 
     @GetMapping("{id}/edit")
     public String getSlideEditPage(@PathVariable Long id, Model model) {
         model.addAttribute("slide", slideService.getSlide(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "slide/slider-edit";
     }
 
