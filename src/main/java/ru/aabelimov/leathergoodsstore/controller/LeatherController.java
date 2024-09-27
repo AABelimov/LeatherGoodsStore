@@ -1,6 +1,8 @@
 package ru.aabelimov.leathergoodsstore.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateLeatherDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
+import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
 import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherService;
 
 import java.io.IOException;
+import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("leathers")
 @RequiredArgsConstructor
@@ -64,6 +69,12 @@ public class LeatherController {
         model.addAttribute("leather", leatherService.getLeather(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "leather/leather-edit";
+    }
+
+    @GetMapping("{id}/leather-colors")
+    @ResponseBody
+    public ResponseEntity<List<LeatherColor>> getLeatherColorsByLeatherId(@PathVariable Long id) {
+        return ResponseEntity.ok(leatherColorService.getLeatherColorsByLeatherId(id));
     }
 
     @PatchMapping("{id}")

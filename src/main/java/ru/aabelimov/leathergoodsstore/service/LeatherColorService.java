@@ -18,8 +18,6 @@ public interface LeatherColorService {
 
     List<LeatherColor> getLeatherColorsByLeatherId(Long leatherId);
 
-    List<LeatherColor> getAllLeatherColorsByLeather(Leather leather);
-
     void updateLeatherColor(Long id, MultipartFile image) throws IOException;
 
     void deleteLeathersColorsByLeatherId(Long leatherId);

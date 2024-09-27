@@ -27,12 +27,4 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
     private List<Image> images;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "products_leather_colors",
-//            joinColumns = @JoinColumn(name = "product_id"),
-//            inverseJoinColumns = @JoinColumn(name = "id")
-//    )
-//    private List<ProductLeatherColor> productLeatherColors;
 }
