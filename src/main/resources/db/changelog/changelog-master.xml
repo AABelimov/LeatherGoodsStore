@@ -19,5 +19,6 @@
     <include file="table/create-orders_products-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-leathers_images-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-products_images-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-plc_images-table.xml" relativeToChangelogFile="true"/>
     <include file="data/add-data-in-users-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

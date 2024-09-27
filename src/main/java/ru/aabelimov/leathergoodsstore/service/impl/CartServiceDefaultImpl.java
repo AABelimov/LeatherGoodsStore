@@ -95,6 +95,6 @@ public class CartServiceDefaultImpl implements CartService {
     public void clearCart() {
         cart.setProducts(new HashMap<>());
         cart.setTotalQuantity(0);
-        cart.setTotalCost(0);
+        cart.setTotalCost(0.0);
     }
 }

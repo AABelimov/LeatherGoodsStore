@@ -75,33 +75,42 @@
             <div class="container">
                 <div class="product">
                     <div class="product__constructor">
-                        <div class="product__img">
-<!--                            <img th:src="@{/images/{imageId}(imageId=${product.images[0].id})}" th:data-leather-color="${-1}" alt="alt">-->
-                            <img th:each="plc : ${productLeatherColors}" th:remove="${plc.getImage() == null} ? all : none" th:data-image-src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" alt="alt">
+                        <div class="product__img-wrapper">
+                            <div th:each="plc : ${productLeatherColors}" th:data-leather-color="${plc.leatherColor.id}" class="product__img-container">
+                                <img th:each="image : ${plc.images}" th:data-image-src="@{/images/{imageId}(imageId=${image.id})}" th:data-leather-color="${plc.leatherColor.id}" th:data-leather="${plc.leatherColor.leather.id}" data-image-slide="true" class="product__img" alt="alt">
+                            </div>
+                            <div class="product__interaction product-interaction">
+                                    <span class="product-interaction__prev">
+                                        <img src="/img/svg/prev-white.svg" alt="">
+                                    </span>
+                                <span class="product-interaction__next">
+                                        <img src="/img/svg/next-white.svg" alt="">
+                                    </span>
+                            </div>
                         </div>
                         <form th:action="@{/cart}" th:method="patch" class="product__form">
-                            <div class="product__title">Title</div>
+                            <div th:text="${product.name}" class="product__title"></div>
                             <div class="product__selects">
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${leathers[0].name}" class="product-select__title"></div>
+                                    <div class="product-select__title"></div>
                                     <div class="product-select__content">
                                         <div th:each="leather, index : ${leathers}">
-                                            <input  th:id="${index.index}" th:value="${leather.id}" class="product-select__input" type="radio" name="leatherId"/>
-                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${index.index}" class="product-select__label"></label>
+                                            <input  th:id="${index.index}" th:value="${leather.id}" type="radio" name="leatherId" class="product-select__input"/>
+                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${leather.id}" data-label-leather class="product-select__label"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${leathers[0].leatherColors[0].color.name}" class="product-select__title"></div>
-                                    <div th:each="leather, indexLeather : ${leathers}" th:data-leather="${indexLeather.index}" class="product-select__content product-select-content-colors">
-                                        <div th:each="leatherColor, indexColor : ${leather.leatherColors}">
-                                            <input th:id="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:value="${leatherColor.id}" class="product-select__input" type="radio" name="leatherColorId"/>
-                                            <label th:for="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather-color-image="${leatherColor.image.id}" class="product-select__label"></label>
+                                    <div class="product-select__title"></div>
+                                    <div class="product-select__content" data-leather-color-container>
+                                        <div th:each="leatherColor, index : ${leatherColors}">
+                                            <!--                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
+                                            <!--                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" th:value="${product.id}" name="productId">
                             </div>
+                            <input type="hidden" th:value="${product.id}" name="productId">
                             <div class="product__btn">
                                 <button type="submit">В корзину</button>
                             </div>
@@ -125,8 +134,8 @@
                         <div th:each="plc : ${cart.products.keySet()}" class="order-cart__item order-cart-item">
                             <div class="order-cart-item__part1">
                                 <div class="order-cart-item__img">
-                                    <img th:if="${plc.getImage() == null}" th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
-                                    <img th:if="${plc.getImage() != null}" th:src="@{/images/{imageId}(imageId=${plc.image.id})}" alt="">
+                                    <img th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
+                                    <!--                                    <img th:if="${plc.getImages != null}" th:src="@{/images/{imageId}(imageId=${plc.images[0].id})}" alt="">-->
                                 </div>
                                 <div class="order-cart-item__info">
                                     <div th:text="${plc.product.name}" class="order-cart-item__title"></div>

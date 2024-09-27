@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-plc_images-table.1" author="AABelimov">
+        <preConditions>
+            <not>
+                <tableExists tableName="plc_images"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="plc_images">
+            <column name="plc_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="plc_images" baseColumnNames="plc_id"
+                                 constraintName="fk_plc_images_plc_id"
+                                 referencedTableName="products_leather_colors"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="plc_images" baseColumnNames="image_id"
+                                 constraintName="fk_plc_images_image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

@@ -68,41 +68,51 @@
             <div class="container">
                 <div class="product">
                     <div class="product__constructor">
-                        <div class="product__img">
-                            <img th:each="plc : ${productLeatherColors}" th:remove="${plc.getImage() == null} ? all : none" th:data-image-src="@{/images/{imageId}(imageId=${plc.image.id})}" th:data-leather-color="${plc.leatherColor.id}" th:data-product-leather-color="${plc.id}" alt="alt">
+                        <div class="product__img-wrapper">
+                            <div th:each="plc : ${productLeatherColors}" th:data-leather-color="${plc.leatherColor.id}" class="product__img-container">
+                                <img th:each="image : ${plc.images}" th:data-image-src="@{/images/{imageId}(imageId=${image.id})}" th:data-leather-color="${plc.leatherColor.id}" th:data-leather="${plc.leatherColor.leather.id}" th:data-image-id="${image.id}" th:data-plc-id="${plc.id}" data-image-slide="true" class="product__img" alt="alt">
+                            </div>
+                            <div class="product__interaction product-interaction">
+                                    <span class="product-interaction__prev">
+                                        <img src="/img/svg/prev-white.svg" alt="">
+                                    </span>
+                                <span class="product-interaction__next">
+                                        <img src="/img/svg/next-white.svg" alt="">
+                                    </span>
+                            </div>
                         </div>
                         <form th:action="@{/products-leather-colors}" method="post" enctype="multipart/form-data" class="product__form form">
-                            <div class="product__title">Title</div>
+                            <div th:text="${product.name}" class="product__title"></div>
                             <div class="product__selects">
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${leathers[0].name}" class="product-select__title"></div>
+                                    <div class="product-select__title"></div>
                                     <div class="product-select__content">
                                         <div th:each="leather, index : ${leathers}">
-                                            <input  th:id="${index.index}" th:value="${leather.id}" class="product-select__input" type="radio" name="leather"/>
-                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${index.index}" class="product-select__label"></label>
+                                            <input  th:id="${index.index}" th:value="${leather.id}" type="radio" name="leatherId" class="product-select__input"/>
+                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${leather.id}" data-label-leather class="product-select__label"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="product__select product-select" data-state="">
-                                    <div th:text="${leathers[0].leatherColors[0].color.name}" class="product-select__title"></div>
-                                    <div th:each="leather, indexLeather : ${leathers}" th:data-leather="${indexLeather.index}" class="product-select__content product-select-content-colors">
-                                        <div th:each="leatherColor, indexColor : ${leather.leatherColors}">
-                                            <input th:id="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:value="${leatherColor.id}" class="product-select__input" type="radio" name="leatherColorId"/>
-                                            <label th:for="${indexColor.index + indexLeather.index * 10 + leathers.size()}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather-color-image="${leatherColor.image.id}" class="product-select__label"></label>
+                                    <div class="product-select__title"></div>
+                                    <div class="product-select__content" data-leather-color-container>
+                                        <div th:each="leatherColor, index : ${leatherColors}">
+<!--                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
+<!--                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form__field">
                                 <label for="image">Image:</label>
-                                <input type="file" name="image" id="image" accept="image/*">
+                                <input type="file" name="image" id="image" accept="image/*" required>
                             </div>
                             <input type="hidden" th:value="${product.id}" name="productId">
                             <div class="form__row">
-                                <div class="product__btn form__btn">
+                                <div data-save-lci class="product__btn form__btn">
                                     <button type="submit">Сохранить</button>
                                 </div>
-                                <div data-delete-lc class="product__btn form__btn">
+                                <div data-delete-lci class="product__btn form__btn">
                                     <button type="button">Удалить</button>
                                 </div>
                             </div>

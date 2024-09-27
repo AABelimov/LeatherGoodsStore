@@ -14,5 +14,5 @@ public class Cart {
 
     private Map<ProductLeatherColor, Integer> products = new HashMap<>();
     private Integer totalQuantity = 0;
-    private Integer totalCost = 0;
+    private Double totalCost = 0.0;
 }

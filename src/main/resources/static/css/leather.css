@@ -996,6 +996,7 @@ body.touch .sub-menu__list.open {
 .leather-item__img img {
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+    position: absolute;
 }
 .leather-item__img:hover img:nth-child(2) {
     opacity: 0;
@@ -1032,10 +1033,10 @@ body.touch .sub-menu__list.open {
 }
 .leather__img {
     position: relative;
-    padding: 0 0 30% 0;
+    padding: 0 0 40% 0;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 30%;
-    flex: 0 0 30%;
+    -ms-flex: 0 0 40%;
+    flex: 0 0 40%;
 }
 .leather__img img {
     position: absolute;

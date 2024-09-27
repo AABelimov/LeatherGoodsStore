@@ -80,7 +80,6 @@
           <div th:each="leather : ${leathers}" class="leather-item">
             <a th:href="@{/leathers/{leatherId}(leatherId=${leather.id})}" class="leather-item__img">
               <img th:each="image : ${leather.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
-<!--              <img th:src="@{/images/{imageId}(imageId=${leather.images[1].id})}" alt="alt">-->
             </a>
             <div th:text="${leather.name}" class="leather-item__text"></div>
           </div>
@@ -100,8 +99,8 @@
             <div th:each="plc : ${cart.products.keySet()}" class="order-cart__item order-cart-item">
               <div class="order-cart-item__part1">
                 <div class="order-cart-item__img">
-                  <img th:if="${plc.getImage() == null}" th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
-                  <img th:if="${plc.getImage() != null}" th:src="@{/images/{imageId}(imageId=${plc.image.id})}" alt="">
+                  <img th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
+                  <!--                                    <img th:if="${plc.getImages != null}" th:src="@{/images/{imageId}(imageId=${plc.images[0].id})}" alt="">-->
                 </div>
                 <div class="order-cart-item__info">
                   <div th:text="${plc.product.name}" class="order-cart-item__title"></div>

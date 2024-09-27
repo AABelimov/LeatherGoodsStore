@@ -20,7 +20,7 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/cart/update-cart",
-                        "/products-leather-colors/*/delete-image", "/address", "/orders/order-product/**",
+                        "/products-leather-colors/*/delete-image/*", "/address", "/orders/order-product/**",
                         "/promo-codes/check"))
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request

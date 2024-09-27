@@ -30,7 +30,7 @@ public class OrderServiceDefaultImpl implements OrderService {
         Order order = orderMapper.toEntity(dto);
         User user = userService.getUserByUsername(dto.username());
         PromoCode promoCode = promoCodeService.getPromoCodeByCode(dto.promoCode());
-        double discount = promoCode == null ? 0 : (double)(cart.getTotalCost() * promoCode.getDiscountSize() / 100);
+        double discount = promoCode == null ? 0 : (cart.getTotalCost() * promoCode.getDiscountSize() / 100);
 
         if (user == null) {
             user = userService.createUser(dto);
@@ -64,21 +64,21 @@ public class OrderServiceDefaultImpl implements OrderService {
         Order order = orderProduct.getOrder();
         Product product = orderProduct.getProductLeatherColor().getProduct();
         PromoCode promoCode = order.getPromoCode();
-        double discount = promoCode == null ? 0 : (double)(product.getPrice() * promoCode.getDiscountSize() / 100);
+        double discount = promoCode == null ? 0 : (product.getPrice() * (double)promoCode.getDiscountSize() / 100);
 
         switch (operator) {
             case "plus" -> {
                 orderProductService.updateQuantity(orderProduct, "plus");
-                order.setTotalCost(order.getTotalCost() + product.getPrice() - discount);
+                order.setTotalCost(order.getTotalCost() + (double)product.getPrice() - discount);
                 order.setTotalQuantity(order.getTotalQuantity() + 1);
                 orderRepository.save(order);
             }
             case "minus" -> {
                 if (orderProduct.getQuantity() == 1) {
-                    return deleteOrderProduct(orderProductId);
+                    return new UpdatedOrderProductQuantityDto(order.getTotalCost(), orderProduct.getQuantity());
                 } else {
                     orderProductService.updateQuantity(orderProduct, "minus");
-                    order.setTotalCost(order.getTotalCost() - product.getPrice() + discount);
+                    order.setTotalCost(order.getTotalCost() - (double)product.getPrice() + discount);
                     order.setTotalQuantity(order.getTotalQuantity() - 1);
                     orderRepository.save(order);
                 }

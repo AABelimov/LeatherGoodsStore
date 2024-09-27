@@ -14,6 +14,7 @@ import ru.aabelimov.leathergoodsstore.service.ImageService;
 import ru.aabelimov.leathergoodsstore.service.ProductLeatherColorService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,32 +28,24 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
     private String imageDir;
 
     @Override
-    @Transactional
-    public void createProductLeatherColor(Product product, LeatherColor leatherColor, MultipartFile image) throws IOException {
-        ProductLeatherColor productLeatherColor = getProductLeatherColorByProductAndLeatherColor(product, leatherColor);
-        if (productLeatherColor == null) {
-            ProductLeatherColor newProductLeatherColor = new ProductLeatherColor();
-            newProductLeatherColor.setProduct(product);
-            newProductLeatherColor.setLeatherColor(leatherColor);
-            newProductLeatherColor.setImage(imageService.createImage(image, imageDir));
-            productLeatherColorRepository.save(newProductLeatherColor);
-        } else {
-            if (productLeatherColor.getImage() == null) {
-                productLeatherColor.setImage(imageService.createImage(image, imageDir));
-                productLeatherColorRepository.save(productLeatherColor);
-            } else {
-                updateProductLeatherColor(productLeatherColor.getId(), image);
-            }
-        }
-    }
-
-    @Override
     public ProductLeatherColor createProductLeatherColor(Product product, LeatherColor leatherColor) {
         ProductLeatherColor productLeatherColor = new ProductLeatherColor();
         productLeatherColor.setProduct(product);
         productLeatherColor.setLeatherColor(leatherColor);
-        productLeatherColor.setImage(null);
         return productLeatherColorRepository.save(productLeatherColor);
+    }
+
+    @Override
+    @Transactional
+    public void addProductLeatherColorImage(Product product, LeatherColor leatherColor, MultipartFile image) throws IOException {
+        ProductLeatherColor productLeatherColor = getProductLeatherColorByProductAndLeatherColor(product, leatherColor);
+        if (productLeatherColor == null) {
+            productLeatherColor = createProductLeatherColor(product, leatherColor);
+        }
+        if (productLeatherColor.getImages() == null) {
+            productLeatherColor.setImages(new ArrayList<>());
+        }
+        productLeatherColor.getImages().add(imageService.createImage(image, imageDir));
     }
 
     @Override
@@ -71,25 +64,23 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
     }
 
     @Override
-    public void updateProductLeatherColor(Long id, MultipartFile image) throws IOException {
-        ProductLeatherColor productLeatherColor = getProductLeatherColor(id);
-        imageService.updateImage(productLeatherColor.getImage(), image, imageDir);
-    }
+    public Image deleteImage(Long id, Long imageId) throws IOException { // TODO :: exchange on try catch
+        ProductLeatherColor plc = getProductLeatherColor(id);
+        Image image = imageService.getImage(imageId);
 
-    @Override
-    public void deleteImage(ProductLeatherColor plc) throws IOException { // TODO :: exchange on try catch
-        Image image = plc.getImage();
-        plc.setImage(null);
+        plc.getImages().remove(image);
         imageService.deleteImage(image);
+        productLeatherColorRepository.save(plc);
+        return image;
     }
 
     @Override
 //    @Transactional
     public void deleteProductLeatherColor(ProductLeatherColor plc) throws IOException {
         productLeatherColorRepository.delete(plc);
-        if (plc.getImage() != null) {
-            imageService.deleteImage(plc.getImage());
-        }
+//        if (plc.getImage() != null) {
+//            imageService.deleteImage(plc.getImage());
+//        }
     }
 
     @Override

@@ -21,9 +21,9 @@
             <column name="leather_color_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
-            <column name="image_id" type="bigint">
-                <constraints nullable="true"/>
-            </column>
+<!--            <column name="image_id" type="bigint">-->
+<!--                <constraints nullable="true"/>-->
+<!--            </column>-->
         </createTable>
 
         <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="product_id"
@@ -34,10 +34,10 @@
                                  constraintName="fk_products_leather_colors_leather_color_id"
                                  referencedTableName="leathers_colors"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="image_id"
-                                 constraintName="fk_products_leather_colors_image_id"
-                                 referencedTableName="images"
-                                 referencedColumnNames="id"/>
+<!--        <addForeignKeyConstraint baseTableName="products_leather_colors" baseColumnNames="image_id"-->
+<!--                                 constraintName="fk_products_leather_colors_image_id"-->
+<!--                                 referencedTableName="images"-->
+<!--                                 referencedColumnNames="id"/>-->
         <addUniqueConstraint tableName="products_leather_colors" columnNames="product_id, leather_color_id"/>
     </changeSet>
 </databaseChangeLog>
