@@ -15,8 +15,11 @@ public interface LeatherService {
 
     List<Leather> getAllLeathers();
 
+    List<Leather> getAllVisibleLeathers();
+
     void updateLeather(Long id, CreateOrUpdateLeatherDto dto, MultipartFile image1, MultipartFile image2) throws IOException;
 
-    void deleteLeather(Long id) throws IOException;
+    void changeVisibility(Long id);
 
+//    void deleteLeather(Long id) throws IOException;
 }

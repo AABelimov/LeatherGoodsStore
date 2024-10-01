@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdatePostDto;
+import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.entity.Post;
-import ru.aabelimov.leathergoodsstore.mapper.PostMapper;
+import ru.aabelimov.leathergoodsstore.entity.Product;
 import ru.aabelimov.leathergoodsstore.repository.PostRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
+import ru.aabelimov.leathergoodsstore.service.LeatherService;
 import ru.aabelimov.leathergoodsstore.service.PostService;
+import ru.aabelimov.leathergoodsstore.service.ProductService;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,18 +23,32 @@ import java.util.List;
 public class PostServiceDefaultImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostMapper postMapper;
     private final ImageService imageService;
+    private final ProductService productService;
+    private final LeatherService leatherService;
 
     @Value("${path.to.images.for.posts}")
     private String imageDir;
 
     @Override
     @Transactional
-    public void createPost(CreateOrUpdatePostDto dto, MultipartFile image) throws IOException {
-        Post post = postMapper.toEntity(dto);
-        post.setImage(imageService.createImage(image, imageDir));
-        postRepository.save(post);
+    public Post createPost(CreateOrUpdatePostDto dto, String reference, Long referenceId) {
+        Post post = new Post();
+        post.setIsVisible(false);
+        if (reference.equals("product")) {
+            Product product = productService.getProduct(referenceId);
+            post.setProduct(product);
+            post.setTitle(product.getName());
+            post.setText(product.getDescription());
+            post.setImage(product.getImages().get(0));
+        } else if (reference.equals("leather")) {
+            Leather leather = leatherService.getLeather(referenceId);
+            post.setLeather(leather);
+            post.setTitle(leather.getName());
+            post.setText(leather.getDescription());
+            post.setImage(leather.getImages().get(0));
+        }
+        return postRepository.save(post);
     }
 
     @Override
@@ -42,6 +59,11 @@ public class PostServiceDefaultImpl implements PostService {
     @Override
     public List<Post> getAllPosts() {
         return postRepository.findAll();
+    }
+
+    @Override
+    public List<Post> getAllVisiblePosts() {
+        return postRepository.findAllByIsVisible(true);
     }
 
     @Override
@@ -56,8 +78,19 @@ public class PostServiceDefaultImpl implements PostService {
             post.setText(dto.text());
         }
         if (!image.isEmpty()) {
-            imageService.updateImage(post.getImage(), image, imageDir);
+            if (post.getImage() == null) {
+                post.setImage(imageService.createImage(image, imageDir));
+            } else {
+                imageService.updateImage(post.getImage(), image, imageDir);
+            }
         }
+        postRepository.save(post);
+    }
+
+    @Override
+    public void changeVisibility(Long id) {
+        Post post = getPost(id);
+        post.setIsVisible(!post.getIsVisible());
         postRepository.save(post);
     }
 

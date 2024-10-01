@@ -71,6 +71,19 @@
             <div data-total-quantity th:text="${cart.getTotalQuantity()}" class="cart__quantity"></div>
             <div th:text="'= ' + ${cart.getTotalCost()} + ' RUB'" class="cart__cost"></div>
         </a>
+        <div class="breadcrumbs-row">
+            <div class="container">
+                <div class="breadcrumbs">
+                    <a th:href="@{/}" class="breadcrumbs__text">Главная</a>
+                    <div class="breadcrumbs__arrow">→</div>
+                    <a th:href="@{/products}" class="breadcrumbs__text">Все товары</a>
+                    <div class="breadcrumbs__arrow">→</div>
+                    <a th:href="@{'/products?category=' + ${product.category.id}}" th:text="${product.category.name}" class="breadcrumbs__text"></a>
+                    <div class="breadcrumbs__arrow">→</div>
+                    <a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.name}" class="breadcrumbs__text"></a>
+                </div>
+            </div>
+        </div>
         <div class="product-row">
             <div class="container">
                 <div class="product">
@@ -103,9 +116,10 @@
                                 <div class="product__select product-select" data-state="">
                                     <div class="product-select__title"></div>
                                     <div class="product-select__content" data-leather-color-container>
-                                        <div th:each="leatherColor, index : ${leatherColors}">
-                                            <!--                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
-                                            <!--                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
+                                        <div th:each="leatherColor, index : ${leatherColors}" class="product-select__item">
+                                            <!--<input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
+                                            <!--<label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
+<!--                                            <span class="product-select__color-icon"></span>-->
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +138,7 @@
     </div>
     <div id="popup" class="popup">
         <div class="popup__body">
-            <div class="popup__content">
+            <div class="popup__content popup-cart">
                 <a href="#" class="popup__close close-popup">
                     <img src="/img/svg/remove.svg" alt="">
                 </a>
@@ -268,14 +282,18 @@
                                 <input type="text" id="address" name="address" class="order-cart-form__text-input" data-required required>
                                 <div class="delivery__address-options-container"></div>
                             </div>
-                            <div class="order-cart-form__field">
+                            <div class="order-cart-form__field field-promo-code">
                                 <label for="promoCode">Промокод (если есть):</label>
-                                <input type="text" id="promoCode" name="promoCode" class="order-cart-form__text-input">
+                                <input type="text" id="promoCode" name="promoCode" class="order-cart-form__text-input order-cart-form__promo-code-input">
+                                <div class="order-cart-form__promo-code-img">
+                                    <img src="" alt="">
+                                </div>
                             </div>
                         </div>
                         <div class="order-cart-form__btn">
                             <button type="submit">Оформить заказ</button>
                         </div>
+                        <div class="order-cart-form__invalid-msg" data-main-invalid-msg>Убедитесь, что корректно заполнили все поля</div>
                     </form>
                 </div>
             </div>
@@ -294,7 +312,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

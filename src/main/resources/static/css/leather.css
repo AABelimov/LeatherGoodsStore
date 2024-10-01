@@ -375,6 +375,19 @@ body.touch .sub-menu__list.open {
     }
 }
 
+.breadcrumbs {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 14px;
+    color: #666;
+    padding: 0 0 30px 20px;
+}
+.breadcrumbs__text {
+    margin: 0 5px;
+    color: #666;
+}
+
 .option-btn {
     padding: 20px 15px;
     border: 1px solid white;
@@ -468,6 +481,53 @@ body.touch .sub-menu__list.open {
     border-right: 0;
 }
 
+.order-cart-form {
+    position: relative;
+}
+.order-cart-form__invalid-msg {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: red;
+    margin-top: 10px;
+    display: none;
+}
+.order-cart-form__invalid-msg._invalide {
+    display: block;
+}
+.order-cart-form__promo-code-img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-25%) scale(0);
+    -ms-transform: translateY(-25%) scale(0);
+    transform: translateY(-25%) scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+.order-cart-form__promo-code-img._active {
+    -webkit-transform: translateY(-25%) scale(1);
+    -ms-transform: translateY(-25%) scale(1);
+    transform: translateY(-25%) scale(1);
+}
+.order-cart-form__promo-code-img img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.field-promo-code {
+    position: relative;
+}
+
 .footer {
     font-size: 14px;
     margin-top: 100px;
@@ -547,7 +607,7 @@ body.touch .sub-menu__list.open {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    top: 50px;
+    top: 0;
     left: 0;
     z-index: 12;
     opacity: 0;
@@ -568,15 +628,12 @@ body.touch .sub-menu__list.open {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    padding: 30px 10px;
+    padding: 80px 10px;
     -webkit-transition: all 0.6s ease 0s;
     transition: all 0.6s ease 0s;
 }
 .popup__content {
     background-color: white;
-    max-width: 600px;
-    width: 100%;
-    padding: 30px;
     position: relative;
     -webkit-transition: all 0.6s ease 0s;
     transition: all 0.6s ease 0s;
@@ -599,6 +656,13 @@ body.touch .sub-menu__list.open {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+}
+
+.popup-cart {
+    max-width: 600px;
+    width: 100%;
+    padding: 30px 30px 50px 30px;
+    margin-bottom: 100px;
 }
 
 .popup.open {

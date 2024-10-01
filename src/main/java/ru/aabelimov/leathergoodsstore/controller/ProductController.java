@@ -2,6 +2,8 @@ package ru.aabelimov.leathergoodsstore.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateProductDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
 import ru.aabelimov.leathergoodsstore.entity.Leather;
+import ru.aabelimov.leathergoodsstore.entity.Product;
+import ru.aabelimov.leathergoodsstore.entity.Role;
 import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.io.IOException;
@@ -36,9 +40,15 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public String getProduct(@PathVariable Long id, Model model) {
-        List<Leather> leathers = leatherService.getAllLeathers();
-        model.addAttribute("product", productService.getProduct(id));
+    public String getProduct(@PathVariable Long id, Model model, Authentication authentication) {
+        List<Leather> leathers = leatherService.getAllVisibleLeathers();
+        Product product = productService.getProduct(id);
+        boolean isAdmin = authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()));
+
+        if (!isAdmin && !product.getIsVisible()) {
+            throw new RuntimeException(); // TODO :: add exception
+        }
+        model.addAttribute("product", product);
         model.addAttribute("leathers", leathers);
         model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(leathers.get(0).getId()));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(id));
@@ -52,10 +62,13 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         model.addAttribute("leatherColors", leatherColorService.getAllLeatherColors());
+
         if (category == null) {
-            model.addAttribute("products", productService.getAllProducts());
+            model.addAttribute("products", productService.getAllVisibleProducts());
+            model.addAttribute("category", null);
         } else {
             model.addAttribute("products", productService.getProductsByCategoryId(category));
+            model.addAttribute("category", categoryService.getCategory(category));
         }
         return "product/catalog";
     }
@@ -87,10 +100,17 @@ public class ProductController {
         return "redirect:/products/settings";
     }
 
-    @DeleteMapping("{id}")
+    @PatchMapping("{id}/change-visibility")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String deleteProduct(@PathVariable Long id) throws IOException {
-        productService.deleteProduct(id);
+    public String changeVisibility(@PathVariable Long id) {
+        productService.changeVisibility(id);
         return "redirect:/products/settings";
     }
+
+//    @DeleteMapping("{id}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public String deleteProduct(@PathVariable Long id) throws IOException {
+//        productService.deleteProduct(id);
+//        return "redirect:/products/settings";
+//    }
 }

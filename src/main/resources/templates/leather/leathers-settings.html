@@ -72,7 +72,7 @@
                             <img th:each="image : ${leather.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
                         </div>
                         <div class="item__info">
-                            <div th:text="${leather.name}" class="item__title"></div>
+                            <div th:style="${leather.isVisible} ? '' : 'text-decoration: line-through;'" th:text="${leather.name}" class="item__title"></div>
                             <div th:text="${leather.description}" class="item__text"></div>
                         </div>
                         <div class="item__interaction">
@@ -82,9 +82,14 @@
                             <a th:href="@{/leathers/{leatherId}/edit(leatherId=${leather.id})}" class="item__btn">
                                 <span>Изменить</span>
                             </a>
-                            <form th:action="@{/leathers/{leatherId}(leatherId=${leather.id})}" th:method="delete" class="item__btn">
+                            <form th:action="@{'/posts' + '?reference=leather&referenceId=' + ${leather.id}}" th:method="post" class="item__btn">
                                 <button type="submit">
-                                    <span>Удалить</span>
+                                    <span>Создать пост</span>
+                                </button>
+                            </form>
+                            <form th:action="@{/leathers/{leatherId}/change-visibility(leatherId=${leather.id})}" th:method="patch" class="item__btn">
+                                <button type="submit">
+                                    <span>Изменить видимость</span>
                                 </button>
                             </form>
                         </div>
@@ -131,7 +136,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

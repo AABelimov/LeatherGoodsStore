@@ -14,6 +14,7 @@ public class LeatherMapper {
         leather.setName(dto.name());
         leather.setDescription(dto.description());
         leather.setImages(new ArrayList<>());
+        leather.setIsVisible(false);
         return leather;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdatePostDto;
+import ru.aabelimov.leathergoodsstore.entity.Post;
 import ru.aabelimov.leathergoodsstore.service.CategoryService;
 import ru.aabelimov.leathergoodsstore.service.PostService;
 
@@ -19,11 +20,12 @@ public class PostController {
     private final PostService postService;
     private final CategoryService categoryService;
 
-    @PostMapping
+    @PostMapping()
     public String createPost(CreateOrUpdatePostDto dto,
-                             @RequestParam MultipartFile image) throws IOException {
-        postService.createPost(dto, image);
-        return "redirect:/posts/settings";
+                             @RequestParam String reference,
+                             @RequestParam Long referenceId) {
+        Post post = postService.createPost(dto, reference, referenceId);
+        return "redirect:/posts/%d/edit".formatted(post.getId());
     }
 
     @GetMapping("settings")
@@ -48,8 +50,14 @@ public class PostController {
         return "redirect:/posts/settings";
     }
 
+    @PatchMapping("{id}/change-visibility")
+    public String changePostVisibility(@PathVariable Long id) {
+        postService.changeVisibility(id);
+        return "redirect:/posts/settings";
+    }
+
     @DeleteMapping("{id}")
-    public String deleteSlide(@PathVariable Long id) throws IOException {
+    public String deletePost(@PathVariable Long id) throws IOException {
         postService.deletePost(id);
         return "redirect:/posts/settings";
     }

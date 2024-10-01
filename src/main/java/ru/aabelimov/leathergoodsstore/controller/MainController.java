@@ -21,7 +21,7 @@ public class MainController {
     @GetMapping
     public String getMainPage(Model model) {
         model.addAttribute("slides", slideService.getAllSlides());
-        model.addAttribute("posts", postService.getAllPosts());
+        model.addAttribute("posts", postService.getAllVisiblePosts());
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "main/main";

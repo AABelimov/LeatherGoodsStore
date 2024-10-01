@@ -15,9 +15,13 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
+    List<Product> getAllVisibleProducts();
+
     List<Product> getProductsByCategoryId(Long categoryId);
 
     void updateProduct(Long id, CreateOrUpdateProductDto dto, MultipartFile image1, MultipartFile image2) throws IOException;
 
-    void deleteProduct(Long id) throws IOException;
+    void changeVisibility(Long id);
+
+//    void deleteProduct(Long id) throws IOException;
 }

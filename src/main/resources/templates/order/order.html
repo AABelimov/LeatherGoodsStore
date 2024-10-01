@@ -130,24 +130,28 @@
                             </div>
                             <div class="order-info">
                                 <div class="order-info__field field">
-                                    <div class="field__title">Способ связи: </div>
+                                    <div class="field__title">Способ связи:</div>
                                     <div th:text="${order.communicationType} + ' (' + ${order.communicationData} + ')'" class="field__value"></div>
                                 </div>
                                 <div class="order-info__field field">
-                                    <div class="field__title">Способ доставки: </div>
+                                    <div class="field__title">Способ доставки:</div>
                                     <div th:text="${order.deliveryMethod}" class="field__value"></div>
                                 </div>
                                 <div class="order-info__field field">
-                                    <div class="field__title">ФИО: </div>
+                                    <div class="field__title">ФИО:</div>
                                     <div th:text="${order.fio}" class="field__value"></div>
                                 </div>
                                 <div class="order-info__field field">
-                                    <div class="field__title">Адрес: </div>
+                                    <div class="field__title">Адрес:</div>
                                     <div th:text="${order.address}" class="field__value"></div>
                                 </div>
                                 <div class="order-info__field field">
-                                    <div class="field__title">Комментарий к заказу: </div>
+                                    <div class="field__title">Комментарий к заказу:</div>
                                     <div th:text="${order.comment}" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">Время заказа:</div>
+                                    <div th:text="${order.getOrderDate().format(formatter)}" class="field__value"></div>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +184,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

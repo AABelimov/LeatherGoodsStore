@@ -68,7 +68,7 @@
             <div class="container">
                 <div class="item">
                     <div class="item__img">
-                        <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
+                        <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" alt="alt">
                     </div>
                     <div class="item__info">
                         <div th:text="${post.title}" class="item__title"></div>
@@ -112,7 +112,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

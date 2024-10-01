@@ -5,6 +5,8 @@ import ru.aabelimov.leathergoodsstore.dto.CreateOrderDto;
 import ru.aabelimov.leathergoodsstore.entity.Order;
 import ru.aabelimov.leathergoodsstore.entity.OrderStatus;
 
+import java.time.LocalDateTime;
+
 @Component
 public class OrderMapper {
 
@@ -17,6 +19,7 @@ public class OrderMapper {
         order.setFio(dto.fio());
         order.setAddress(dto.address());
         order.setStatus(OrderStatus.NEW);
+        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 }

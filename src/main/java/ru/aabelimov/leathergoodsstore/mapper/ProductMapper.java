@@ -14,6 +14,7 @@ public class ProductMapper {
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setImages(new ArrayList<>());
+        product.setIsVisible(false);
         try {
             product.setPrice(Integer.parseInt(dto.price()));
         } catch (NumberFormatException e) {
