@@ -9,13 +9,17 @@ import java.util.List;
 
 public interface PostService {
 
-    void createPost(CreateOrUpdatePostDto dto, MultipartFile image) throws IOException;
+    Post createPost(CreateOrUpdatePostDto dto, String reference, Long referenceId);
 
     Post getPost(Long id);
 
     List<Post> getAllPosts();
 
+    List<Post> getAllVisiblePosts();
+
     void updatePost(Long id, CreateOrUpdatePostDto dto, MultipartFile image) throws IOException;
+
+    void changeVisibility(Long id);
 
     void deletePost(Long id) throws IOException;
 }

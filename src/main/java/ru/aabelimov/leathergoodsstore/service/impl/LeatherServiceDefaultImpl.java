@@ -52,6 +52,11 @@ public class LeatherServiceDefaultImpl implements LeatherService {
     }
 
     @Override
+    public List<Leather> getAllVisibleLeathers() {
+        return leatherRepository.findAllByIsVisible(true);
+    }
+
+    @Override
     @Transactional
     public void updateLeather(Long id, CreateOrUpdateLeatherDto dto, MultipartFile image1, MultipartFile image2) throws IOException {
         Leather leather = getLeather(id);
@@ -73,15 +78,22 @@ public class LeatherServiceDefaultImpl implements LeatherService {
     }
 
     @Override
-//    @Transactional
-    public void deleteLeather(Long id) throws IOException {
+    public void changeVisibility(Long id) {
         Leather leather = getLeather(id);
-        List<Image> images = leather.getImages();
-        leatherColorService.deleteLeathersColorsByLeatherId(id);
-        leatherRepository.delete(leather);
-        imageService.deleteImage(images.get(0));
-        if (images.size() > 1) {
-            imageService.deleteImage(images.get(1));
-        }
+        leather.setIsVisible(!leather.getIsVisible());
+        leatherRepository.save(leather);
     }
+
+//    @Override
+////    @Transactional
+//    public void deleteLeather(Long id) throws IOException {
+//        Leather leather = getLeather(id);
+//        List<Image> images = leather.getImages();
+//        leatherColorService.deleteLeathersColorsByLeatherId(id);
+//        leatherRepository.delete(leather);
+//        imageService.deleteImage(images.get(0));
+//        if (images.size() > 1) {
+//            imageService.deleteImage(images.get(1));
+//        }
+//    }
 }

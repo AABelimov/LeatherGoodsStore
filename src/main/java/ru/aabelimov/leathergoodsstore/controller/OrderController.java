@@ -17,6 +17,8 @@ import ru.aabelimov.leathergoodsstore.service.EmailService;
 import ru.aabelimov.leathergoodsstore.service.OrderProductService;
 import ru.aabelimov.leathergoodsstore.service.OrderService;
 
+import java.time.format.DateTimeFormatter;
+
 @Controller
 @RequestMapping("orders")
 @RequiredArgsConstructor
@@ -63,6 +65,8 @@ public class OrderController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getOrder(@PathVariable Long id, Model model) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        model.addAttribute("formatter", formatter);
         model.addAttribute("order", orderService.getOrder(id));
         model.addAttribute("orderProducts", orderProductService.getAllByOrderId(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
@@ -72,6 +76,8 @@ public class OrderController {
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getOrders(Model model) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        model.addAttribute("formatter", formatter);
         model.addAttribute("orders", orderService.getOrdersByStatus(OrderStatus.NEW));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "order/orders";

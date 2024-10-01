@@ -3,6 +3,7 @@ package ru.aabelimov.leathergoodsstore.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -24,6 +25,7 @@ public class Order {
     private String deliveryMethod;
     private String fio;
     private String address;
+    private LocalDateTime orderDate;
 
     @ManyToOne
     private PromoCode promoCode;

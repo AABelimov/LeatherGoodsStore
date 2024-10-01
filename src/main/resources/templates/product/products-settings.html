@@ -72,7 +72,7 @@
                             <img th:each="image : ${product.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
                         </div>
                         <div class="item__info">
-                            <div th:text="${product.name} + ' (' + ${product.price} + ' RUB)'" class="item__title"></div>
+                            <div th:style="${product.isVisible} ? '' : 'text-decoration: line-through;'" th:text="${product.name} + ' (' + ${product.price} + ' RUB)'" class="item__title"></div>
                             <div th:text="${product.description}" class="item__text"></div>
                         </div>
                         <div class="item__interaction">
@@ -85,10 +85,14 @@
                             <a th:href="@{/products/{productId}/edit(productId=${product.id})}" class="item__btn">
                                 <span>Изменить</span>
                             </a>
-                            <form th:action="@{/products/{productId}(productId=${product.id})}" th:method="delete"
-                                  class="item__btn">
+                            <form th:action="@{'/posts' + '?reference=product&referenceId=' + ${product.id}}" th:method="post" class="item__btn">
                                 <button type="submit">
-                                    <span>Удалить</span>
+                                    <span>Создать пост</span>
+                                </button>
+                            </form>
+                            <form th:action="@{/products/{productId}/change-visibility(productId=${product.id})}" th:method="patch" class="item__btn">
+                                <button type="submit">
+                                    <span>Изменить видимость</span>
                                 </button>
                             </form>
                         </div>
@@ -159,7 +163,7 @@
                                     <span>Переименовать</span>
                                 </button>
                             </form>
-                            <form th:action="@{/categories/{id}/hide(id=${category.id})}" th:method="patch" class="item__btn category-interaction__btn">
+                            <form th:action="@{/categories/{id}/change-visibility(id=${category.id})}" th:method="patch" class="item__btn category-interaction__btn">
                                 <button type="submit">
                                     <span>Изменить видимость</span>
                                 </button>
@@ -183,7 +187,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

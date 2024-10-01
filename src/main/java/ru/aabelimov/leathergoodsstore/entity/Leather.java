@@ -15,6 +15,7 @@ public class Leather {
     private Long id;
     private String name;
     private String description;
+    private Boolean isVisible;
 
     // TODO :: try to remove the eager
     @ManyToMany(fetch = FetchType.EAGER)

@@ -24,7 +24,7 @@ public class CategoryController {
         return "redirect:/products/settings";
     }
 
-    @PatchMapping("{id}/hide")
+    @PatchMapping("{id}/change-visibility")
     public String changeVisibility(@PathVariable Long id) {
         categoryService.changeVisibility(id);
         return "redirect:/products/settings";

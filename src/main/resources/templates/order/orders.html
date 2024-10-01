@@ -78,6 +78,10 @@
                                 <div class="field__title">Общая сумма заказа:</div>
                                 <div th:text="${order.totalCost} + ' RUB'" class="field__value"></div>
                             </div>
+                            <div class="order-item__field field">
+                                <div class="field__title">Время заказа:</div>
+                                <div th:text="${order.getOrderDate().format(formatter)}" class="field__value"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +101,7 @@
                         <a href="mailto:mail@mail.com" class="contacts__mail">
                             <img src="/img/svg/email.svg" alt="">
                         </a>
-                        <a href="https://t.me/eboy" class="contacts__tg">
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
                             <img src="/img/svg/telegram.svg" alt="">
                         </a>
                     </div>

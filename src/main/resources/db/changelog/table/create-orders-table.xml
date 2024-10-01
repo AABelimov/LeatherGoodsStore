@@ -42,6 +42,9 @@
             <column name="address" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="order_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
             <column name="promo_code_id" type="bigint">
                 <constraints nullable="true"/>
             </column>

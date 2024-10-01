@@ -27,6 +27,9 @@
             <column name="category_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_visible" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="products" baseColumnNames="category_id"

@@ -7,13 +7,13 @@
     <include file="table/create-images-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-slides-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-users-table.xml" relativeToChangelogFile="true"/>
-    <include file="table/create-posts-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-colors-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-leathers-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-leathers_colors-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-categories-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-products-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-products_leather_colors-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-posts-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-promo_codes-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-orders-table.xml" relativeToChangelogFile="true"/>
     <include file="table/create-orders_products-table.xml" relativeToChangelogFile="true"/>

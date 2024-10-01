@@ -19,6 +19,7 @@ public class Product {
 
     @ManyToOne
     private Category category;
+    private Boolean isVisible;
 
     @ManyToMany (fetch = FetchType.EAGER) // TODO :: possible differently? without eager
     @JoinTable(
