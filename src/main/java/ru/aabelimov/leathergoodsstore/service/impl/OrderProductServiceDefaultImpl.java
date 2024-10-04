@@ -17,6 +17,15 @@ public class OrderProductServiceDefaultImpl implements OrderProductService {
     private final Cart cart;
 
     @Override
+    public void createOrderProduct(Order order, ProductLeatherColor plc) {
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setOrder(order);
+        orderProduct.setProductLeatherColor(plc);
+        orderProduct.setQuantity(1);
+        orderProductRepository.save(orderProduct);
+    }
+
+    @Override
     public void createOrderProducts(Order order) {
         Map<ProductLeatherColor, Integer> products = cart.getProducts();
         for (ProductLeatherColor plc : products.keySet()) {
@@ -35,18 +44,14 @@ public class OrderProductServiceDefaultImpl implements OrderProductService {
 
     @Override
     public List<OrderProduct> getAllByOrderId(Long orderId) {
-        return orderProductRepository.findAllByOrderId(orderId);
+        return orderProductRepository.findAllByOrderIdOrderById(orderId);
     }
 
     @Override
     public void updateQuantity(OrderProduct orderProduct, String operator) {
         switch (operator) {
-            case "plus" -> {
-                orderProduct.setQuantity(orderProduct.getQuantity() + 1);
-            }
-            case "minus" -> {
-                orderProduct.setQuantity(orderProduct.getQuantity() - 1);
-            }
+            case "plus" -> orderProduct.setQuantity(orderProduct.getQuantity() + 1);
+            case "minus" -> orderProduct.setQuantity(orderProduct.getQuantity() - 1);
         }
         orderProductRepository.save(orderProduct);
     }

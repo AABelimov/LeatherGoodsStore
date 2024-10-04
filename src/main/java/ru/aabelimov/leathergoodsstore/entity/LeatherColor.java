@@ -20,4 +20,5 @@ public class LeatherColor {
 
     @ManyToOne
     private Image image;
+    private Boolean isVisible;
 }

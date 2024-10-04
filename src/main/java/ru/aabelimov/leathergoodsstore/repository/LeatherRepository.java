@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface LeatherRepository extends JpaRepository<Leather, Long> {
 
-    @Query(value = "SELECT * FROM leathers l1 WHERE id = (SELECT MIN(l2.id) FROM leathers l2 WHERE l2.name = l1.name)", nativeQuery = true)
-    List<Leather> findLeathersWithoutDoubleName();
+    List<Leather> findAllByIsVisibleOrderById(Boolean isVisible);
 
-    List<Leather> findAllByIsVisible(Boolean isVisible);
+    @Query("SELECT l FROM Leather l ORDER BY l.id ASC")
+    List<Leather> findAllOrderById();
 }

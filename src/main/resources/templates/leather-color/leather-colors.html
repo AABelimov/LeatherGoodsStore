@@ -71,6 +71,11 @@
                     <div th:each="leatherColor : ${leatherColors}" class="item">
                         <div class="item__img">
                             <img th:src="@{/images/{imageId}(imageId=${leatherColor.image.id})}" alt="alt">
+                            <form th:action="@{/leathers-colors/{id}/change-visibility(id=${leatherColor.id})}" th:method="patch" class="form image-form image-form-visibility">
+                                <div class="form__btn image-form__btn">
+                                    <button type="submit">Изменить видимость</button>
+                                </div>
+                            </form>
                             <form th:action="@{/leathers-colors/{leatherColorId}(leatherColorId=${leatherColor.id})}" th:method="patch" enctype="multipart/form-data" class="form image-form">
                                 <div class="form__field image-form__field">
                                     <input type="file" name="image" accept="image/*" required>
@@ -85,7 +90,7 @@
                                 </button>
                             </form>
                         </div>
-                        <div th:text="${leatherColor.color.name}" class="item__title"></div>
+                        <div th:style="${leatherColor.isVisible} ? '' : 'text-decoration: line-through;'" th:text="${leatherColor.color.name}" class="item__title"></div>
                     </div>
                 </div>
             </div>

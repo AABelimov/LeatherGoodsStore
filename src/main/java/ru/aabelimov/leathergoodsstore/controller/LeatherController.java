@@ -51,7 +51,7 @@ public class LeatherController {
             throw new RuntimeException(); // TODO :: add exception
         }
         model.addAttribute("leather", leather);
-        model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(id));
+        model.addAttribute("leatherColors", leatherColorService.getVisibleLeatherColorsByLeatherId(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
         return "leather/leather-card";
@@ -84,7 +84,7 @@ public class LeatherController {
     @GetMapping("{id}/leather-colors")
     @ResponseBody
     public ResponseEntity<List<LeatherColor>> getLeatherColorsByLeatherId(@PathVariable Long id) {
-        return ResponseEntity.ok(leatherColorService.getLeatherColorsByLeatherId(id));
+        return ResponseEntity.ok(leatherColorService.getVisibleLeatherColorsByLeatherId(id));
     }
 
     @PatchMapping("{id}")
@@ -103,11 +103,4 @@ public class LeatherController {
         leatherService.changeVisibility(id);
         return "redirect:/leathers/settings";
     }
-
-//    @DeleteMapping("{id}")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public String deleteLeather(@PathVariable Long id) throws IOException {
-//        leatherService.deleteLeather(id);
-//        return "redirect:/leathers/settings";
-//    }
 }

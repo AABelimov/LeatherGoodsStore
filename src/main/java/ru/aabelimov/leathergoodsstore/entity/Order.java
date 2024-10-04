@@ -30,12 +30,4 @@ public class Order {
     @ManyToOne
     private PromoCode promoCode;
     private OrderStatus status;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "orders_products",
-//            joinColumns = @JoinColumn(name = "order_id"),
-//            inverseJoinColumns = @JoinColumn(name = "id")
-//    )
-//    private List<OrderProduct> orderProducts;
 }

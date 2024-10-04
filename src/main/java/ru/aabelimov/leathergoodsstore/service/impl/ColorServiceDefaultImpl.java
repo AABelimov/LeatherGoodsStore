@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrUpdateColorDto;
 import ru.aabelimov.leathergoodsstore.entity.Color;
+import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
 import ru.aabelimov.leathergoodsstore.repository.ColorRepository;
 import ru.aabelimov.leathergoodsstore.service.ColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
@@ -57,7 +58,9 @@ public class ColorServiceDefaultImpl implements ColorService {
     @Transactional
     public void deleteColor(Long id) {
         Color color = getColor(id);
-        leatherColorService.deleteLeathersColorsByColorId(id);
-        colorRepository.delete(color);
+        List<LeatherColor> leatherColors = leatherColorService.getLeatherColorsByColorId(id);
+        if (leatherColors.isEmpty()) {
+            colorRepository.delete(color);
+        }
     }
 }

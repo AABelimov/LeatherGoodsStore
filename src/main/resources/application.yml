@@ -43,3 +43,7 @@ credentials:
     secret-key:
   dadata:
     token:
+
+admin:
+  username:
+  password:

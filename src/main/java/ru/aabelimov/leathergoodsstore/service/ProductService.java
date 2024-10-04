@@ -17,11 +17,11 @@ public interface ProductService {
 
     List<Product> getAllVisibleProducts();
 
+    List<Product> getAllVisibleProductsWhereCategoryIsVisible();
+
     List<Product> getProductsByCategoryId(Long categoryId);
 
     void updateProduct(Long id, CreateOrUpdateProductDto dto, MultipartFile image1, MultipartFile image2) throws IOException;
 
     void changeVisibility(Long id);
-
-//    void deleteProduct(Long id) throws IOException;
 }

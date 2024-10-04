@@ -87,7 +87,7 @@
                 <a sec:authorize="hasRole('ADMIN')" th:href="@{/products/settings}" class="option-btn option-btn-product-catalog">
                     <span>Разобраться с каталогом</span>
                 </a>
-                <div th:if="${leatherColors.size() > 0}" class="products-container">
+                <div th:if="${leathers.size() > 0}" class="products-container">
                     <div th:each="product : ${products}" class="product-item">
                         <a th:href="@{/products/{productId}(productId=${product.id})}" class="product-item__img">
                             <img th:each="image : ${product.images}" th:src="@{/images/{imageId}(imageId=${image.id})}" alt="alt">
@@ -113,8 +113,8 @@
                         <div th:each="plc : ${cart.products.keySet()}" class="order-cart__item order-cart-item">
                             <div class="order-cart-item__part1">
                                 <div class="order-cart-item__img">
-                                    <img th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
-                                    <!--                                    <img th:if="${plc.getImages != null}" th:src="@{/images/{imageId}(imageId=${plc.images[0].id})}" alt="">-->
+                                    <img th:if="${plc.images.size() == 0}" th:src="@{/images/{imageId}(imageId=${plc.product.images[0].id})}" alt="">
+                                    <img th:if="${plc.images.size() > 0}" th:src="@{/images/{imageId}(imageId=${plc.images.get(0).id})}" alt="">
                                 </div>
                                 <div class="order-cart-item__info">
                                     <div th:text="${plc.product.name}" class="order-cart-item__title"></div>

@@ -67,12 +67,13 @@
         <div class="order-row">
             <div class="container">
                 <div class="order">
-                    <div class="order__title">Order #123321</div>
+                    <div th:text="'Order ' + '#' + ${order.id}" class="order__title"></div>
                     <div class="order__info">
                         <div class="order__product-container product-container">
                             <div th:each="orderProduct : ${orderProducts}" th:data-order-product="${orderProduct.id}" class="product">
                                 <div class="product__img">
-                                    <img th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="alt">
+                                    <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="">
+                                    <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.images[0].id})}" alt="">
                                 </div>
                                 <div class="product__info">
                                     <div class="product__field field product-field">
@@ -109,6 +110,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="order__new-product new-product">
+                            <div class="new-product__body">
+                                <a th:href="@{/orders/{id}/add-product(id=${order.id})}">+</a>
+                            </div>
+                        </div>
                         <div class="order__total order-total">
                             <div class="order-total__title">ИТОГО:</div>
                             <div th:text="${order.totalCost} + ' RUB'" class="order-total__value"></div>
@@ -129,6 +135,14 @@
                                 </div>
                             </div>
                             <div class="order-info">
+                                <div class="order-info__field field">
+                                    <div class="field__title">Статус заказа: </div>
+                                    <div th:text="${order.status.name()}" class="field__value"></div>
+                                </div>
+                                <div class="order-info__field field">
+                                    <div class="field__title">Промокод:</div>
+                                    <div th:if="${order.promoCode != null}" th:text="${order.promoCode.code} + ' (' + ${order.promoCode.discountSize} + '%)'" class="field__value"></div>
+                                </div>
                                 <div class="order-info__field field">
                                     <div class="field__title">Способ связи:</div>
                                     <div th:text="${order.communicationType} + ' (' + ${order.communicationData} + ')'" class="field__value"></div>
@@ -151,13 +165,13 @@
                                 </div>
                                 <div class="order-info__field field">
                                     <div class="field__title">Время заказа:</div>
-                                    <div th:text="${order.getOrderDate().format(formatter)}" class="field__value"></div>
+                                    <div th:text="${order.getOrderDate.format(formatter)}" class="field__value"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="order__interaction">
-                        <form th:action="@{/}" class="order__btn">
+                    <div th:if="${order.status.name().equals('NEW')}" class="order__interaction">
+                        <form th:action="@{'/orders/' + ${order.id} + '/update-status?status=IN_PROGRESS'}" th:method="patch" class="order__btn">
                             <button type="submit">Подтвердить оплату заказа</button>
                         </form>
                         <form action="" class="order__btn">
@@ -165,6 +179,11 @@
                         </form>
                         <form th:action="@{/orders/{id}(id = ${order.id})}" th:method="delete" class="order__btn">
                             <button type="submit">Отменить заказ</button>
+                        </form>
+                    </div>
+                    <div th:if="${order.status.name().equals('IN_PROGRESS')}" class="order__interaction">
+                        <form th:action="@{'/orders/' + ${order.id} + '/update-status?status=COMPLETED'}" th:method="patch" class="order__btn">
+                            <button type="submit">Закрыть заказ</button>
                         </form>
                     </div>
                 </div>

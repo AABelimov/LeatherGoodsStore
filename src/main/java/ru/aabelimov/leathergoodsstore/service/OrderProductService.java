@@ -1,11 +1,12 @@
 package ru.aabelimov.leathergoodsstore.service;
 
-import ru.aabelimov.leathergoodsstore.entity.Order;
-import ru.aabelimov.leathergoodsstore.entity.OrderProduct;
+import ru.aabelimov.leathergoodsstore.entity.*;
 
 import java.util.List;
 
 public interface OrderProductService {
+
+    void createOrderProduct(Order order, ProductLeatherColor plc);
 
     void createOrderProducts(Order order);
 

@@ -5,5 +5,4 @@ import ru.aabelimov.leathergoodsstore.entity.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-
 }

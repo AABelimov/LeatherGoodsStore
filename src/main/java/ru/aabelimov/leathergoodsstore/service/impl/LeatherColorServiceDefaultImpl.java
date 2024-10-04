@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.aabelimov.leathergoodsstore.entity.Color;
 import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
+import ru.aabelimov.leathergoodsstore.entity.ProductLeatherColor;
 import ru.aabelimov.leathergoodsstore.repository.LeatherColorRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
@@ -35,6 +36,7 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
         leatherColor.setLeather(leather);
         leatherColor.setColor(color);
         leatherColor.setImage(imageService.createImage(image, imageDir));
+        leatherColor.setIsVisible(false);
         try {
             leatherColorRepository.save(leatherColor);
         } catch (DataIntegrityViolationException e) {
@@ -49,12 +51,27 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
 
     @Override
     public List<LeatherColor> getAllLeatherColors() {
-        return leatherColorRepository.findAll();
+        return leatherColorRepository.findAllOrderById();
     }
 
     @Override
     public List<LeatherColor> getLeatherColorsByLeatherId(Long leatherId) {
-        return leatherColorRepository.findAllByLeatherId(leatherId);
+        return leatherColorRepository.findAllByLeatherIdOrderById(leatherId);
+    }
+
+    @Override
+    public List<LeatherColor> getVisibleLeatherColorsByLeatherId(Long leatherId) {
+        return leatherColorRepository.findAllByLeatherIdAndIsVisibleOrderById(leatherId, true);
+    }
+
+    @Override
+    public List<LeatherColor> getLeatherColorsByColorId(Long colorId) {
+        return leatherColorRepository.findAllByColorIdOrderById(colorId);
+    }
+
+    @Override
+    public List<Leather> getAllLeathersWithVisibleLeatherColors() {
+        return leatherColorRepository.findAllLeathersWhereLeatherColorIsVisible(true);
     }
 
     @Override
@@ -64,35 +81,18 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     }
 
     @Override
-    @Transactional
-    public void deleteLeathersColorsByLeatherId(Long leatherId) {
-        List<LeatherColor> leatherColors = leatherColorRepository.findAllByLeatherId(leatherId);
-        deleteLeathersColors(leatherColors);
+    public LeatherColor changeVisibility(Long id) {
+        LeatherColor leatherColor = getLeatherColor(id);
+        leatherColor.setIsVisible(!leatherColor.getIsVisible());
+        return leatherColorRepository.save(leatherColor);
     }
 
     @Override
-//    @Transactional
-    public void deleteLeathersColorsByColorId(Long colorId) {
-        List<LeatherColor> leatherColors = leatherColorRepository.findAllByColorId(colorId);
-        deleteLeathersColors(leatherColors);
-    }
+    public void deleteLeatherColor(LeatherColor leatherColor) {
+        List<ProductLeatherColor> productLeatherColors = productLeatherColorService.getAllByLeatherColorId(leatherColor.getId());
 
-//    @Transactional
-    protected void deleteLeathersColors(List<LeatherColor> leatherColors) {
-        leatherColors.forEach(leatherColor -> {
-            try {
-                deleteLeatherColor(leatherColor);
-            } catch (IOException e) {
-                throw new RuntimeException(e); // TODO :: handle
-            }
-        });
-    }
-
-    @Override
-//    @Transactional
-    public void deleteLeatherColor(LeatherColor leatherColor) throws IOException {
-        productLeatherColorService.deleteProductLeatherColorsByLeatherColorId(leatherColor.getId());
-        leatherColorRepository.delete(leatherColor);
-        imageService.deleteImage(leatherColor.getImage());
+        if (productLeatherColors.isEmpty()) {
+            leatherColorRepository.delete(leatherColor);
+        }
     }
 }
