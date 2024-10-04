@@ -2,6 +2,7 @@ package ru.aabelimov.leathergoodsstore.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrderDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdatedOrderProductQuantityDto;
 import ru.aabelimov.leathergoodsstore.entity.*;
-import ru.aabelimov.leathergoodsstore.service.CategoryService;
-import ru.aabelimov.leathergoodsstore.service.EmailService;
-import ru.aabelimov.leathergoodsstore.service.OrderProductService;
-import ru.aabelimov.leathergoodsstore.service.OrderService;
+import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("orders")
@@ -27,6 +27,10 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderProductService orderProductService;
     private final CategoryService categoryService;
+    private final LeatherService leatherService;
+    private final ProductService productService;
+    private final LeatherColorService leatherColorService;
+    private final ProductLeatherColorService productLeatherColorService;
     private final EmailService emailService;
     private final Cart cart;
     private final ObjectMapper objectMapper;
@@ -37,9 +41,20 @@ public class OrderController {
     @Value("${credentials.yookassa.secret-key}")
     private String secretKey;
 
+    @Value("${admin.username}")
+    private String username;
+
     @PostMapping
-    public String createOrder(CreateOrderDto dto) throws JsonProcessingException {
+    public String createOrder(CreateOrderDto dto) throws JsonProcessingException, MessagingException {
+        Context context = new Context();
         Order order = orderService.createOrder(dto);
+        String subject = "Оформлен заказ #%d".formatted(order.getId());
+
+        context.setVariable("subject", subject);
+        context.setVariable("order", order);
+        context.setVariable("orderProducts", orderProductService.getAllByOrderId(order.getId()));
+
+//        emailService.sendHtmlMessage(username, subject, "email/email", context);
 
 //        PaymentRequest paymentRequest = new PaymentRequest(BigDecimal.valueOf(order.getTotalCost()),
 //                "Заказ №%d".formatted(order.getId()));
@@ -75,12 +90,45 @@ public class OrderController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String getOrders(Model model) {
+    public String getOrders(@RequestParam(required = false) OrderStatus status, Model model) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        status = status == null ? OrderStatus.NEW : status;
+        model.addAttribute("status", status);
         model.addAttribute("formatter", formatter);
-        model.addAttribute("orders", orderService.getOrdersByStatus(OrderStatus.NEW));
+        model.addAttribute("orders", orderService.getOrdersByStatus(status));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "order/orders";
+    }
+
+    @GetMapping("{id}/add-product")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String getProductsPage(@PathVariable Long id, Model model) {
+        model.addAttribute("order", orderService.getOrder(id));
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
+        model.addAttribute("leathers", leatherColorService.getAllLeathersWithVisibleLeatherColors());
+        model.addAttribute("products", productService.getAllVisibleProductsWhereCategoryIsVisible());
+        model.addAttribute("category", null);
+        return "order-product/catalog";
+    }
+
+    @GetMapping("{id}/add-product/{productId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String getCreateOrderProductPage(@PathVariable Long id, @PathVariable Long productId, Model model) {
+        List<Leather> leathers = leatherColorService.getAllLeathersWithVisibleLeatherColors();
+        model.addAttribute("order", orderService.getOrder(id));
+        model.addAttribute("product", productService.getProduct(productId));
+        model.addAttribute("leathers", leathers);
+        model.addAttribute("leatherColors", leatherColorService.getVisibleLeatherColorsByLeatherId(leathers.get(0).getId()));
+        model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(productId));
+        model.addAttribute("categories", categoryService.getAllVisibleCategories());
+        return "order-product/create-order-product";
+    }
+
+    @PatchMapping("{id}/update-status")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String updateStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
+        orderService.updateStatus(id, status);
+        return "redirect:/orders/{id}";
     }
 
     @PatchMapping("order-product/{orderProductId}/minus")

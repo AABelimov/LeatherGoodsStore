@@ -32,6 +32,7 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
         ProductLeatherColor productLeatherColor = new ProductLeatherColor();
         productLeatherColor.setProduct(product);
         productLeatherColor.setLeatherColor(leatherColor);
+        productLeatherColor.setImages(new ArrayList<>());
         return productLeatherColorRepository.save(productLeatherColor);
     }
 
@@ -60,7 +61,12 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
 
     @Override
     public List<ProductLeatherColor> getAllByProductId(Long productId) {
-        return productLeatherColorRepository.findAllByProductId(productId);
+        return productLeatherColorRepository.findAllByProductIdOrderById(productId);
+    }
+
+    @Override
+    public List<ProductLeatherColor> getAllByLeatherColorId(Long leatherColorId) {
+        return productLeatherColorRepository.findAllByLeatherColorIdOrderById(leatherColorId);
     }
 
     @Override
@@ -86,7 +92,7 @@ public class ProductLeatherColorServiceDefaultImpl implements ProductLeatherColo
     @Override
 //    @Transactional
     public void deleteProductLeatherColorsByLeatherColorId(Long leatherColorId) {
-        List<ProductLeatherColor> productLeatherColors = productLeatherColorRepository.findAllByLeatherColorId(leatherColorId);
+        List<ProductLeatherColor> productLeatherColors = productLeatherColorRepository.findAllByLeatherColorIdOrderById(leatherColorId);
         productLeatherColors.forEach(plc -> {
             try {
                 deleteProductLeatherColor(plc);

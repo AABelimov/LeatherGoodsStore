@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrderDto;
+import ru.aabelimov.leathergoodsstore.dto.CreateOrderProductDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdatedOrderProductQuantityDto;
 import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.mapper.OrderMapper;
@@ -19,7 +20,10 @@ public class OrderServiceDefaultImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final OrderMapper orderMapper;
+    private final ProductService productService;
     private final OrderProductService orderProductService;
+    private final LeatherColorService leatherColorService;
+    private final ProductLeatherColorService productLeatherColorService;
     private final PromoCodeService promoCodeService;
     private final CartService cartService;
     private final Cart cart;
@@ -48,13 +52,34 @@ public class OrderServiceDefaultImpl implements OrderService {
     }
 
     @Override
+    @Transactional
+    public void createOrderProduct(CreateOrderProductDto dto) {
+        Order order = getOrder(dto.orderId());
+        Product product = productService.getProduct(dto.productId());
+        LeatherColor leatherColor = leatherColorService.getLeatherColor(dto.leatherColorId());
+        ProductLeatherColor plc = productLeatherColorService.getProductLeatherColorByProductAndLeatherColor(product, leatherColor);
+        PromoCode promoCode = order.getPromoCode();
+        double discount = promoCode == null ? 0 : (product.getPrice() * (double)promoCode.getDiscountSize() / 100);
+
+        if (plc == null) {
+            plc = productLeatherColorService.createProductLeatherColor(product, leatherColor);
+        }
+
+        order.setTotalCost(order.getTotalCost() + (double)product.getPrice() - discount);
+        order.setTotalQuantity(order.getTotalQuantity() + 1);
+
+        orderRepository.save(order);
+        orderProductService.createOrderProduct(order, plc);
+    }
+
+    @Override
     public Order getOrder(Long id) {
         return orderRepository.findById(id).orElseThrow(); // TODO ::
     }
 
     @Override
     public List<Order> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.findAllByStatus(status);
+        return orderRepository.findAllByStatusOrderById(status);
     }
 
     @Override
@@ -101,7 +126,14 @@ public class OrderServiceDefaultImpl implements OrderService {
 
         orderProductService.deleteOrderProduct(orderProduct);
         orderRepository.save(order);
-        return new UpdatedOrderProductQuantityDto(order.getTotalCost(), orderProduct.getQuantity());
+        return new UpdatedOrderProductQuantityDto(order.getTotalCost(), 0);
+    }
+
+    @Override
+    public void updateStatus(Long id, OrderStatus status) {
+        Order order = getOrder(id);
+        order.setStatus(status);
+        orderRepository.save(order);
     }
 
     @Override

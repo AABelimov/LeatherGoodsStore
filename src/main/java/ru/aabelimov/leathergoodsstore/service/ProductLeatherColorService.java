@@ -21,6 +21,8 @@ public interface ProductLeatherColorService {
 
     List<ProductLeatherColor> getAllByProductId(Long productId);
 
+    List<ProductLeatherColor> getAllByLeatherColorId(Long leatherColorId);
+
     Image deleteImage(Long id, Long imageId) throws IOException;
 
     void deleteProductLeatherColor(ProductLeatherColor plc) throws IOException;

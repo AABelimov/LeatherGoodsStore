@@ -100,6 +100,10 @@ a {
     color: #000;
 }
 
+html, body, .wrapper, .body {
+    min-height: 100%;
+}
+
 body {
     font-family: "Century Gothic";
     font-size: 16px;
@@ -656,13 +660,6 @@ body.touch .sub-menu__list.open {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
-}
-
-.popup-cart {
-    max-width: 600px;
-    width: 100%;
-    padding: 30px 30px 50px 30px;
-    margin-bottom: 100px;
 }
 
 .popup.open {
@@ -1580,6 +1577,7 @@ button.swiper-pagination-bullet {
     border: 1px solid black;
     border-radius: 2px;
     position: absolute;
+    z-index: 1;
     width: 100%;
     background-color: white;
     min-height: 150px;
@@ -1648,6 +1646,13 @@ button.swiper-pagination-bullet {
 
 .delivery-method._checked .mark__checked {
     display: inline-block;
+}
+
+.popup-cart {
+    max-width: 600px;
+    width: 100%;
+    padding: 30px 30px 50px 30px;
+    margin-bottom: 100px;
 }
 
 .body {

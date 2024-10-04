@@ -46,17 +46,22 @@ public class ProductServiceDefaultImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllOrderById();
     }
 
     @Override
     public List<Product> getAllVisibleProducts() {
-        return productRepository.findAllByIsVisible(true);
+        return productRepository.findAllByIsVisibleOrderById(true);
+    }
+
+    @Override
+    public List<Product> getAllVisibleProductsWhereCategoryIsVisible() {
+        return productRepository.findAllVisibleWhereCategoryIsVisible();
     }
 
     @Override
     public List<Product> getProductsByCategoryId(Long categoryId) {
-        return productRepository.findByCategoryId(categoryId);
+        return productRepository.findByCategoryIdOrderById(categoryId);
     }
 
     @Override
@@ -96,14 +101,4 @@ public class ProductServiceDefaultImpl implements ProductService {
         product.setIsVisible(!product.getIsVisible());
         productRepository.save(product);
     }
-
-//    @Override
-//    @Transactional
-//    public void deleteProduct(Long id) throws IOException {
-//        Product product = getProduct(id);
-//        List<Image> images = product.getImages();
-//        productRepository.delete(product);
-//        imageService.deleteImage(images.get(0));
-//        imageService.deleteImage(images.get(1));
-//    }
 }

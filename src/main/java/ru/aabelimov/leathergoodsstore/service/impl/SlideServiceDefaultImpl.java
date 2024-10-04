@@ -41,7 +41,7 @@ public class SlideServiceDefaultImpl implements SlideService {
 
     @Override
     public List<Slide> getAllSlides() {
-        return slideRepository.findAll();
+        return slideRepository.findAllOrderById();
     }
 
     @Override

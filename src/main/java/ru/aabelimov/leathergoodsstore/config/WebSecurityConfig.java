@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/admin/**", "/categories/**", "/colors/**", "/leathers-colors/**",
-                                "/posts/**", "/products-leather-colors/**", "/slides/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+                                "/posts/**", "/products-leather-colors/**", "/slides/**", "/order-products/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().permitAll()
                 )
                 .build();

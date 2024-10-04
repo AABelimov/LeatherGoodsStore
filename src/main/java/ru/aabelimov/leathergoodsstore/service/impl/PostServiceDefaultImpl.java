@@ -58,12 +58,12 @@ public class PostServiceDefaultImpl implements PostService {
 
     @Override
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAllOrderById();
     }
 
     @Override
     public List<Post> getAllVisiblePosts() {
-        return postRepository.findAllByIsVisible(true);
+        return postRepository.findAllByIsVisibleOrderById(true);
     }
 
     @Override

@@ -18,11 +18,15 @@ public interface LeatherColorService {
 
     List<LeatherColor> getLeatherColorsByLeatherId(Long leatherId);
 
+    List<LeatherColor> getVisibleLeatherColorsByLeatherId(Long leatherId);
+
+    List<LeatherColor> getLeatherColorsByColorId(Long colorId);
+
+    List<Leather> getAllLeathersWithVisibleLeatherColors();
+
     void updateLeatherColor(Long id, MultipartFile image) throws IOException;
 
-    void deleteLeathersColorsByLeatherId(Long leatherId);
+    LeatherColor changeVisibility(Long id);
 
-    void deleteLeathersColorsByColorId(Long colorId);
-
-    void deleteLeatherColor(LeatherColor leatherColor) throws IOException;
+    void deleteLeatherColor(LeatherColor leatherColor);
 }

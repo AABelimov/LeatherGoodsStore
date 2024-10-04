@@ -100,6 +100,10 @@ a {
     color: #000;
 }
 
+html, body, .wrapper, .body {
+    min-height: 100%;
+}
+
 body {
     font-family: "Century Gothic";
     font-size: 16px;
@@ -658,13 +662,6 @@ body.touch .sub-menu__list.open {
     object-fit: cover;
 }
 
-.popup-cart {
-    max-width: 600px;
-    width: 100%;
-    padding: 30px 30px 50px 30px;
-    margin-bottom: 100px;
-}
-
 .popup.open {
     opacity: 1;
     visibility: visible;
@@ -831,6 +828,10 @@ body.touch .sub-menu__list.open {
     padding: 2px 10px;
     border-radius: 2px;
     background-color: #EFEFEF;
+}
+
+.image-form-visibility {
+    top: 0;
 }
 
 .option-btn-color {

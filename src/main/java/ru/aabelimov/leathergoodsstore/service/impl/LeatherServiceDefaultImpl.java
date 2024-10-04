@@ -11,9 +11,7 @@ import ru.aabelimov.leathergoodsstore.entity.Leather;
 import ru.aabelimov.leathergoodsstore.mapper.LeatherMapper;
 import ru.aabelimov.leathergoodsstore.repository.LeatherRepository;
 import ru.aabelimov.leathergoodsstore.service.ImageService;
-import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.LeatherService;
-import ru.aabelimov.leathergoodsstore.service.ProductLeatherColorService;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +23,6 @@ public class LeatherServiceDefaultImpl implements LeatherService {
     private final LeatherRepository leatherRepository;
     private final LeatherMapper leatherMapper;
     private final ImageService imageService;
-    private final LeatherColorService leatherColorService;
 
     @Value("${path.to.images.for.leathers}")
     private String imageDir;
@@ -48,12 +45,12 @@ public class LeatherServiceDefaultImpl implements LeatherService {
 
     @Override
     public List<Leather> getAllLeathers() {
-        return leatherRepository.findAll();
+        return leatherRepository.findAllOrderById();
     }
 
     @Override
     public List<Leather> getAllVisibleLeathers() {
-        return leatherRepository.findAllByIsVisible(true);
+        return leatherRepository.findAllByIsVisibleOrderById(true);
     }
 
     @Override
@@ -83,17 +80,4 @@ public class LeatherServiceDefaultImpl implements LeatherService {
         leather.setIsVisible(!leather.getIsVisible());
         leatherRepository.save(leather);
     }
-
-//    @Override
-////    @Transactional
-//    public void deleteLeather(Long id) throws IOException {
-//        Leather leather = getLeather(id);
-//        List<Image> images = leather.getImages();
-//        leatherColorService.deleteLeathersColorsByLeatherId(id);
-//        leatherRepository.delete(leather);
-//        imageService.deleteImage(images.get(0));
-//        if (images.size() > 1) {
-//            imageService.deleteImage(images.get(1));
-//        }
-//    }
 }

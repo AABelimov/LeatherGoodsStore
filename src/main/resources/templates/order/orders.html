@@ -64,6 +64,26 @@
         </div>
     </div>
     <div class="body">
+        <div class="order-menu-row">
+            <div class="container">
+                <nav class="menu order-menu">
+                    <ul class="menu__list order-menu__list">
+                        <li>
+                            <a th:href="@{/orders}" th:style="${status.name().equals('NEW')} ? 'color: rgb(228, 156, 0);text-decoration: underline;' : ''" class="menu__link">Новые</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/orders?status=AWAITING_PAYMENT'}" th:style="${status.name().equals('AWAITING_PAYMENT')} ? 'color: rgb(228, 156, 0);text-decoration: underline;' : ''" class="menu__link">В ожидании оплаты</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/orders?status=IN_PROGRESS'}" th:style="${status.name().equals('IN_PROGRESS')} ? 'color: rgb(228, 156, 0);text-decoration: underline;' : ''" class="menu__link">В работе</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/orders?status=COMPLETED'}" th:style="${status.name().equals('COMPLETED')} ? 'color: rgb(228, 156, 0);text-decoration: underline;' : ''" class="menu__link">Завершенные</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
         <div class="orders-row">
             <div class="container">
                 <div class="orders-container">

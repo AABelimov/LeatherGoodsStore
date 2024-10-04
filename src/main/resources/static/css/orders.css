@@ -100,6 +100,10 @@ a {
     color: #000;
 }
 
+html, body, .wrapper, .body {
+    min-height: 100%;
+}
+
 body {
     font-family: "Century Gothic";
     font-size: 16px;
@@ -658,13 +662,6 @@ body.touch .sub-menu__list.open {
     object-fit: cover;
 }
 
-.popup-cart {
-    max-width: 600px;
-    width: 100%;
-    padding: 30px 30px 50px 30px;
-    margin-bottom: 100px;
-}
-
 .popup.open {
     opacity: 1;
     visibility: visible;
@@ -676,16 +673,25 @@ body.touch .sub-menu__list.open {
     opacity: 1;
 }
 
-.wrapper, .body {
+.wrapper {
     height: 100%;
 }
 
-.orders-row {
-    margin-top: 75px;
+.order-menu-row {
+    margin-top: 100px;
+}
+
+.order-menu {
+    padding: 0 20px;
+}
+.order-menu__list {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: start;
 }
 
 .orders-container {
-    padding: 50px 20px 0 20px;
+    padding: 30px 20px 0 20px;
 }
 
 .order-item {
@@ -816,4 +822,24 @@ body.touch .sub-menu__list.open {
 
 .product-field__title {
     min-width: 60px;
+}
+
+.new-product__body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.new-product__body a {
+    border: 1px solid black;
+    width: 30%;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 26px;
+}
+
+.order-info {
+    margin-top: 25px;
 }

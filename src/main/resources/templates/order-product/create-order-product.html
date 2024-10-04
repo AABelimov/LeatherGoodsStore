@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/products.css">
+    <link rel="icon" href="/img/svg/logo.svg" type=”image/svg”>
+    <title>shishkin</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="header">
+        <div class="container">
+            <div class="cap">
+                <a th:href="@{/}" class="logo">
+                    <div class="logo__img">
+                        <img src="/img/svg/logo.svg" alt="">
+                    </div>
+                    <div class="logo__text">shishkin</div>
+                </a>
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li>
+                            <a th:href="@{/products}" class="menu__link">Каталог</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/products}" class="sub-menu__link">Все</a>
+                                </li>
+                                <li th:each="category : ${categories}">
+                                    <a th:href="@{'/products?category=' + ${category.id}}" th:text="${category.name}" class="sub-menu__link"></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/leathers}" class="menu__link">Кожа</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Философия бренда</a>
+                        </li>
+                        <li>
+                            <a href="" class="menu__link">Доставка и оплата</a>
+                        </li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="menu__link">Admin</a>
+                            <span class="menu__arrow arrow"></span>
+                            <ul class="sub-menu__list">
+                                <li>
+                                    <a th:href="@{/orders}" class="sub-menu__link">Заказы</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/promo-codes/settings}" class="sub-menu__link">Промокоды</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="product-row">
+            <div class="container">
+                <div class="product">
+                    <div class="product__constructor">
+                        <div class="product__img-wrapper">
+                            <div th:each="plc : ${productLeatherColors}" th:data-leather-color="${plc.leatherColor.id}" class="product__img-container">
+                                <img th:each="image : ${plc.images}" th:data-image-src="@{/images/{imageId}(imageId=${image.id})}" th:data-leather-color="${plc.leatherColor.id}" th:data-leather="${plc.leatherColor.leather.id}" th:data-image-id="${image.id}" th:data-plc-id="${plc.id}" data-image-slide="true" class="product__img" alt="alt">
+                            </div>
+                            <div class="product__interaction product-interaction">
+                                    <span class="product-interaction__prev">
+                                        <img src="/img/svg/prev-white.svg" alt="">
+                                    </span>
+                                <span class="product-interaction__next">
+                                        <img src="/img/svg/next-white.svg" alt="">
+                                    </span>
+                            </div>
+                        </div>
+                        <form th:action="@{/order-products}" method="post" class="product__form form">
+                            <div th:text="${product.name}" class="product__title"></div>
+                            <div class="product__selects">
+                                <div class="product__select product-select" data-state="">
+                                    <div class="product-select__title"></div>
+                                    <div class="product-select__content">
+                                        <div th:each="leather, index : ${leathers}">
+                                            <input  th:id="${index.index}" th:value="${leather.id}" type="radio" name="leatherId" class="product-select__input"/>
+                                            <label  th:for="${index.index}" th:text="${leather.name}" data-select="0" th:data-leather="${leather.id}" data-label-leather class="product-select__label"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product__select product-select" data-state="">
+                                    <div class="product-select__title"></div>
+                                    <div class="product-select__content" data-leather-color-container>
+                                        <div th:each="leatherColor, index : ${leatherColors}" class="product-select__item">
+                                            <!--                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
+                                            <!--                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
+                                            <!--                                            <span class="product-select__color-icon"></span>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="form__field">-->
+<!--                                <label for="image">Image:</label>-->
+<!--                                <input type="file" name="image" id="image" accept="image/*" required>-->
+<!--                            </div>-->
+                            <input type="hidden" th:value="${product.id}" name="productId">
+                            <input type="hidden" th:value="${order.id}" name="orderId">
+                            <div class="form__row">
+                                <div class="product__btn form__btn">
+                                    <button type="submit">Добавить</button>
+                                </div>
+<!--                                <div data-delete-lci class="product__btn form__btn">-->
+<!--                                    <button type="button">Удалить</button>-->
+<!--                                </div>-->
+                            </div>
+                        </form>
+                    </div>
+                    <div th:text="${product.description}" class="product__description">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-body">
+                    <div class="footer-body__conditions conditions">
+                        <div>Оферта</div>
+                        <div>Политика конфидециальности</div>
+                        <div>Возврат</div>
+                    </div>
+                    <div class="footer-body__contacts contacts">
+                        <a href="mailto:mail@mail.com" class="contacts__mail">
+                            <img src="/img/svg/email.svg" alt="">
+                        </a>
+                        <a href="https://t.me/eboy" target="_blank" class="contacts__tg">
+                            <img src="/img/svg/telegram.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>
+</div>
+</body>
+
+</html>

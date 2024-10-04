@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${subject}">Email Template</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            font-size: 16px;
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.5em;
+            color: green !important;
+            text-decoration: none;
+            font-weight: 800;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 th:text="'Order#' + ${order.id}"></h1>
+    </div>
+
+    <div class="product-container">
+        <div th:each="orderProduct : ${orderProducts}" class="product">
+            <div class="product__img">
+                <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="">
+                <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.images[0].id})}" alt="">
+            </div>
+            <div class="product__info">
+                <div class="product__field field product-field">
+                    <div class="field__title product-field__title">Товар: </div>
+                    <div th:text="${orderProduct.productLeatherColor.product.name}" class="field__value product-field__value"></div>
+                </div>
+                <div class="product__field field product-field">
+                    <div class="field__title product-field__title">Кожа: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.leather.name}" class="field__value product-field__value"></div>
+                </div>
+                <div class="product__field field product-field">
+                    <div class="field__title product-field__title">Цвет: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.color.name}" class="field__value product-field__value"></div>
+                </div>
+            </div>
+            <div class="product__field field product-field">
+                <div class="field__title product-field__title">Кол-во: </div>
+                <div th:text="${orderProduct.quantity} + ' шт.'" data-order-product-quantity class="field__value product-field__value"></div>
+            </div>
+            <div class="product__field field product-field">
+                <div class="field__title product-field__title">Цена: </div>
+                <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="field__value product-field__value"></div>
+            </div>
+        </div>
+    </div>
+    <div class="order__total order-total">
+        <div class="order-total__title">ИТОГО:</div>
+        <div th:text="${order.totalCost} + ' RUB'" class="order-total__value"></div>
+    </div>
+</div>
+</body>
+</html>

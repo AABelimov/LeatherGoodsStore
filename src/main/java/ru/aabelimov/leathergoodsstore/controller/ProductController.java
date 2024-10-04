@@ -41,7 +41,7 @@ public class ProductController {
 
     @GetMapping("{id}")
     public String getProduct(@PathVariable Long id, Model model, Authentication authentication) {
-        List<Leather> leathers = leatherService.getAllVisibleLeathers();
+        List<Leather> leathers = leatherColorService.getAllLeathersWithVisibleLeatherColors();
         Product product = productService.getProduct(id);
         boolean isAdmin = authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()));
 
@@ -50,7 +50,7 @@ public class ProductController {
         }
         model.addAttribute("product", product);
         model.addAttribute("leathers", leathers);
-        model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(leathers.get(0).getId()));
+        model.addAttribute("leatherColors", leatherColorService.getVisibleLeatherColorsByLeatherId(leathers.get(0).getId()));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
@@ -61,10 +61,10 @@ public class ProductController {
     public String getProducts(@RequestParam(required = false) Long category, Model model) {
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);
-        model.addAttribute("leatherColors", leatherColorService.getAllLeatherColors());
+        model.addAttribute("leathers", leatherColorService.getAllLeathersWithVisibleLeatherColors());
 
         if (category == null) {
-            model.addAttribute("products", productService.getAllVisibleProducts());
+            model.addAttribute("products", productService.getAllVisibleProductsWhereCategoryIsVisible());
             model.addAttribute("category", null);
         } else {
             model.addAttribute("products", productService.getProductsByCategoryId(category));

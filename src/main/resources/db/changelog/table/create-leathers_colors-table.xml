@@ -24,6 +24,9 @@
             <column name="image_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_visible" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="leathers_colors" baseColumnNames="leather_id"
