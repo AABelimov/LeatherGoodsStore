@@ -38,10 +38,9 @@ public class ProductLeatherColorController {
 
     @GetMapping("product/{productId}")
     public String getProductLeathersColorsPage(@PathVariable Long productId, Model model) {
-        List<Leather> leathers = leatherService.getAllVisibleLeathers();
+        List<Leather> leathers = leatherService.getAllLeathers();
         model.addAttribute("product", productService.getProduct(productId));
         model.addAttribute("leathers", leathers);
-        model.addAttribute("leatherColors", leatherColorService.getLeatherColorsByLeatherId(leathers.get(0).getId()));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(productId));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "product-leather-color/product-leathers-colors";

@@ -12,7 +12,6 @@
         }
         .container {
             font-size: 16px;
-            width: 70%;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
@@ -33,47 +32,92 @@
         p {
             margin-bottom: 15px;
         }
+        .product {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        .product__img {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            display: inline-block;
+        }
+        .product__img img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product__info {
+            display: inline-block;
+        }
+        .product__field {
+            margin-bottom: 5px;
+            padding: 0 10px;
+        }
+        .product-field__title {
+            display: inline-block;
+            font-weight: bold;
+        }
+        .product-field__value {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .order-total {
+            margin-top: 30px;
+        }
+        .order-total__title {
+            display: inline-block;
+            font-weight: bold;
+        }
+        .order-total__value {
+            display: inline-block;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1 th:text="'Order#' + ${order.id}"></h1>
+        <h1 th:text="'Order #' + ${order.id}">Order #1</h1>
     </div>
 
     <div class="product-container">
         <div th:each="orderProduct : ${orderProducts}" class="product">
             <div class="product__img">
-                <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.product.images[0].id})}" alt="">
-                <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="@{/images/{imageId}(imageId=${orderProduct.productLeatherColor.images[0].id})}" alt="">
+<!--                <img th:src="@{'data:image/jpeg;base64,'+${image}}" alt="">-->
+<!--                <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="${orderProduct.productLeatherColor.product.images[0].imagePath}" alt="">-->
+<!--                <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="${orderProduct.productLeatherColor.images[0].imagePath}" alt="">-->
             </div>
             <div class="product__info">
-                <div class="product__field field product-field">
-                    <div class="field__title product-field__title">Товар: </div>
-                    <div th:text="${orderProduct.productLeatherColor.product.name}" class="field__value product-field__value"></div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Товар: </div>
+                    <div th:text="${orderProduct.productLeatherColor.product.name}" class="product-field__value">Product 1</div>
                 </div>
-                <div class="product__field field product-field">
-                    <div class="field__title product-field__title">Кожа: </div>
-                    <div th:text="${orderProduct.productLeatherColor.leatherColor.leather.name}" class="field__value product-field__value"></div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Кожа: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.leather.name}" class="product-field__value">Leather 1</div>
                 </div>
-                <div class="product__field field product-field">
-                    <div class="field__title product-field__title">Цвет: </div>
-                    <div th:text="${orderProduct.productLeatherColor.leatherColor.color.name}" class="field__value product-field__value"></div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Цвет: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.color.name}" class="product-field__value">Color 1</div>
                 </div>
-            </div>
-            <div class="product__field field product-field">
-                <div class="field__title product-field__title">Кол-во: </div>
-                <div th:text="${orderProduct.quantity} + ' шт.'" data-order-product-quantity class="field__value product-field__value"></div>
-            </div>
-            <div class="product__field field product-field">
-                <div class="field__title product-field__title">Цена: </div>
-                <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="field__value product-field__value"></div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Кол-во: </div>
+                    <div th:text="${orderProduct.quantity} + ' шт.'" data-order-product-quantity class="product-field__value">4</div>
+                </div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Цена: </div>
+                    <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="product-field__value">4367 RUB</div>
+                </div>
             </div>
         </div>
     </div>
     <div class="order__total order-total">
         <div class="order-total__title">ИТОГО:</div>
-        <div th:text="${order.totalCost} + ' RUB'" class="order-total__value"></div>
+        <div th:text="${order.totalCost} + ' RUB'" class="order-total__value">123123 RUB</div>
     </div>
 </div>
 </body>

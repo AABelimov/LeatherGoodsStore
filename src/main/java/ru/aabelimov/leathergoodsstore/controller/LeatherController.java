@@ -1,7 +1,6 @@
 package ru.aabelimov.leathergoodsstore.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,7 +21,6 @@ import ru.aabelimov.leathergoodsstore.service.LeatherService;
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
 @Controller
 @RequestMapping("leathers")
 @RequiredArgsConstructor
@@ -83,7 +81,13 @@ public class LeatherController {
 
     @GetMapping("{id}/leather-colors")
     @ResponseBody
-    public ResponseEntity<List<LeatherColor>> getLeatherColorsByLeatherId(@PathVariable Long id) {
+    public ResponseEntity<List<LeatherColor>> getLeatherColorsByLeatherId(@PathVariable Long id,
+                                                                          Authentication authentication) {
+        boolean isAdmin = authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()));
+
+        if (isAdmin) {
+            return ResponseEntity.ok(leatherColorService.getAllLeatherColorsByLeatherId(id));
+        }
         return ResponseEntity.ok(leatherColorService.getVisibleLeatherColorsByLeatherId(id));
     }
 

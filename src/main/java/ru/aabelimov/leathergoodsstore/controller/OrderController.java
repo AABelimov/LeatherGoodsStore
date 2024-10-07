@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,9 @@ import ru.aabelimov.leathergoodsstore.dto.UpdatedOrderProductQuantityDto;
 import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.service.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -32,6 +36,7 @@ public class OrderController {
     private final LeatherColorService leatherColorService;
     private final ProductLeatherColorService productLeatherColorService;
     private final EmailService emailService;
+    private final ImageService imageService;
     private final Cart cart;
     private final ObjectMapper objectMapper;
 
@@ -45,7 +50,7 @@ public class OrderController {
     private String username;
 
     @PostMapping
-    public String createOrder(CreateOrderDto dto) throws JsonProcessingException, MessagingException {
+    public String createOrder(CreateOrderDto dto) throws IOException, MessagingException {
         Context context = new Context();
         Order order = orderService.createOrder(dto);
         String subject = "Оформлен заказ #%d".formatted(order.getId());
@@ -53,8 +58,9 @@ public class OrderController {
         context.setVariable("subject", subject);
         context.setVariable("order", order);
         context.setVariable("orderProducts", orderProductService.getAllByOrderId(order.getId()));
+//        context.setVariable("image", Base64.encodeBase64String(Files.readAllBytes(Path.of(imageService.getImage(1L).getImagePath()))));
 
-//        emailService.sendHtmlMessage(username, subject, "email/email", context);
+        emailService.sendHtmlMessage(username, subject, "email/email", context);
 
 //        PaymentRequest paymentRequest = new PaymentRequest(BigDecimal.valueOf(order.getTotalCost()),
 //                "Заказ №%d".formatted(order.getId()));
@@ -114,11 +120,10 @@ public class OrderController {
     @GetMapping("{id}/add-product/{productId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getCreateOrderProductPage(@PathVariable Long id, @PathVariable Long productId, Model model) {
-        List<Leather> leathers = leatherColorService.getAllLeathersWithVisibleLeatherColors();
+        List<Leather> leathers = leatherService.getAllLeathers();
         model.addAttribute("order", orderService.getOrder(id));
         model.addAttribute("product", productService.getProduct(productId));
         model.addAttribute("leathers", leathers);
-        model.addAttribute("leatherColors", leatherColorService.getVisibleLeatherColorsByLeatherId(leathers.get(0).getId()));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(productId));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         return "order-product/create-order-product";

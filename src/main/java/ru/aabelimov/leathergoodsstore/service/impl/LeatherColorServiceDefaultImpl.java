@@ -75,6 +75,11 @@ public class LeatherColorServiceDefaultImpl implements LeatherColorService {
     }
 
     @Override
+    public List<LeatherColor> getAllLeatherColorsByLeatherId(Long leatherId) {
+        return leatherColorRepository.findAllByLeatherIdOrderById(leatherId);
+    }
+
+    @Override
     public void updateLeatherColor(Long id, MultipartFile image) throws IOException {
         LeatherColor leatherColor = getLeatherColor(id);
         imageService.updateImage(leatherColor.getImage(), image, imageDir);

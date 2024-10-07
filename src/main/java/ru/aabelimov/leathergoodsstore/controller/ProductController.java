@@ -50,7 +50,6 @@ public class ProductController {
         }
         model.addAttribute("product", product);
         model.addAttribute("leathers", leathers);
-        model.addAttribute("leatherColors", leatherColorService.getVisibleLeatherColorsByLeatherId(leathers.get(0).getId()));
         model.addAttribute("productLeatherColors", productLeatherColorService.getAllByProductId(id));
         model.addAttribute("categories", categoryService.getAllVisibleCategories());
         model.addAttribute("cart", cart);

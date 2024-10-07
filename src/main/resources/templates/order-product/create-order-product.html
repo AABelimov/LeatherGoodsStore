@@ -83,8 +83,10 @@
                         </div>
                         <form th:action="@{/order-products}" method="post" class="product__form form">
                             <div th:text="${product.name}" class="product__title"></div>
+                            <div th:text="${product.price} + ' RUB'" class="product__price"></div>
                             <div class="product__selects">
                                 <div class="product__select product-select" data-state="">
+                                    <div class="product-select__name">Кожа:</div>
                                     <div class="product-select__title"></div>
                                     <div class="product-select__content">
                                         <div th:each="leather, index : ${leathers}">
@@ -94,13 +96,14 @@
                                     </div>
                                 </div>
                                 <div class="product__select product-select" data-state="">
+                                    <div class="product-select__name">Цвет:</div>
                                     <div class="product-select__title"></div>
                                     <div class="product-select__content" data-leather-color-container>
-                                        <div th:each="leatherColor, index : ${leatherColors}" class="product-select__item">
-                                            <!--                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>-->
-                                            <!--                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>-->
-                                            <!--                                            <span class="product-select__color-icon"></span>-->
-                                        </div>
+<!--                                        <div th:each="leatherColor, index : ${leatherColors}" class="product-select__item">-->
+<!--                                            &lt;!&ndash;                                            <input th:id="${-index.index - 1}" th:value="${leatherColor.id}" type="radio" name="leatherColorId" class="product-select__input"/>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            <label th:for="${-index.index - 1}" th:text="${leatherColor.color.name}" data-select="1" th:data-leather-color="${leatherColor.id}" th:data-leather="${leatherColor.leather.id}" th:data-leather-color-image="${leatherColor.image.id}" data-label-leather-color class="product-select__label"></label>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            <span class="product-select__color-icon"></span>&ndash;&gt;-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
