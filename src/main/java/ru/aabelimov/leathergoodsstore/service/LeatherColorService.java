@@ -24,6 +24,8 @@ public interface LeatherColorService {
 
     List<Leather> getAllLeathersWithVisibleLeatherColors();
 
+    List<LeatherColor> getAllLeatherColorsByLeatherId(Long leatherId);
+
     void updateLeatherColor(Long id, MultipartFile image) throws IOException;
 
     LeatherColor changeVisibility(Long id);
