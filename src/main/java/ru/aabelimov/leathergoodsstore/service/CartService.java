@@ -4,10 +4,15 @@ import ru.aabelimov.leathergoodsstore.dto.CreateProductLeatherColorDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdateCartDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdatedCartDto;
 import ru.aabelimov.leathergoodsstore.entity.Cart;
+import ru.aabelimov.leathergoodsstore.entity.Image;
+
+import java.util.List;
 
 public interface CartService {
 
     void addNewProductToCart(CreateProductLeatherColorDto dto);
+
+    List<Image> getProductsImages();
 
     UpdatedCartDto updateCart(UpdateCartDto dto);
 

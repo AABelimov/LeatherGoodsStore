@@ -1,10 +1,8 @@
 package ru.aabelimov.leathergoodsstore.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +16,6 @@ import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.service.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -37,6 +33,7 @@ public class OrderController {
     private final ProductLeatherColorService productLeatherColorService;
     private final EmailService emailService;
     private final ImageService imageService;
+    private final CartService cartService;
     private final Cart cart;
     private final ObjectMapper objectMapper;
 
@@ -51,16 +48,28 @@ public class OrderController {
 
     @PostMapping
     public String createOrder(CreateOrderDto dto) throws IOException, MessagingException {
-        Context context = new Context();
+        List<Image> productsImages = cartService.getProductsImages();
+        List<String> imagesResourceNames = productsImages.stream()
+                .map(Image::getImagePath)
+                .toList();
         Order order = orderService.createOrder(dto);
+        Context context = new Context();
         String subject = "Оформлен заказ #%d".formatted(order.getId());
 
         context.setVariable("subject", subject);
         context.setVariable("order", order);
         context.setVariable("orderProducts", orderProductService.getAllByOrderId(order.getId()));
-//        context.setVariable("image", Base64.encodeBase64String(Files.readAllBytes(Path.of(imageService.getImage(1L).getImagePath()))));
+        context.setVariable("imagesResourceNames", imagesResourceNames);
 
-        emailService.sendHtmlMessage(username, subject, "email/email", context);
+        Thread sendMessageThread = new Thread(() -> {
+            try {
+                emailService.sendHtmlMessage(username, subject, "email/email", context, productsImages);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e); // TODO ::
+            }
+        });
+
+        sendMessageThread.start();
 
 //        PaymentRequest paymentRequest = new PaymentRequest(BigDecimal.valueOf(order.getTotalCost()),
 //                "Заказ №%d".formatted(order.getId()));

@@ -5,16 +5,15 @@ import org.springframework.stereotype.Service;
 import ru.aabelimov.leathergoodsstore.dto.CreateProductLeatherColorDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdateCartDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdatedCartDto;
-import ru.aabelimov.leathergoodsstore.entity.Cart;
-import ru.aabelimov.leathergoodsstore.entity.LeatherColor;
-import ru.aabelimov.leathergoodsstore.entity.Product;
-import ru.aabelimov.leathergoodsstore.entity.ProductLeatherColor;
+import ru.aabelimov.leathergoodsstore.entity.*;
 import ru.aabelimov.leathergoodsstore.service.CartService;
 import ru.aabelimov.leathergoodsstore.service.LeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.ProductLeatherColorService;
 import ru.aabelimov.leathergoodsstore.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -48,10 +47,24 @@ public class CartServiceDefaultImpl implements CartService {
     }
 
     @Override
+    public List<Image> getProductsImages() {
+        List<ProductLeatherColor> plcList = cart.getProducts().keySet().stream().toList();
+        List<Image> images = new ArrayList<>();
+        plcList.forEach(plc -> {
+            if (!plc.getImages().isEmpty()) {
+                images.add(plc.getImages().get(0));
+            } else {
+                images.add(plc.getProduct().getImages().get(0));
+            }
+        });
+        return images;
+    }
+
+    @Override
     public UpdatedCartDto updateCart(UpdateCartDto dto) {
         ProductLeatherColor plc = productLeatherColorService.getProductLeatherColor(dto.productLeatherColorId());
 
-        if (cart.getProducts().containsKey(plc)){
+        if (cart.getProducts().containsKey(plc)) {
             int totalQuantity = 0;
             int quantity = 0;
             int cost = 0;
@@ -71,9 +84,7 @@ public class CartServiceDefaultImpl implements CartService {
                     totalQuantity = cart.getTotalQuantity() - cart.getProducts().get(plc);
                     cost = plc.getProduct().getPrice() * cart.getProducts().get(plc) * -1;
                 }
-                default -> {
-                    throw new RuntimeException(); // TODO :: add exception
-                }
+                default -> throw new RuntimeException(); // TODO :: add exception
             }
 
             if (quantity > 0) {

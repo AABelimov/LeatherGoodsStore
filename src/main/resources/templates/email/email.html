@@ -38,8 +38,8 @@
         }
         .product__img {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 105px;
+            height: 105px;
             display: inline-block;
         }
         .product__img img{
@@ -85,9 +85,9 @@
     </div>
 
     <div class="product-container">
-        <div th:each="orderProduct : ${orderProducts}" class="product">
+        <div th:each="orderProduct, i : ${orderProducts}" class="product">
             <div class="product__img">
-<!--                <img th:src="@{'data:image/jpeg;base64,'+${image}}" alt="">-->
+                <img th:src="|cid:${imagesResourceNames[i.index]}|" alt="">
 <!--                <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="${orderProduct.productLeatherColor.product.images[0].imagePath}" alt="">-->
 <!--                <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="${orderProduct.productLeatherColor.images[0].imagePath}" alt="">-->
             </div>
