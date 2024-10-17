@@ -51,6 +51,9 @@
             <column name="status" type="TINYINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="payment_id" type="varchar">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="orders" baseColumnNames="user_id" constraintName="fk_orders_user_id"

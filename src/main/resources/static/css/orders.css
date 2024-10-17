@@ -216,6 +216,7 @@ body.touch .sub-menu__list.open {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    font-size: 15px;
 }
 .menu__list > li {
     position: relative;

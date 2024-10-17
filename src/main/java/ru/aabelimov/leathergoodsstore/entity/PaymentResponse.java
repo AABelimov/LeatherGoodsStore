@@ -6,6 +6,8 @@ import lombok.Data;
 public class PaymentResponse {
 
     Confirmation confirmation = new Confirmation();
+    String id;
+    String status;
 
     @Data
     public static class Confirmation {

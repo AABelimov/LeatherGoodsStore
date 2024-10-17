@@ -11,6 +11,7 @@ import ru.aabelimov.leathergoodsstore.mapper.OrderMapper;
 import ru.aabelimov.leathergoodsstore.repository.OrderRepository;
 import ru.aabelimov.leathergoodsstore.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,15 +27,17 @@ public class OrderServiceDefaultImpl implements OrderService {
     private final ProductLeatherColorService productLeatherColorService;
     private final PromoCodeService promoCodeService;
     private final CartService cartService;
+    private final EmailService emailService;
     private final Cart cart;
 
     @Override
     @Transactional
-    public Order createOrder(CreateOrderDto dto) {
+    public void createOrder(CreateOrderDto dto) {
         Order order = orderMapper.toEntity(dto);
         User user = userService.getUserByUsername(dto.username());
         PromoCode promoCode = promoCodeService.getPromoCodeByCode(dto.promoCode());
         double discount = promoCode == null ? 0 : (cart.getTotalCost() * promoCode.getDiscountSize() / 100);
+        List<Image> productsImages = null;
 
         if (user == null) {
             user = userService.createUser(dto);
@@ -48,7 +51,10 @@ public class OrderServiceDefaultImpl implements OrderService {
         order = orderRepository.save(order);
         orderProductService.createOrderProducts(order);
         cartService.clearCart();
-        return order;
+
+        productsImages = getProductsImagesFromOrder(order.getId());
+
+        emailService.sendNotificationAdminAboutNewOrder(order, productsImages);
     }
 
     @Override
@@ -80,6 +86,23 @@ public class OrderServiceDefaultImpl implements OrderService {
     @Override
     public List<Order> getOrdersByStatus(OrderStatus status) {
         return orderRepository.findAllByStatusOrderById(status);
+    }
+
+    @Override
+    public List<Image> getProductsImagesFromOrder(Long id) {
+        List<ProductLeatherColor> plcList = orderProductService.getAllByOrderId(id).stream()
+                .map(OrderProduct::getProductLeatherColor)
+                .toList();
+        List<Image> images = new ArrayList<>();
+
+        plcList.forEach(plc -> {
+            if (!plc.getImages().isEmpty()) {
+                images.add(plc.getImages().get(0));
+            } else {
+                images.add(plc.getProduct().getImages().get(0));
+            }
+        });
+        return images;
     }
 
     @Override
@@ -133,6 +156,13 @@ public class OrderServiceDefaultImpl implements OrderService {
     public void updateStatus(Long id, OrderStatus status) {
         Order order = getOrder(id);
         order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void updatePaymentId(Order order, String id) {
+        order.setPaymentId(id);
+        order.setStatus(OrderStatus.AWAITING_PAYMENT);
         orderRepository.save(order);
     }
 

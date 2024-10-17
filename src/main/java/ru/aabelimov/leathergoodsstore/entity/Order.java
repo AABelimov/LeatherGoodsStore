@@ -26,6 +26,7 @@ public class Order {
     private String fio;
     private String address;
     private LocalDateTime orderDate;
+    private String paymentId;
 
     @ManyToOne
     private PromoCode promoCode;

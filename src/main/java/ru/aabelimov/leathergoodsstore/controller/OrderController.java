@@ -1,21 +1,19 @@
 package ru.aabelimov.leathergoodsstore.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.mail.MessagingException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.context.Context;
 import ru.aabelimov.leathergoodsstore.dto.CreateOrderDto;
 import ru.aabelimov.leathergoodsstore.dto.UpdatedOrderProductQuantityDto;
-import ru.aabelimov.leathergoodsstore.entity.*;
+import ru.aabelimov.leathergoodsstore.entity.Leather;
+import ru.aabelimov.leathergoodsstore.entity.Order;
+import ru.aabelimov.leathergoodsstore.entity.OrderStatus;
 import ru.aabelimov.leathergoodsstore.service.*;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -31,64 +29,13 @@ public class OrderController {
     private final ProductService productService;
     private final LeatherColorService leatherColorService;
     private final ProductLeatherColorService productLeatherColorService;
-    private final EmailService emailService;
-    private final ImageService imageService;
-    private final CartService cartService;
-    private final Cart cart;
-    private final ObjectMapper objectMapper;
+    private final PaymentService paymentService;
 
-    @Value("${credentials.yookassa.shop-id}")
-    private String shopId;
 
-    @Value("${credentials.yookassa.secret-key}")
-    private String secretKey;
-
-    @Value("${admin.username}")
-    private String username;
 
     @PostMapping
-    public String createOrder(CreateOrderDto dto) throws IOException, MessagingException {
-        List<Image> productsImages = cartService.getProductsImages();
-        List<String> imagesResourceNames = productsImages.stream()
-                .map(Image::getImagePath)
-                .toList();
-        Order order = orderService.createOrder(dto);
-        Context context = new Context();
-        String subject = "Оформлен заказ #%d".formatted(order.getId());
-
-        context.setVariable("subject", subject);
-        context.setVariable("order", order);
-        context.setVariable("orderProducts", orderProductService.getAllByOrderId(order.getId()));
-        context.setVariable("imagesResourceNames", imagesResourceNames);
-
-        Thread sendMessageThread = new Thread(() -> {
-            try {
-                emailService.sendHtmlMessage(username, subject, "email/email", context, productsImages);
-            } catch (MessagingException e) {
-                throw new RuntimeException(e); // TODO ::
-            }
-        });
-
-        sendMessageThread.start();
-
-//        PaymentRequest paymentRequest = new PaymentRequest(BigDecimal.valueOf(order.getTotalCost()),
-//                "Заказ №%d".formatted(order.getId()));
-//        String credentials = "%s:%s".formatted(shopId, secretKey);
-//        String encodedCredentials = new String(Base64.getEncoder().encode(credentials.getBytes()));
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("Idempotence-Key", "%d".formatted(order.getId()));
-//        headers.add("Authorization", "Basic " + encodedCredentials);
-//        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(paymentRequest), headers);
-//        PaymentResponse test = restTemplate.postForObject("https://api.yookassa.ru/v3/payments", request, PaymentResponse.class);
-//        System.out.println(test);
-//
-//        emailService.sendSimpleMessage(order.getUser().getUsername(),
-//                "Оплата заказа #%d".formatted(order.getId()),
-//                "Оплати заказ по ссылке: %s".formatted(Objects.requireNonNull(test).getConfirmation().getConfirmation_url()));
-
-//        System.out.println(payment);
+    public String createOrder(CreateOrderDto dto) {
+        orderService.createOrder(dto);
         return "redirect:/";
     }
 
@@ -142,6 +89,14 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String updateStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
         orderService.updateStatus(id, status);
+        return "redirect:/orders/{id}";
+    }
+
+    @PatchMapping("{id}/create-payment")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String createPayment(@PathVariable Long id) throws JsonProcessingException {
+        Order order = orderService.getOrder(id);
+        paymentService.createPayment(order);
         return "redirect:/orders/{id}";
     }
 
