@@ -20,7 +20,6 @@
         }
         .header {
             border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
             margin-bottom: 20px;
         }
         h1 {
@@ -33,7 +32,7 @@
             margin-bottom: 15px;
         }
         .product {
-            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
         .product__img {
@@ -85,11 +84,9 @@
     </div>
 
     <div class="product-container">
-        <div th:each="orderProduct, i : ${orderProducts}" class="product">
+        <div th:each="orderProduct, index : ${orderProducts}" class="product">
             <div class="product__img">
-                <img th:src="|cid:${imagesResourceNames[i.index]}|" alt="">
-<!--                <img th:if="${orderProduct.productLeatherColor.images.size() == 0}" th:src="${orderProduct.productLeatherColor.product.images[0].imagePath}" alt="">-->
-<!--                <img th:if="${orderProduct.productLeatherColor.images.size() > 0}" th:src="${orderProduct.productLeatherColor.images[0].imagePath}" alt="">-->
+                <img th:src="|cid:${imagesResourceNames.get(index.index)}|" alt="">
             </div>
             <div class="product__info">
                 <div class="product__field product-field">

@@ -47,20 +47,6 @@ public class CartServiceDefaultImpl implements CartService {
     }
 
     @Override
-    public List<Image> getProductsImages() {
-        List<ProductLeatherColor> plcList = cart.getProducts().keySet().stream().toList();
-        List<Image> images = new ArrayList<>();
-        plcList.forEach(plc -> {
-            if (!plc.getImages().isEmpty()) {
-                images.add(plc.getImages().get(0));
-            } else {
-                images.add(plc.getProduct().getImages().get(0));
-            }
-        });
-        return images;
-    }
-
-    @Override
     public UpdatedCartDto updateCart(UpdateCartDto dto) {
         ProductLeatherColor plc = productLeatherColorService.getProductLeatherColor(dto.productLeatherColorId());
 

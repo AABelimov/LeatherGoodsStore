@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${subject}">Email Template</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            font-size: 16px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.5em;
+            color: green !important;
+            text-decoration: none;
+            font-weight: 800;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .product {
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        .product__img {
+            position: relative;
+            width: 105px;
+            height: 105px;
+            display: inline-block;
+        }
+        .product__img img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product__info {
+            display: inline-block;
+        }
+        .product__field {
+            margin-bottom: 5px;
+            padding: 0 10px;
+        }
+        .product-field__title {
+            display: inline-block;
+            font-weight: bold;
+        }
+        .product-field__value {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .order-total {
+            margin-top: 30px;
+        }
+        .order-total__title {
+            display: inline-block;
+            font-weight: bold;
+        }
+        .order-total__value {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 th:text="'Order #' + ${order.id}">Order #1</h1>
+    </div>
+
+    <div class="product-container">
+        <div th:each="orderProduct, index : ${orderProducts}" class="product">
+            <div class="product__img">
+                <img th:src="|cid:${imagesResourceNames.get(index.index)}|" alt="">
+            </div>
+            <div class="product__info">
+                <div class="product__field product-field">
+                    <div class="product-field__title">Товар: </div>
+                    <div th:text="${orderProduct.productLeatherColor.product.name}" class="product-field__value">Product 1</div>
+                </div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Кожа: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.leather.name}" class="product-field__value">Leather 1</div>
+                </div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Цвет: </div>
+                    <div th:text="${orderProduct.productLeatherColor.leatherColor.color.name}" class="product-field__value">Color 1</div>
+                </div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Кол-во: </div>
+                    <div th:text="${orderProduct.quantity} + ' шт.'" data-order-product-quantity class="product-field__value">4</div>
+                </div>
+                <div class="product__field product-field">
+                    <div class="product-field__title">Цена: </div>
+                    <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="product-field__value">4367 RUB</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order__total order-total">
+        <div class="order-total__title">ИТОГО:</div>
+        <div th:text="${order.totalCost} + ' RUB'" class="order-total__value">123123 RUB</div>
+    </div>
+    <div>
+        <a th:href="${paymentLink}">Оплатить</a>
+    </div>
+</div>
+</body>
+</html>

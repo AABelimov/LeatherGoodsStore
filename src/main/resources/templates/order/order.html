@@ -97,7 +97,7 @@
                                     <div class="field__title product-field__title">Цена: </div>
                                     <div th:text="${orderProduct.productLeatherColor.product.price} + ' RUB'" class="field__value product-field__value"></div>
                                 </div>
-                                <div class="product__interaction">
+                                <div th:if="${order.status.name().equals('NEW')}" class="product__interaction">
                                     <div class="product__btn" data-order-product-minus>
                                         <img src="/img/svg/minus.svg" alt="">
                                     </div>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="order__new-product new-product">
+                        <div th:if="${order.status.name().equals('NEW')}" class="order__new-product new-product">
                             <div class="new-product__body">
                                 <a th:href="@{/orders/{id}/add-product(id=${order.id})}">+</a>
                             </div>
@@ -174,8 +174,8 @@
                         <form th:action="@{'/orders/' + ${order.id} + '/update-status?status=IN_PROGRESS'}" th:method="patch" class="order__btn">
                             <button type="submit">Подтвердить оплату заказа</button>
                         </form>
-                        <form action="" class="order__btn">
-                            <button type="submit">Отправить ссылку для оплаты</button>
+                        <form th:action="@{/orders/{id}/create-payment(id = ${order.id})}" th:method="patch" class="order__btn">
+                            <button type="submit">Отправить на оплату</button>
                         </form>
                         <form th:action="@{/orders/{id}(id = ${order.id})}" th:method="delete" class="order__btn">
                             <button type="submit">Отменить заказ</button>

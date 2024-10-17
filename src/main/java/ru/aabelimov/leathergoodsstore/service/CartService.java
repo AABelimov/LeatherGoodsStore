@@ -12,8 +12,6 @@ public interface CartService {
 
     void addNewProductToCart(CreateProductLeatherColorDto dto);
 
-    List<Image> getProductsImages();
-
     UpdatedCartDto updateCart(UpdateCartDto dto);
 
     void clearCart();
